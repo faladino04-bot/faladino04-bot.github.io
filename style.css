@@ -1,0 +1,27 @@
+*{
+    margin: 0
+}
+
+body{
+    
+}
+
+#header{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 3px solid black;
+}
+.oculto{
+    display: none;
+}
+
+.icono{
+    display: flex;
+    grid-template-columns: 1;
+    width: 15px;
+    height: 15px;
+    margin: 5px;
+}
+#logo2{
+    padding-right: 5px
+}
