@@ -56,9 +56,9 @@ async function iniciarSesion() {
 
     // 4. Redirigir según el rol (ajusten las rutas a sus páginas)
     const destinos = {
-      estudiante: "estudiantes/index.html",
-      profesor: "profesores/index.html",
-      administrador: "administrador/index.html",
+      estudiante: "estudiantes/estudiante.html",
+      profesor: "profesor/profesor.html",
+      administrador: "admin/admin.html",
     };
     window.location.href = destinos[perfil.rol];
   } catch (err) {
