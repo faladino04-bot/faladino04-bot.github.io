@@ -1,0 +1,40 @@
+*{
+    margin: 0
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#header{
+    display: flex;
+    justify-content: space-between;
+}
+.oculto{
+    display: none;
+}
+
+.icono{
+    display: flex;
+    grid-template-columns: 1;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+}
+
+#logo{
+    padding-left: 5px;
+}
+
+#logo2{
+    padding-right: 10px
+}
+
+aside{
+    display: inline-block;
+}
+
+.icono:hover{
+    width: 55px;
+    height: 55px;
+}
