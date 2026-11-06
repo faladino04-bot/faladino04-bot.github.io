@@ -1,7 +1,6 @@
 #formlogin{
     border: 3px solid black;
     border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-block;
+    align-self: center;
 }
