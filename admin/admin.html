@@ -12,11 +12,21 @@
         <img src="imagenes/logo/IMG-20250501-WA0056.jpg" alt="" width="100px" height="100px" id="logo">
         <img src="imagenes/logo/253950-removebg-preview.png" alt="" height="100px" width=auto id="logo2">
     </header>
-    <aside id="menu_lado" class="oculto">
-        <img class="icono" src="imagenes/iconos/hogar.png" alt="" id="home">
-        <img class="icono" src="imagenes/iconos/editar.png" alt="" id="actividades">
-        <img class="icono" src="imagenes/iconos/sobre.png" alt="" id="anuncios">
-    </aside>
+    <div id="menu_lado" class="oculto">
+        <div class="menu">
+            <img class="icono" src="imagenes/iconos/agregar.png" alt="" id="agregar_usuario">
+            <p id="texto_agregar" class="oculto">agregar usuario</p>
+        </div>
+        <div class="menu">
+            <img class="icono" src="imagenes/iconos/borrar.png" alt="" id="borrar_usuario">
+            <p id="texto_borrar" class="oculto">borrar usuario</p>
+        </div>
+        <div class="menu">
+            <img class="icono" src="imagenes/iconos/buscar.png" alt="" id="buscar_usuario">
+            <p id="texto_buscar" class="oculto">buscar usuario</p>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>

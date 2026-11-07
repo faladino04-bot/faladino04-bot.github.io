@@ -1,6 +1,28 @@
 // Menú lateral
 document.getElementById("logo").addEventListener("click", () => {
-    document.getElementById("menu_lado").classList.toggle("oculto");
+const menu = document.getElementById("menu_lado");
+  menu.classList.toggle("oculto");
+});
+
+document.getElementById("agregar_usuario").addEventListener("mouseenter", ()=>{
+  document.getElementById("texto_agregar").classList.remove("oculto");
+});
+document.getElementById("agregar_usuario").addEventListener("mouseleave", ()=>{
+  document.getElementById("texto_agregar").classList.add("oculto");
+});
+
+document.getElementById("borrar_usuario").addEventListener("mouseenter", ()=>{
+  document.getElementById("texto_borrar").classList.remove("oculto");
+});
+document.getElementById("borrar_usuario").addEventListener("mouseleave", ()=>{
+  document.getElementById("texto_borrar").classList.add("oculto");
+});
+
+document.getElementById("buscar_usuario").addEventListener("mouseenter", ()=>{
+  document.getElementById("texto_buscar").classList.remove("oculto");
+});
+document.getElementById("buscar_usuario").addEventListener("mouseleave", ()=>{
+  document.getElementById("texto_buscar").classList.add("oculto");
 });
 
 // Protección de sesion con Supabase
