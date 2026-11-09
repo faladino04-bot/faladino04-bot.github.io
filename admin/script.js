@@ -58,9 +58,7 @@ document.getElementById("cerrar").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_cerrar").classList.remove("oculto");
   document.getElementById("mcerrar").style.backgroundColor = "#037EF5"
 });
-document.getElementById("buscar_usuario").addEventListener("click", ()=>{
-  window.location.href = "buscar/buscar.html";
-});
+
 document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
   document.getElementById("texto_cerrar").classList.add("oculto");
   document.getElementById("mcerrar").style.backgroundColor = "transparent"

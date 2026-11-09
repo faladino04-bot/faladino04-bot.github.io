@@ -53,6 +53,22 @@ document.getElementById("buscar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("mbuscar_usuario").style.backgroundColor = "transparent"
 });
 
+document.getElementById("cerrar").addEventListener("mouseenter", ()=>{
+  document.getElementById("texto_cerrar").classList.remove("oculto");
+  document.getElementById("mcerrar").style.backgroundColor = "#037EF5"
+});
+document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
+  document.getElementById("texto_cerrar").classList.add("oculto");
+  document.getElementById("mcerrar").style.backgroundColor = "transparent"
+});
+
+document.getElementById("cerrar").addEventListener("click", ()=>{
+  db.auth.signOut();
+  window.location.href = "../../index.html";
+  return;
+});
+
+
 // Mostrar u ocultar el campo "Grado" según el rol seleccionado
 const selectRol = document.getElementById("rol");
 const contenedorGrado = document.getElementById("contenedor_grado");
@@ -78,7 +94,7 @@ const ROL_REQUERIDO = "administrador";
 (async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
-    window.location.href = "../index.html";
+    window.location.href = "../../index.html";
     return;
   }
 
@@ -90,7 +106,7 @@ const ROL_REQUERIDO = "administrador";
 
   if (!perfil || perfil.rol !== ROL_REQUERIDO) {
     await db.auth.signOut();
-    window.location.href = "../index.html";
+    window.location.href = "../../index.html";
     return;
   }
 
