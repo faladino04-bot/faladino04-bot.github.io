@@ -53,6 +53,56 @@ document.getElementById("buscar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("mbuscar_usuario").style.backgroundColor = "transparent"
 });
 
+// --- LÓGICA PARA LA PÁGINA DE BUSCAR ---
+
+// 1. Mostrar u ocultar el campo "Grado" según el rol seleccionado en la búsqueda
+const buscarRol = document.getElementById("buscar_rol");
+const contenedorGradoBuscar = document.getElementById("contenedor_grado_buscar");
+
+if (buscarRol && contenedorGradoBuscar) {
+  buscarRol.addEventListener("change", (e) => {
+    if (e.target.value === "Estudiante") {
+      contenedorGradoBuscar.style.display = "flex";
+    } else {
+      contenedorGradoBuscar.style.display = "none";
+      document.getElementById("buscar_grado").value = "";
+    }
+  });
+}
+
+// 2. Mostrar botón de "Enviar mensaje" al seleccionar algún usuario
+const checkboxesUsuarios = document.querySelectorAll(".seleccionar-usuario");
+const seccionMensaje = document.getElementById("seccion_mensaje");
+
+checkboxesUsuarios.forEach(checkbox => {
+  if (checkbox) {
+    checkbox.addEventListener("change", () => {
+      // Revisa si al menos un checkbox está seleccionado
+      const algunoSeleccionado = Array.from(checkboxesUsuarios).some(cb => cb.checked);
+      if (algunoSeleccionado) {
+        seccionMensaje.style.display = "block";
+      } else {
+        seccionMensaje.style.display = "none";
+        document.getElementById("caja_mensaje").style.display = "none"; // Oculta la caja si desmarca todo
+      }
+    });
+  }
+});
+
+// 3. Mostrar la caja de texto al hacer clic en "Enviar mensaje / aviso"
+const btnMostrarCaja = document.getElementById("btn_mostrar_caja_mensaje");
+const cajaMensaje = document.getElementById("caja_mensaje");
+
+if (btnMostrarCaja && cajaMensaje) {
+  btnMostrarCaja.addEventListener("click", () => {
+    if (cajaMensaje.style.display === "none" || cajaMensaje.style.display === "") {
+      cajaMensaje.style.display = "flex";
+    } else {
+      cajaMensaje.style.display = "none";
+    }
+  });
+}
+
 // Protección de sesion con Supabase
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";

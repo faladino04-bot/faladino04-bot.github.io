@@ -28,20 +28,96 @@ body{
     padding-right: 10px
 }
 
+/* Estructura general de la pantalla */
+#menu_opciones {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+}
+
+/* Menú lateral flotante */
 #menu_lado{
     display: flex;
     flex-direction: column;
-    padding: 19.5px;
+    gap: 8px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 10;
 }
 
 .menu{
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    width: fit-content;
-    padding-right: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Esto es lo que centra la tarjeta en el medio de la pantalla */
+#contenido {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;     /* Centrado vertical */
+    padding: 20px;
 }
 
 .icono:hover{
     width: 55px;
     height: 55px;
+}
+/* Tarjeta central de búsqueda */
+.search-card {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-card h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input, .form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+#btn-buscar {
+    width: 100%;
+    padding: 12px;
+    background-color: #037EF5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#btn-buscar:hover {
+    background-color: #0262c2;
 }
