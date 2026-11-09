@@ -1,3 +1,5 @@
+
+
 // Configuracion de Supabase (El que toque algo lo exorciso), estos comentarios serán borrados cuando se lance el proyecto
 // Estos dos valores estan en: Supabase > Project Settings > API
 // La "anon key" es pública por diseño, la seguridad la dan las políticas RLS y la fe
