@@ -66,13 +66,20 @@ document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
   document.getElementById("mcerrar").style.backgroundColor = "transparent"
 });
 
+document.getElementById("cerrar").addEventListener("click", ()=>{
+  db.auth.signOut();
+  window.location.href = "../index.html";
+  return;
+});
+
+
 
 // Protección de sesión con Supabase
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const ROL_REQUERIDO = "estudiante";
+const ROL_REQUERIDO = "administrador";
 
 (async () => {
   const { data: { session } } = await db.auth.getSession();
