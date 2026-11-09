@@ -65,16 +65,14 @@ document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
   document.getElementById("texto_cerrar").classList.add("oculto");
   document.getElementById("mcerrar").style.backgroundColor = "transparent"
 });
-document.getElementById("cerrar").addEventListener("click", ()=>{
-  auth.signOut();
-})
 
-// Protección de sesion con Supabase
+
+// Protección de sesión con Supabase
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const ROL_REQUERIDO = "administrador";
+const ROL_REQUERIDO = "estudiante";
 
 (async () => {
   const { data: { session } } = await db.auth.getSession();
