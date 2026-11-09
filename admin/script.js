@@ -53,6 +53,22 @@ document.getElementById("buscar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("mbuscar_usuario").style.backgroundColor = "transparent"
 });
 
+
+document.getElementById("cerrar").addEventListener("mouseenter", ()=>{
+  document.getElementById("texto_cerrar").classList.remove("oculto");
+  document.getElementById("mcerrar").style.backgroundColor = "#037EF5"
+});
+document.getElementById("buscar_usuario").addEventListener("click", ()=>{
+  window.location.href = "buscar/buscar.html";
+});
+document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
+  document.getElementById("texto_cerrar").classList.add("oculto");
+  document.getElementById("mcerrar").style.backgroundColor = "transparent"
+});
+document.getElementById("cerrar").addEventListener("click", ()=>{
+  auth.signOut();
+})
+
 // Protección de sesion con Supabase
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";

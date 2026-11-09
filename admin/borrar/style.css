@@ -13,6 +13,7 @@ body{
     justify-content: space-between;
     align-items: center;
     height: 100px;
+    background: #004985;
 }
 
 .oculto{

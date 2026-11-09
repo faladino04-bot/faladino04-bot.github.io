@@ -9,6 +9,7 @@ body{
 #header{
     display: flex;
     justify-content: space-between;
+    background: #004985;
 }
 .oculto{
     display: none;
