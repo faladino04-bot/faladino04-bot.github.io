@@ -13,6 +13,16 @@ body {
     min-height: 100vh;
 }
 
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #0078d7;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
 #formlogin {
     background-color: #ffffff;
     padding: 30px;
