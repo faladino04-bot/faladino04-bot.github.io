@@ -4,24 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
-    <title>Schoolaret</title>
+    <title>Schoolaret - Estudiante</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Librería para exportar la tabla a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <header id="header">
         <img src="../imagenes/logo/IMG-20250501-WA0056.jpg" alt="" width="100px" height="100px" id="logo">
         <img src="../imagenes/logo/253950-removebg-preview.png" alt="" height="100px" width=auto id="logo2">
     </header>
-    <aside id="menu_lado" class="oculto">
-        <img class="icono" src="../imagenes/iconos/hogar.png" alt="" id="home">
-        <img class="icono" src="../imagenes/iconos/usuario.png" alt="" id="usuario">
-        <img class="icono" src="../imagenes/iconos/grafico-circular.png" alt="" id="estadisticas">
-        <img class="icono" src="../imagenes/iconos/editar.png" alt="" id="actividades">
-        <img class="icono" src="../imagenes/iconos/aprobado.png" alt="" id="examenes">
-        <img class="icono" src="../imagenes/iconos/sobre.png" alt="" id="anuncios">
-        <img class="icono" src="../imagenes/iconos/mensajero.png" alt="" id="mensajes">
-        <img class="icono" src="../imagenes/iconos/calendario.png" alt="" id="claendario">
-    </aside>
+
+    <div id="menu_opciones">
+        <!-- Menú Lateral -->
+        <div id="menu_lado" class="oculto">
+            <div class="menu" id="mhome">
+                <img class="icono" src="../imagenes/iconos/hogar.png" alt="" id="home">
+                <p id="texto_home" class="oculto">hogar</p>
+            </div>
+            <div class="menu" id="musuario">
+                <img class="icono" src="../imagenes/iconos/usuario.png" alt="" id="usuario">
+                <p id="texto_usuario" class="oculto">perfil</p>
+            </div>
+            <div class="menu" id="mestadisticas">
+                <img class="icono" src="../imagenes/iconos/grafico-circular.png" alt="" id="estadisticas">
+                <p id="texto_estadisticas" class="oculto">estadísticas</p>
+            </div>
+            <div class="menu" id="mactividades">
+                <img class="icono" src="../imagenes/iconos/editar.png" alt="" id="actividades">
+                <p id="texto_actividades" class="oculto">actividades</p>
+            </div>
+            <div class="menu" id="mexamenes">
+                <img class="icono" src="../imagenes/iconos/aprobado.png" alt="" id="examenes">
+                <p id="texto_examenes" class="oculto">exámenes</p>
+            </div>
+            <div class="menu" id="manuncios">
+                <img class="icono" src="../imagenes/iconos/sobre.png" alt="" id="anuncios">
+                <p id="texto_anuncios" class="oculto">anuncios</p>
+            </div>
+            <div class="menu" id="mmensajes">
+                <img class="icono" src="../imagenes/iconos/mensajero.png" alt="" id="mensajes">
+                <p id="texto_mensajes" class="oculto">mensajes</p>
+            </div>
+            <div class="menu" id="mcalendario">
+                <img class="icono" src="../imagenes/iconos/calendario.png" alt="" id="calendario">
+                <p id="texto_calendario" class="oculto">calendario</p>
+            </div>
+        </div>
+
+        <!-- Área de Contenido Principal -->
+        <main id="contenido">
+            <div class="student-card">
+                <h1 id="bienvenida">Bienvenido Estudiante</h1>
+                
+                <!-- Área imprimible en PDF -->
+                <div id="reporte_notas">
+                    <h2>Boletín de Calificaciones</h2>
+                    <table class="tabla-notas">
+                        <thead>
+                            <tr>
+                                <th>Materia</th>
+                                <th>#P1</th>
+                                <th>#P2</th>
+                                <th>#P3</th>
+                                <th>#Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Matemáticas</td>
+                                <td>4.5</td>
+                                <td>4.0</td>
+                                <td>4.8</td>
+                                <td><strong>4.4</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Español</td>
+                                <td>3.8</td>
+                                <td>4.2</td>
+                                <td>4.0</td>
+                                <td><strong>4.0</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Ciencias Naturales</td>
+                                <td>5.0</td>
+                                <td>4.5</td>
+                                <td>4.7</td>
+                                <td><strong>4.7</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Inglés</td>
+                                <td>4.0</td>
+                                <td>4.0</td>
+                                <td>4.5</td>
+                                <td><strong>4.2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Sociales</td>
+                                <td>4.2</td>
+                                <td>3.9</td>
+                                <td>4.1</td>
+                                <td><strong>4.1</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button type="button" id="btn_descargar_pdf">Descargar PDF</button>
+            </div>
+        </main>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
