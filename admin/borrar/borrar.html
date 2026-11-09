@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
-    <title>Schoolaret</title>
+    <title>Schoolaret - Borrar Usuario</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,23 +12,56 @@
         <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="" width="100px" height="100px" id="logo">
         <img src="../../imagenes/logo/253950-removebg-preview.png" alt="" height="100px" width=auto id="logo2">
     </header>
-    <div id="menu_lado" class="oculto">
-        <div class="menu">
-            <img class="icono" src="../../imagenes/iconos/hogar.png" alt="" id="home">
-            <p id="texto_home" class="oculto">hogar</p>
+
+    <div id="menu_opciones">
+        <div id="menu_lado" class="oculto">
+            <div class="menu" id="mhome">
+                <img class="icono" src="../../imagenes/iconos/hogar.png" alt="" id="home">
+                <p id="texto_home" class="oculto">hogar</p>
+            </div>
+            <div class="menu" id="magregar_usuario">
+                <img class="icono" src="../../imagenes/iconos/agregar.png" alt="" id="agregar_usuario">
+                <p id="texto_agregar" class="oculto">agregar usuario</p>
+            </div>
+            <div class="menu" id="mborrar_usuario">
+                <img class="icono" src="../../imagenes/iconos/borrar.png" alt="" id="borrar_usuario">
+                <p id="texto_borrar" class="oculto">borrar usuario</p>
+            </div>
+            <div class="menu" id="mbuscar_usuario">
+                <img class="icono" src="../../imagenes/iconos/buscar.png" alt="" id="buscar_usuario">
+                <p id="texto_buscar" class="oculto">buscar usuario</p>
+            </div>
         </div>
-        <div class="menu">
-            <img class="icono" src="../../imagenes/iconos/agregar.png" alt="" id="agregar_usuario">
-            <p id="texto_agregar" class="oculto">agregar usuario</p>
-        </div>
-        <div class="menu">
-            <img class="icono" src="../../imagenes/iconos/borrar.png" alt="" id="borrar_usuario">
-            <p id="texto_borrar" class="oculto">borrar usuario</p>
-        </div>
-        <div class="menu">
-            <img class="icono" src="../../imagenes/iconos/buscar.png" alt="" id="buscar_usuario">
-            <p id="texto_buscar" class="oculto">buscar usuario</p>
-        </div>
+
+        <main id="contenido">
+            <div class="form-card">
+                <h2>Borrar Usuario</h2>
+                <form id="form-borrar">
+                    <div class="form-group">
+                        <label for="usuario">Usuario:</label>
+                        <input type="text" id="usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contrasena">Contraseña:</label>
+                        <input type="password" id="contrasena" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rol">Rol:</label>
+                        <select id="rol" required>
+                            <option value="">Seleccione un rol</option>
+                            <option value="Estudiante">Estudiante</option>
+                            <option value="Profesor">Profesor</option>
+                            <option value="Administrador">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="contenedor_grado" style="display: none;">
+                        <label for="grado">Grado:</label>
+                        <input type="text" id="grado" placeholder="Ej: 10°">
+                    </div>
+                    <button type="button" id="btn-accion" class="btn-borrar">Borrar</button>
+                </form>
+            </div>
+        </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

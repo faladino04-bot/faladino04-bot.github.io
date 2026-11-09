@@ -1,23 +1,35 @@
 *{
-    margin: 0
+    margin: 0;
+    box-sizing: border-box;
 }
 
 body{
     font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
 #header{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 100px;
 }
+
 .oculto{
     display: none !important;
 }
 
 .icono{
-    width: 50px;
-    height: 50px;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain;
     padding: 10px;
+    cursor: pointer;
+}
+
+.icono:hover{
+    width: 55px !important;
+    height: 55px !important;
 }
 
 #logo{
@@ -25,21 +37,104 @@ body{
 }
 
 #logo2{
-    padding-right: 10px
+    padding-right: 10px;
 }
 
+/* Estructura general */
+#menu_opciones {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+}
+
+/* Menú lateral */
 #menu_lado{
     display: flex;
     flex-direction: column;
-    padding: 19.5px;
+    gap: 8px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 10;
 }
 
+/* Padding de 19.5px para que el fondo azul no quede pegado al texto */
 .menu{
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    padding: 19.5px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-.icono:hover{
-    width: 55px;
-    height: 55px;
+/* Contenido central con los formularios */
+#contenido {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Estilos visuales de la tarjeta del formulario */
+.form-card {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-card h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input, .form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+#btn-accion {
+    width: 100%;
+    padding: 12px;
+    background-color: #037EF5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#btn-accion:hover {
+    background-color: #0262c2;
+}
+
+.btn-borrar {
+    background-color: #e74c3c !important;
+}
+
+.btn-borrar:hover {
+    background-color: #c0392b !important;
 }

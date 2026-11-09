@@ -37,6 +37,8 @@ body{
 .menu{
     display: flex;
     align-items: center;
+    width: fit-content;
+    padding-right: 10px;
 }
 
 .icono:hover{

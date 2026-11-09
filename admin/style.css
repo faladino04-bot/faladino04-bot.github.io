@@ -1,23 +1,36 @@
 *{
-    margin: 0
+    margin: 0;
+    box-sizing: border-box;
 }
 
 body{
     font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
 #header{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 100px;
 }
+
 .oculto{
     display: none !important;
 }
 
+/* Forzamos el tamaño exacto de los iconos para que no crezcan de más */
 .icono{
-    width: 50px;
-    height: 50px;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain;
     padding: 10px;
+    cursor: pointer;
+}
+
+.icono:hover{
+    width: 55px !important;
+    height: 55px !important;
 }
 
 #logo{
@@ -25,23 +38,48 @@ body{
 }
 
 #logo2{
-    padding-right: 10px
-}
-
-#menu_lado{
-    display: flex;
-    flex-direction: column;
-    padding: 19.5px;
-}
-
-.menu{
-    display: flex;
-    align-items: center;
-    width: fit-content;
     padding-right: 10px;
 }
 
-.icono:hover{
-    width: 55px;
-    height: 55px;
+/* Estructura general de la pantalla */
+#menu_opciones {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+}
+
+/* Menú lateral */
+#menu_lado{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+/* El fondo azul solo rodea al icono y al texto */
+.menu{
+    display: inline-flex;
+    align-items: center;
+    padding: 19.5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Contenido central fijo en el medio de la pantalla */
+#contenido {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#texto-principal {
+    text-align: center;
+    font-size: 2rem;
 }
