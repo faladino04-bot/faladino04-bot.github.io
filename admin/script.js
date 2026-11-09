@@ -6,43 +6,51 @@ const menu = document.getElementById("menu_lado");
 
 document.getElementById("home").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_home").classList.remove("oculto");
+  document.getElementById("mhome").style.backgroundColor = "#037EF5"
 });
 document.getElementById("home").addEventListener("click", ()=>{
   window.location.href = "admin.html";
 });
 document.getElementById("home").addEventListener("mouseleave", ()=>{
   document.getElementById("texto_home").classList.add("oculto");
+  document.getElementById("mhome").style.backgroundColor = "transparent"
 });
 
 
 document.getElementById("agregar_usuario").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_agregar").classList.remove("oculto");
+  document.getElementById("magregar_usuario").style.backgroundColor = "#037EF5"
 });
 document.getElementById("agregar_usuario").addEventListener("click", ()=>{
   window.location.href = "añadir/añadir.html";
 });
 document.getElementById("agregar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("texto_agregar").classList.add("oculto");
+  document.getElementById("magregar_usuario").style.backgroundColor = "transparent"
 });
 
 document.getElementById("borrar_usuario").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_borrar").classList.remove("oculto");
+  document.getElementById("mborrar_usuario").style.backgroundColor = "#037EF5"
 });
 document.getElementById("borrar_usuario").addEventListener("click", ()=>{
   window.location.href = "borrar/borrar.html";
 });
 document.getElementById("borrar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("texto_borrar").classList.add("oculto");
+  document.getElementById("mborrar_usuario").style.backgroundColor = "transparent"
 });
 
 document.getElementById("buscar_usuario").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_buscar").classList.remove("oculto");
+  document.getElementById("mbuscar_usuario").style.backgroundColor = "#037EF5"
 });
 document.getElementById("buscar_usuario").addEventListener("click", ()=>{
   window.location.href = "buscar/buscar.html";
 });
 document.getElementById("buscar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("texto_buscar").classList.add("oculto");
+  document.getElementById("mbuscar_usuario").style.backgroundColor = "transparent"
 });
 
 // Protección de sesion con Supabase
