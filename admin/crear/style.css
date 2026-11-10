@@ -1,0 +1,84 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+    background: #f3f7fc;
+}
+
+#header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background: #004985;
+}
+
+.oculto{
+    display: none !important;
+}
+
+/* Forzamos el tamaño exacto de los iconos para que no crezcan de más */
+.icono{
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.icono:hover{
+    width: 55px !important;
+    height: 55px !important;
+}
+
+#logo{
+    padding-left: 5px;
+}
+
+#logo2{
+    padding-right: 10px;
+}
+
+/* Estructura general de la pantalla */
+#menu_opciones {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+}
+
+/* Menú lateral */
+#menu_lado {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 10;
+    min-height: 100%;
+    box-shadow: 3px 0 12px rgba(0, 0, 0, 0.05);
+}
+
+/* El fondo azul solo rodea al icono y al texto */
+.menu{
+    display: inline-flex;
+    align-items: center;
+    padding: 19.5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Contenido central fijo en el medio de la pantalla */
+#contenido {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
