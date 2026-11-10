@@ -112,3 +112,63 @@ const ROL_REQUERIDO = "administrador";
 
   console.log("Sesión válida:", perfil.nombre);
 })();
+
+// --- LÓGICA PARA BORRAR USUARIO DE LA BD ---
+const btnBorrar = document.getElementById("btn-accion");
+
+if (btnBorrar) {
+    btnBorrar.addEventListener("click", async () => {
+        const usuarioInput = document.getElementById("usuario").value.trim();
+        const rolSelect = document.getElementById("rol").value;
+
+        if (!usuarioInput || !rolSelect) {
+            alert("Por favor, ingresa el nombre de usuario y selecciona el rol.");
+            return;
+        }
+
+        const rolNormalizado = rolSelect.toLowerCase();
+
+        try {
+            btnBorrar.disabled = true;
+            btnBorrar.textContent = "Buscando...";
+
+            // 1. Listar los usuarios para encontrar el ID que corresponde al texto ingresado
+            const usuarios = await listarUsuarios();
+            
+            const usuarioEncontrado = usuarios.find(u => 
+                u.usuario.toLowerCase() === usuarioInput.toLowerCase() && 
+                u.rol.toLowerCase() === rolNormalizado
+            );
+
+            if (!usuarioEncontrado) {
+                throw new Error("No se encontró ningún usuario con ese nombre y rol en el sistema.");
+            }
+
+            // 2. Ventana de confirmación antes de eliminar
+            if (!confirm(`¿Estás seguro de que deseas eliminar al usuario "${usuarioEncontrado.nombre}" (${usuarioEncontrado.usuario})?`)) {
+                btnBorrar.disabled = false;
+                btnBorrar.textContent = "Borrar";
+                return;
+            }
+
+            btnBorrar.textContent = "Eliminando...";
+
+            // 3. Eliminar utilizando el ID obtenido de la BD
+            await eliminarUsuario(usuarioEncontrado.id);
+
+            alert("¡Usuario eliminado exitosamente de la base de datos!");
+            
+            // Limpiar el formulario
+            document.getElementById("form-borrar").reset();
+            if (document.getElementById("contenedor_grado")) {
+                document.getElementById("contenedor_grado").style.display = "none";
+            }
+
+        } catch (error) {
+            alert("Error al borrar: " + error.message);
+        } finally {
+            btnBorrar.disabled = false;
+            btnBorrar.textContent = "Borrar";
+        }
+    });
+}
