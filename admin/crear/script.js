@@ -138,9 +138,12 @@ async function cargarSelectGrados() {
 
 async function cargarSelectProfesores() {
   const selectProfesor = document.getElementById("select_profesor");
-  // Filtramos los perfiles cuyo rol sea "profesor"
-  const { data: profesores, error } = await db.from("perfiles").select("id, nombre").eq("rol", "profesor").order("nombre");
+  const { data: profesores, error } = await db.from("perfiles").select("id, nombre, rol").eq("rol", "profesor").order("nombre");
   
+  // Imprime esto en la consola del navegador (F12)
+  console.log("Profesores encontrados en la BD:", profesores);
+  console.log("Error si existe:", error);
+
   if (error) {
     console.error("Error al cargar profesores:", error.message);
     return;
