@@ -1,126 +1,79 @@
-// Menú lateral
+// ==========================================
+// 1. MENÚ LATERAL Y NAVEGACIÓN
+// ==========================================
 document.getElementById("logo").addEventListener("click", () => {
-const menu = document.getElementById("menu_lado");
+  const menu = document.getElementById("menu_lado");
   menu.classList.toggle("oculto");
 });
 
-document.getElementById("home").addEventListener("mouseenter", ()=>{
+document.getElementById("home").addEventListener("mouseenter", () => {
   document.getElementById("texto_home").classList.remove("oculto");
-  document.getElementById("mhome").style.backgroundColor = "#037EF5"
+  document.getElementById("mhome").style.backgroundColor = "#037EF5";
 });
-document.getElementById("home").addEventListener("click", ()=>{
+document.getElementById("home").addEventListener("click", () => {
   window.location.href = "../admin.html";
 });
-document.getElementById("home").addEventListener("mouseleave", ()=>{
+document.getElementById("home").addEventListener("mouseleave", () => {
   document.getElementById("texto_home").classList.add("oculto");
-  document.getElementById("mhome").style.backgroundColor = "transparent"
+  document.getElementById("mhome").style.backgroundColor = "transparent";
 });
 
-
-document.getElementById("agregar_usuario").addEventListener("mouseenter", ()=>{
+document.getElementById("agregar_usuario").addEventListener("mouseenter", () => {
   document.getElementById("texto_agregar").classList.remove("oculto");
-  document.getElementById("magregar_usuario").style.backgroundColor = "#037EF5"
+  document.getElementById("magregar_usuario").style.backgroundColor = "#037EF5";
 });
-document.getElementById("agregar_usuario").addEventListener("click", ()=>{
+document.getElementById("agregar_usuario").addEventListener("click", () => {
   window.location.href = "../añadir/añadir.html";
 });
-document.getElementById("agregar_usuario").addEventListener("mouseleave", ()=>{
+document.getElementById("agregar_usuario").addEventListener("mouseleave", () => {
   document.getElementById("texto_agregar").classList.add("oculto");
-  document.getElementById("magregar_usuario").style.backgroundColor = "transparent"
+  document.getElementById("magregar_usuario").style.backgroundColor = "transparent";
 });
 
-document.getElementById("borrar_usuario").addEventListener("mouseenter", ()=>{
+document.getElementById("borrar_usuario").addEventListener("mouseenter", () => {
   document.getElementById("texto_borrar").classList.remove("oculto");
-  document.getElementById("mborrar_usuario").style.backgroundColor = "#037EF5"
+  document.getElementById("mborrar_usuario").style.backgroundColor = "#037EF5";
 });
-document.getElementById("borrar_usuario").addEventListener("click", ()=>{
+document.getElementById("borrar_usuario").addEventListener("click", () => {
   window.location.href = "../borrar/borrar.html";
 });
-document.getElementById("borrar_usuario").addEventListener("mouseleave", ()=>{
+document.getElementById("borrar_usuario").addEventListener("mouseleave", () => {
   document.getElementById("texto_borrar").classList.add("oculto");
-  document.getElementById("mborrar_usuario").style.backgroundColor = "transparent"
+  document.getElementById("mborrar_usuario").style.backgroundColor = "transparent";
 });
 
-document.getElementById("buscar_usuario").addEventListener("mouseenter", ()=>{
+document.getElementById("buscar_usuario").addEventListener("mouseenter", () => {
   document.getElementById("texto_buscar").classList.remove("oculto");
-  document.getElementById("mbuscar_usuario").style.backgroundColor = "#037EF5"
+  document.getElementById("mbuscar_usuario").style.backgroundColor = "#037EF5";
 });
-document.getElementById("buscar_usuario").addEventListener("click", ()=>{
+document.getElementById("buscar_usuario").addEventListener("click", () => {
   window.location.href = "buscar.html";
 });
-document.getElementById("buscar_usuario").addEventListener("mouseleave", ()=>{
+document.getElementById("buscar_usuario").addEventListener("mouseleave", () => {
   document.getElementById("texto_buscar").classList.add("oculto");
-  document.getElementById("mbuscar_usuario").style.backgroundColor = "transparent"
+  document.getElementById("mbuscar_usuario").style.backgroundColor = "transparent";
 });
 
-document.getElementById("cerrar").addEventListener("mouseenter", ()=>{
+document.getElementById("cerrar").addEventListener("mouseenter", () => {
   document.getElementById("texto_cerrar").classList.remove("oculto");
-  document.getElementById("mcerrar").style.backgroundColor = "#037EF5"
+  document.getElementById("mcerrar").style.backgroundColor = "#037EF5";
 });
 
-document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
+document.getElementById("cerrar").addEventListener("mouseleave", () => {
   document.getElementById("texto_cerrar").classList.add("oculto");
-  document.getElementById("mcerrar").style.backgroundColor = "transparent"
+  document.getElementById("mcerrar").style.backgroundColor = "transparent";
 });
 
-document.getElementById("cerrar").addEventListener("click", ()=>{
+document.getElementById("cerrar").addEventListener("click", () => {
   db.auth.signOut();
   window.location.href = "../../index.html";
   return;
 });
 
 
-// --- LÓGICA PARA LA PÁGINA DE BUSCAR ---
-
-// 1. Mostrar u ocultar el campo "Grado" según el rol seleccionado en la búsqueda
-const buscarRol = document.getElementById("buscar_rol");
-const contenedorGradoBuscar = document.getElementById("contenedor_grado_buscar");
-
-if (buscarRol && contenedorGradoBuscar) {
-  buscarRol.addEventListener("change", (e) => {
-    if (e.target.value === "Estudiante") {
-      contenedorGradoBuscar.style.display = "flex";
-    } else {
-      contenedorGradoBuscar.style.display = "none";
-      document.getElementById("buscar_grado").value = "";
-    }
-  });
-}
-
-// 2. Mostrar botón de "Enviar mensaje" al seleccionar algún usuario
-const checkboxesUsuarios = document.querySelectorAll(".seleccionar-usuario");
-const seccionMensaje = document.getElementById("seccion_mensaje");
-
-checkboxesUsuarios.forEach(checkbox => {
-  if (checkbox) {
-    checkbox.addEventListener("change", () => {
-      // Revisa si al menos un checkbox está seleccionado
-      const algunoSeleccionado = Array.from(checkboxesUsuarios).some(cb => cb.checked);
-      if (algunoSeleccionado) {
-        seccionMensaje.style.display = "block";
-      } else {
-        seccionMensaje.style.display = "none";
-        document.getElementById("caja_mensaje").style.display = "none"; // Oculta la caja si desmarca todo
-      }
-    });
-  }
-});
-
-// 3. Mostrar la caja de texto al hacer clic en "Enviar mensaje / aviso"
-const btnMostrarCaja = document.getElementById("btn_mostrar_caja_mensaje");
-const cajaMensaje = document.getElementById("caja_mensaje");
-
-if (btnMostrarCaja && cajaMensaje) {
-  btnMostrarCaja.addEventListener("click", () => {
-    if (cajaMensaje.style.display === "none" || cajaMensaje.style.display === "") {
-      cajaMensaje.style.display = "flex";
-    } else {
-      cajaMensaje.style.display = "none";
-    }
-  });
-}
-
-// Protección de sesion con Supabase
+// ==========================================
+// 2. PROTECCIÓN DE SESIÓN CON SUPABASE
+// ==========================================
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -148,3 +101,162 @@ const ROL_REQUERIDO = "administrador";
 
   console.log("Sesión válida:", perfil.nombre);
 })();
+
+
+// ==========================================
+// 3. LÓGICA DE BÚSQUEDA Y MODIFICACIÓN
+// ==========================================
+let usuarioSeleccionadoGlobal = null;
+
+// Mostrar u ocultar el campo "Grado" según el rol seleccionado en la búsqueda
+const buscarRol = document.getElementById("buscar_rol");
+const contenedorGradoBuscar = document.getElementById("contenedor_grado_buscar");
+
+if (buscarRol && contenedorGradoBuscar) {
+  buscarRol.addEventListener("change", (e) => {
+    if (e.target.value === "Estudiante") {
+      contenedorGradoBuscar.style.display = "flex";
+    } else {
+      contenedorGradoBuscar.style.display = "none";
+      const campoGrado = document.getElementById("buscar_grado");
+      if (campoGrado) campoGrado.value = "";
+    }
+  });
+}
+
+// Ejecutar búsqueda en Supabase
+const btnEjecutarBusqueda = document.getElementById("btn-ejecutar-busqueda");
+if (btnEjecutarBusqueda) {
+  btnEjecutarBusqueda.addEventListener("click", async () => {
+    const textoFiltro = document.getElementById("buscar_nombre").value.toLowerCase().trim();
+    const rolFiltro = document.getElementById("buscar_rol").value.toLowerCase();
+    const listaUsuariosEl = document.getElementById("lista_usuarios");
+    
+    listaUsuariosEl.innerHTML = "<li>Buscando...</li>";
+
+    try {
+      const usuarios = await listarUsuarios();
+      
+      const filtrados = usuarios.filter(u => {
+        const coincideTexto = !textoFiltro || u.nombre.toLowerCase().includes(textoFiltro) || u.usuario.toLowerCase().includes(textoFiltro);
+        const coincideRol = !rolFiltro || u.rol.toLowerCase() === rolFiltro;
+        return coincideTexto && coincideRol;
+      });
+
+      listaUsuariosEl.innerHTML = "";
+
+      if (filtrados.length === 0) {
+        listaUsuariosEl.innerHTML = "<p style='color:#777; font-size:0.9rem;'>No se encontraron usuarios.</p>";
+        return;
+      }
+
+      filtrados.forEach(u => {
+        const li = document.createElement("li");
+        li.style.cssText = "padding: 8px; border-bottom: 1px solid #ddd; display: flex; align-items: center; justify-content: space-between;";
+        
+        li.innerHTML = `
+          <label style="cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%;">
+            <input type="radio" name="usuario_seleccionado" class="radio-usuario" data-id="${u.id}" data-usuario="${u.usuario}" data-nombre="${u.nombre}" data-rol="${u.rol}" data-grado="${u.grado || ''}">
+            <span><strong>${u.nombre}</strong> (${u.usuario}) - <span style="text-transform:capitalize;">${u.rol}</span> ${u.grado ? '- ' + u.grado : ''}</span>
+          </label>
+        `;
+        listaUsuariosEl.appendChild(li);
+      });
+
+      document.querySelectorAll(".radio-usuario").forEach(radio => {
+        radio.addEventListener("change", (e) => {
+          usuarioSeleccionadoGlobal = {
+            id: e.target.getAttribute("data-id"),
+            usuario: e.target.getAttribute("data-usuario"),
+            nombre: e.target.getAttribute("data-nombre"),
+            rol: e.target.getAttribute("data-rol"),
+            grado: e.target.getAttribute("data-grado")
+          };
+
+          document.getElementById("seccion_acciones_usuario").style.display = "flex";
+          document.getElementById("caja_mensaje").style.display = "none";
+          document.getElementById("caja_modificar").style.display = "none";
+        });
+      });
+
+    } catch (err) {
+      listaUsuariosEl.innerHTML = `<p style='color:red;'>Error al buscar: ${err.message}</p>`;
+    }
+  });
+}
+
+// Botones para desplegar cajas de Mensaje o Modificación
+const btnMostrarCaja = document.getElementById("btn_mostrar_caja_mensaje");
+const cajaMensaje = document.getElementById("caja_mensaje");
+const btnMostrarModificar = document.getElementById("btn_mostrar_modificar");
+const cajaModificar = document.getElementById("caja_modificar");
+
+if (btnMostrarCaja && cajaMensaje) {
+  btnMostrarCaja.addEventListener("click", () => {
+    cajaMensaje.style.display = cajaMensaje.style.display === "none" ? "flex" : "none";
+    if (cajaModificar) cajaModificar.style.display = "none";
+  });
+}
+
+if (btnMostrarModificar && cajaModificar) {
+  btnMostrarModificar.addEventListener("click", () => {
+    if (cajaModificar.style.display === "none" || cajaModificar.style.display === "") {
+      cajaModificar.style.display = "flex";
+      if (cajaMensaje) cajaMensaje.style.display = "none";
+
+      if (usuarioSeleccionadoGlobal) {
+        document.getElementById("mod_usuario").value = usuarioSeleccionadoGlobal.usuario;
+        document.getElementById("mod_nombre").value = usuarioSeleccionadoGlobal.nombre;
+        document.getElementById("mod_rol").value = usuarioSeleccionadoGlobal.rol;
+        document.getElementById("mod_grado").value = usuarioSeleccionadoGlobal.grado;
+      }
+    } else {
+      cajaModificar.style.display = "none";
+    }
+  });
+}
+
+// Guardar cambios de modificación en la BD
+const btnGuardarCambios = document.getElementById("btn_guardar_cambios");
+if (btnGuardarCambios) {
+  btnGuardarCambios.addEventListener("click", async () => {
+    if (!usuarioSeleccionadoGlobal) return;
+
+    const nuevoUsuario = document.getElementById("mod_usuario").value.trim();
+    const nuevoNombre = document.getElementById("mod_nombre").value.trim();
+    const nuevoRol = document.getElementById("mod_rol").value;
+    const nuevaPassword = document.getElementById("mod_password").value.trim();
+
+    try {
+      btnGuardarCambios.disabled = true;
+      btnGuardarCambios.textContent = "Guardando...";
+
+      if (nuevaPassword) {
+        await cambiarPassword(usuarioSeleccionadoGlobal.id, nuevaPassword);
+      }
+
+      const { error } = await db
+        .from("perfiles")
+        .update({
+          usuario: nuevoUsuario,
+          nombre: nuevoNombre,
+          rol: nuevoRol,
+          grado: nuevoRol === 'estudiante' ? document.getElementById("mod_grado").value.trim() : null
+        })
+        .eq("id", usuarioSeleccionadoGlobal.id);
+
+      if (error) throw error;
+
+      alert("¡Datos del usuario actualizados correctamente!");
+      cajaModificar.style.display = "none";
+      
+      if (btnEjecutarBusqueda) btnEjecutarBusqueda.click();
+
+    } catch (err) {
+      alert("Error al actualizar: " + err.message);
+    } finally {
+      btnGuardarCambios.disabled = false;
+      btnGuardarCambios.textContent = "Guardar Cambios";
+    }
+  });
+}

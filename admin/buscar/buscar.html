@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
-    <title>Schoolaret - Buscar Usuario</title>
+    <title>Schoolaret - Buscar y Modificar Usuario</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -39,7 +39,7 @@
 
         <main id="contenido">
             <div class="search-card">
-                <h2>Buscar Usuarios</h2>
+                <h2>Buscar y Gestionar Usuarios</h2>
                 
                 <!-- Formulario de Búsqueda -->
                 <form id="form-buscar">
@@ -58,46 +58,77 @@
                         </select>
                     </div>
 
-                    <!-- Campo de Grado (Oculto por defecto, solo se muestra si es Estudiante) -->
+                    <!-- Campo de Grado -->
                     <div class="form-group" id="contenedor_grado_buscar" style="display: none;">
                         <label for="buscar_grado">Grado:</label>
                         <input type="text" id="buscar_grado" placeholder="Ej: 10°">
                     </div>
 
-                    <button type="button" id="btn-buscar">Buscar</button>
+                    <button type="button" id="btn-ejecutar-busqueda">Buscar en el sistema</button>
                 </form>
 
-                <!-- Resultados de búsqueda simulados -->
+                <!-- Resultados de búsqueda -->
                 <div id="resultados_busqueda" style="margin-top: 20px;">
                     <h3>Resultados:</h3>
                     <ul id="lista_usuarios" style="list-style: none; padding: 0; margin-top: 10px;">
-                        <!-- Ejemplo visual de usuario estático para probar la interfaz
-                        <li class="user-item" style="padding: 8px; border-bottom: 1px solid #ddd; display: flex; align-items: center; justify-content: space-between;">
-                            <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" class="seleccionar-usuario" data-nombre="Juan Pérez">
-                                <span>Juan Pérez (Estudiante - 10°)</span>
-                            </label>
-                        </li>
-                        -->
+                        <!-- Aquí se renderizarán los usuarios dinámicamente -->
                     </ul>
                 </div>
 
-                <!-- Sección para enviar mensaje (Aparece al seleccionar usuario) -->
-                <div id="seccion_mensaje" style="display: none; margin-top: 20px; border-top: 2px solid #037EF5; padding-top: 15px;">
-                    <button type="button" id="btn_mostrar_caja_mensaje" style="background-color: #037EF5; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Enviar mensaje / aviso</button>
+                <!-- SECCIÓN DE ACCIONES (Aparece al seleccionar un usuario) -->
+                <div id="seccion_acciones_usuario" style="display: none; margin-top: 20px; border-top: 2px solid #037EF5; padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                    
+                    <!-- Botones de Acción -->
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" id="btn_mostrar_caja_mensaje" style="flex: 1; background-color: #037EF5; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar aviso</button>
+                        <button type="button" id="btn_mostrar_modificar" style="flex: 1; background-color: #e67e22; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Ver / Modificar Datos</button>
+                    </div>
                     
                     <!-- Caja para escribir el aviso -->
-                    <div id="caja_mensaje" style="display: none; margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
-                        <textarea id="texto_aviso" rows="4" placeholder="Escribe tu aviso aquí..." style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+                    <div id="caja_mensaje" style="display: none; margin-top: 10px; flex-direction: column; gap: 10px; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                        <h4>Enviar mensaje o aviso</h4>
+                        <textarea id="texto_aviso" rows="3" placeholder="Escribe tu aviso aquí..." style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
                         
-                        <!-- Archivo adjunto opcional -->
                         <div style="display: flex; flex-direction: column; gap: 5px;">
                             <label style="font-size: 0.9rem; color: #555;">Adjuntar archivo (opcional):</label>
                             <input type="file" id="archivo_aviso">
                         </div>
 
-                        <button type="button" id="btn_enviar_aviso" style="background-color: #27ae60; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar Aviso</button>
+                        <button type="button" id="btn_enviar_aviso" style="background-color: #27ae60; color: white; border: none; padding: 8px; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar Aviso</button>
                     </div>
+
+                    <!-- Formulario de Modificar Datos (Aparece al hacer clic en Ver/Modificar) -->
+                    <div id="caja_modificar" style="display: none; margin-top: 10px; flex-direction: column; gap: 10px; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ddd;">
+                        <h4 style="color: #004985; margin-bottom: 5px;">Modificar Información de Usuario</h4>
+                        
+                        <div class="form-group" style="margin-bottom: 8px;">
+                            <label style="font-size: 0.85rem;">Usuario:</label>
+                            <input type="text" id="mod_usuario" style="padding: 8px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 8px;">
+                            <label style="font-size: 0.85rem;">Nombre:</label>
+                            <input type="text" id="mod_nombre" style="padding: 8px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 8px;">
+                            <label style="font-size: 0.85rem;">Rol:</label>
+                            <select id="mod_rol" style="padding: 8px;">
+                                <option value="estudiante">Estudiante</option>
+                                <option value="profesor">Profesor</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 8px;" id="mod_contenedor_grado" style="display: none;">
+                            <label style="font-size: 0.85rem;">Grado:</label>
+                            <input type="text" id="mod_grado" style="padding: 8px;" placeholder="Ej: 10°">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label style="font-size: 0.85rem;">Nueva Contraseña (dejar en blanco para no cambiar):</label>
+                            <input type="password" id="mod_password" style="padding: 8px;" placeholder="Nueva contraseña">
+                        </div>
+
+                        <button type="button" id="btn_guardar_cambios" style="background-color: #27ae60; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Guardar Cambios</button>
+                    </div>
+
                 </div>
 
             </div>
@@ -106,5 +137,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
+    <script src="../usuarios-api.js"></script>
 </body>
 </html>
