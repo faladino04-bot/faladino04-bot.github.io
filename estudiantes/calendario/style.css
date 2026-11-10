@@ -46,17 +46,18 @@ body{
     display: flex;
 }
 
-#menu_lado{
+#menu_lado {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 10px;
+    padding: 12px;
     position: absolute;
     top: 0;
     left: 0;
-    background-color: white;
+    background: white;
     z-index: 10;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    min-height: 100%;
+    box-shadow: 3px 0 12px rgba(0, 0, 0, 0.05);
 }
 
 .menu{

@@ -1,87 +1,236 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
+
+    <link rel="shortcut icon"
+        href="../../favicon/IMG-20250501-WA0056.jpg"
+        type="image/x-icon">
+
     <title>Schoolaret - Perfil de Estudiante</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+    <!-- ENCABEZADO -->
     <header id="header">
-        <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="" width="100px" height="100px" id="logo">
-        <img src="../../imagenes/logo/253950-removebg-preview.png" alt="" height="100px" width=auto id="logo2">
+
+        <img
+            src="../../imagenes/logo/IMG-20250501-WA0056.jpg"
+            alt="Logo Schoolaret"
+            width="100"
+            height="100"
+            id="logo">
+
+        <img
+            src="../../imagenes/logo/253950-removebg-preview.png"
+            alt="Schoolaret"
+            height="100"
+            id="logo2">
+
     </header>
 
+
     <div id="menu_opciones">
-        <!-- Menú Lateral -->
+
+        <!-- MENÚ LATERAL -->
         <div id="menu_lado" class="oculto">
+
             <div class="menu" id="mhome">
-                <img class="icono" src="../../imagenes/iconos/hogar.png" alt="" id="home">
-                <p id="texto_home" class="oculto">hogar</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/hogar.png"
+                    alt="Inicio" id="home">
+                <p id="texto_home" class="oculto">Inicio</p>
             </div>
+
             <div class="menu" id="musuario">
-                <img class="icono" src="../../imagenes/iconos/usuario.png" alt="" id="usuario">
-                <p id="texto_usuario" class="oculto">perfil</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/usuario.png"
+                    alt="Perfil" id="usuario">
+                <p id="texto_usuario" class="oculto">Perfil</p>
             </div>
+
             <div class="menu" id="mestadisticas">
-                <img class="icono" src="../../imagenes/iconos/grafico-circular.png" alt="" id="estadisticas">
-                <p id="texto_estadisticas" class="oculto">estadísticas</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/grafico-circular.png"
+                    alt="Estadísticas" id="estadisticas">
+                <p id="texto_estadisticas" class="oculto">Estadísticas</p>
             </div>
+
             <div class="menu" id="mactividades">
-                <img class="icono" src="../../imagenes/iconos/editar.png" alt="" id="actividades">
-                <p id="texto_actividades" class="oculto">actividades</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/editar.png"
+                    alt="Actividades" id="actividades">
+                <p id="texto_actividades" class="oculto">Actividades</p>
             </div>
+
             <div class="menu" id="mexamenes">
-                <img class="icono" src="../../imagenes/iconos/aprobado.png" alt="" id="examenes">
-                <p id="texto_examenes" class="oculto">exámenes</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/aprobado.png"
+                    alt="Exámenes" id="examenes">
+                <p id="texto_examenes" class="oculto">Exámenes</p>
             </div>
+
             <div class="menu" id="manuncios">
-                <img class="icono" src="../../imagenes/iconos/sobre.png" alt="" id="anuncios">
-                <p id="texto_anuncios" class="oculto">anuncios</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/sobre.png"
+                    alt="Anuncios" id="anuncios">
+                <p id="texto_anuncios" class="oculto">Anuncios</p>
             </div>
+
             <div class="menu" id="mmensajes">
-                <img class="icono" src="../../imagenes/iconos/mensajero.png" alt="" id="mensajes">
-                <p id="texto_mensajes" class="oculto">mensajes</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/mensajero.png"
+                    alt="Mensajes" id="mensajes">
+                <p id="texto_mensajes" class="oculto">Mensajes</p>
             </div>
+
             <div class="menu" id="mcalendario">
-                <img class="icono" src="../../imagenes/iconos/calendario.png" alt="" id="calendario">
-                <p id="texto_calendario" class="oculto">calendario</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/calendario.png"
+                    alt="Calendario" id="calendario">
+                <p id="texto_calendario" class="oculto">Calendario</p>
             </div>
+
             <div class="menu" id="mcerrar">
-                <img class="icono" src="../../imagenes/iconos/cerrar-sesion.png" alt="" id="cerrar">
-                <p id="texto_cerrar" class="oculto">cerrar sesion</p>
+                <img class="icono"
+                    src="../../imagenes/iconos/cerrar-sesion.png"
+                    alt="Cerrar sesión" id="cerrar">
+                <p id="texto_cerrar" class="oculto">Cerrar sesión</p>
             </div>
+
         </div>
 
-        <!-- Área de Contenido Principal -->
+
+        <!-- CONTENIDO PRINCIPAL -->
         <main id="contenido">
+
             <div class="student-card">
-                <h2>Perfil de Estudiante</h2>
-                
-                <div class="profile-image-container">
-                    <img src="../../imagenes/iconos/usuario.png" alt="Foto de Perfil" class="profile-avatar">
+
+                <!-- ENCABEZADO DEL PERFIL -->
+                <div class="profile-header">
+
+                    <div class="profile-image-container">
+
+                        <img
+                            src="../../imagenes/iconos/usuario.png"
+                            alt="Foto de perfil"
+                            class="profile-avatar">
+
+                    </div>
+
+                    <div class="profile-heading">
+
+                        <span class="profile-subtitle">
+                            MI CUENTA
+                        </span>
+
+                        <h2>Perfil de Estudiante</h2>
+
+                        <p>Información personal y académica</p>
+
+                    </div>
+
                 </div>
 
-                <div class="profile-info">
-                    <div class="info-group">
-                        <span class="info-label">Nombre:</span>
-                        <span id="perfil_nombre" class="info-value">Cargando...</span>
+
+                <!-- SEPARADOR -->
+                <div class="profile-divider"></div>
+
+
+                <!-- INFORMACIÓN DEL ESTUDIANTE -->
+                <div class="profile-section">
+
+                    <h3>Información del estudiante</h3>
+
+                    <div class="profile-info">
+
+                        <!-- NOMBRE -->
+                        <div class="info-group">
+
+                            <div class="info-text">
+
+                                <span class="info-label">
+                                    Nombre completo
+                                </span>
+
+                                <span id="perfil_nombre" class="info-value">
+                                    Cargando...
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- USUARIO -->
+                        <div class="info-group">
+
+                            <div class="info-text">
+
+                                <span class="info-label">
+                                    Usuario
+                                </span>
+
+                                <span id="perfil_usuario" class="info-value">
+                                    Cargando...
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- GRADO -->
+                        <div class="info-group">
+
+                            <div class="info-text">
+
+                                <span class="info-label">
+                                    Grado académico
+                                </span>
+
+                                <span id="perfil_grado" class="info-value">
+                                    Cargando...
+                                </span>
+
+                            </div>
+
+                        </div>
+
                     </div>
-                    <div class="info-group">
-                        <span class="info-label">Usuario:</span>
-                        <span id="perfil_usuario" class="info-value">Cargando...</span>
-                    </div>
-                    <div class="info-group">
-                        <span class="info-label">Grado:</span>
-                        <span id="perfil_grado" class="info-value">Cargando...</span>
-                    </div>
+
                 </div>
+
+
+                <!-- PIE DE TARJETA -->
+                <div class="profile-footer">
+
+                    <span class="footer-dot"></span>
+
+                    <p>
+                        Bienvenido a tu espacio de estudiante Schoolaret
+                    </p>
+
+                </div>
+
             </div>
+
         </main>
+
     </div>
 
+
+    <!-- CONEXIÓN CON SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- JAVASCRIPT -->
     <script src="script.js"></script>
+
 </body>
 </html>
