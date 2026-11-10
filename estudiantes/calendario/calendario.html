@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
+    <title>Schoolaret - Calendario</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="header">
+        <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="" width="100px" height="100px" id="logo">
+        <img src="../../imagenes/logo/253950-removebg-preview.png" alt="" height="100px" width=auto id="logo2">
+    </header>
+
+    <div id="menu_opciones">
+        <!-- Menú Lateral -->
+        <div id="menu_lado" class="oculto">
+            <div class="menu" id="mhome">
+                <img class="icono" src="../../imagenes/iconos/hogar.png" alt="" id="home">
+                <p id="texto_home" class="oculto">hogar</p>
+            </div>
+            <div class="menu" id="musuario">
+                <img class="icono" src="../../imagenes/iconos/usuario.png" alt="" id="usuario">
+                <p id="texto_usuario" class="oculto">perfil</p>
+            </div>
+            <div class="menu" id="mestadisticas">
+                <img class="icono" src="../../imagenes/iconos/grafico-circular.png" alt="" id="estadisticas">
+                <p id="texto_estadisticas" class="oculto">estadísticas</p>
+            </div>
+            <div class="menu" id="mactividades">
+                <img class="icono" src="../../imagenes/iconos/editar.png" alt="" id="actividades">
+                <p id="texto_actividades" class="oculto">actividades</p>
+            </div>
+            <div class="menu" id="mexamenes">
+                <img class="icono" src="../../imagenes/iconos/aprobado.png" alt="" id="examenes">
+                <p id="texto_examenes" class="oculto">exámenes</p>
+            </div>
+            <div class="menu" id="manuncios">
+                <img class="icono" src="../../imagenes/iconos/sobre.png" alt="" id="anuncios">
+                <p id="texto_anuncios" class="oculto">anuncios</p>
+            </div>
+            <div class="menu" id="mmensajes">
+                <img class="icono" src="../../imagenes/iconos/mensajero.png" alt="" id="mensajes">
+                <p id="texto_mensajes" class="oculto">mensajes</p>
+            </div>
+            <div class="menu" id="mcalendario">
+                <img class="icono" src="../../imagenes/iconos/calendario.png" alt="" id="calendario">
+                <p id="texto_calendario" class="oculto">calendario</p>
+            </div>
+            <div class="menu" id="mcerrar">
+                <img class="icono" src="../../imagenes/iconos/cerrar-sesion.png" alt="" id="cerrar">
+                <p id="texto_cerrar" class="oculto">cerrar sesion</p>
+            </div>
+        </div>
+
+        <!-- Área de Contenido Principal -->
+        <main id="contenido">
+            <div class="student-card calendar-card">
+                <h1>Calendario Escolar y Personal</h1>
+                
+                <div class="calendar-layout">
+                    <!-- Contenedor visual del calendario -->
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button id="mes_anterior">&lt;</button>
+                            <h2 id="mes_anio_actual">Noviembre 2026</h2>
+                            <button id="mes_siguiente">&gt;</button>
+                        </div>
+                        
+                        <div class="calendar-weekdays">
+                            <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+                        </div>
+
+                        <div id="calendar_days" class="calendar-days">
+                            <!-- Los días se generan dinámicamente con JS -->
+                        </div>
+                    </div>
+
+                    <!-- Panel lateral para apuntar notas y ver tareas del día seleccionado -->
+                    <div class="calendar-notes-panel">
+                        <h3>Eventos y Notas</h3>
+                        <p id="fecha_seleccionada" class="selected-date-text">Selecciona un día</p>
+                        
+                        <div id="lista_eventos_dia" class="events-list">
+                            <p class="no-events">No hay eventos para este día.</p>
+                        </div>
+
+                        <!-- Formulario para agregar nota personal -->
+                        <div class="add-event-form">
+                            <h4>Agregar Nota Personal</h4>
+                            <input type="text" id="input_titulo_nota" placeholder="Título (ej: Estudiar para parcial)">
+                            <button type="button" id="btn_guardar_nota">Guardar en este día</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
