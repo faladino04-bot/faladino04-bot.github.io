@@ -216,7 +216,7 @@ if (btnMostrarModificar && cajaModificar) {
   });
 }
 
-// Guardar cambios de modificación en la BD
+// Guardar cambios de modificación en la BD a través de la Edge Function
 const btnGuardarCambios = document.getElementById("btn_guardar_cambios");
 if (btnGuardarCambios) {
   btnGuardarCambios.addEventListener("click", async () => {
@@ -236,26 +236,20 @@ if (btnGuardarCambios) {
       btnGuardarCambios.disabled = true;
       btnGuardarCambios.textContent = "Guardando...";
 
-      // 1. Si ingresó contraseña nueva, actualizarla
+      // 1. Actualizar datos (nombre, rol, grado) mediante la Edge Function
+      await actualizarUsuario({
+        id: usuarioSeleccionadoGlobal.id,
+        nombre: nuevoNombre,
+        rol: nuevoRol,
+        grado: nuevoRol === 'estudiante' ? nuevoGrado : null
+      });
+
+      // 2. Si ingresó una contraseña nueva, actualizarla también
       if (nuevaPassword) {
         await cambiarPassword(usuarioSeleccionadoGlobal.id, nuevaPassword);
       }
 
-      // 2. Actualizar nombre, rol y grado directamente
-      const { error } = await db
-        .from("perfiles")
-        .update({
-          nombre: nuevoNombre,
-          rol: nuevoRol,
-          grado: nuevoRol === 'estudiante' ? nuevoGrado : null
-        })
-        .eq("id", usuarioSeleccionadoGlobal.id);
-
-      if (error) {
-        throw error;
-      }
-
-      alert("¡Datos actualizados correctamente!");
+      alert("¡Datos y rol actualizados correctamente en la BD!");
       
       // Ocultar caja y limpiar
       cajaModificar.style.display = "none";
