@@ -4,6 +4,7 @@ const menu = document.getElementById("menu_lado");
   menu.classList.toggle("oculto");
 });
 
+//home
 document.getElementById("home").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_home").classList.remove("oculto");
   document.getElementById("mhome").style.backgroundColor = "#037EF5"
@@ -16,7 +17,7 @@ document.getElementById("home").addEventListener("mouseleave", ()=>{
   document.getElementById("mhome").style.backgroundColor = "transparent"
 });
 
-
+//agregar usuario
 document.getElementById("agregar_usuario").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_agregar").classList.remove("oculto");
   document.getElementById("magregar_usuario").style.backgroundColor = "#037EF5"
@@ -29,6 +30,20 @@ document.getElementById("agregar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("magregar_usuario").style.backgroundColor = "transparent"
 });
 
+//crear curso/asignatura/anuncio
+document.getElementById("crear").addEventListener("mouseenter", ()=>{
+  document.getElementById("texto_crear").classList.remove("oculto");
+  document.getElementById("mcrear").style.backgroundColor = "#037EF5"
+});
+document.getElementById("crear").addEventListener("click", ()=>{
+  window.location.href = "crear/crear.html";
+});
+document.getElementById("crear").addEventListener("mouseleave", ()=>{
+  document.getElementById("texto_crear").classList.add("oculto");
+  document.getElementById("mcrear").style.backgroundColor = "transparent"
+});
+
+//borrar usuario
 document.getElementById("borrar_usuario").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_borrar").classList.remove("oculto");
   document.getElementById("mborrar_usuario").style.backgroundColor = "#037EF5"
@@ -41,6 +56,7 @@ document.getElementById("borrar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("mborrar_usuario").style.backgroundColor = "transparent"
 });
 
+//buscar usuario
 document.getElementById("buscar_usuario").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_buscar").classList.remove("oculto");
   document.getElementById("mbuscar_usuario").style.backgroundColor = "#037EF5"
@@ -53,7 +69,7 @@ document.getElementById("buscar_usuario").addEventListener("mouseleave", ()=>{
   document.getElementById("mbuscar_usuario").style.backgroundColor = "transparent"
 });
 
-
+//cerrar sesión
 document.getElementById("cerrar").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_cerrar").classList.remove("oculto");
   document.getElementById("mcerrar").style.backgroundColor = "#037EF5"
