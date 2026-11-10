@@ -138,21 +138,29 @@ async function cargarSelectGrados() {
 
 async function cargarSelectProfesores() {
   const selectProfesor = document.getElementById("select_profesor");
-  const { data: profesores, error } = await db.from("perfiles").select("id, nombre, rol").eq("rol", "profesor").order("nombre");
   
-  // Imprime esto en la consola del navegador (F12)
-  console.log("Profesores encontrados en la BD:", profesores);
-  console.log("Error si existe:", error);
+  try {
+    // Trae todos los usuarios usando la Edge Function que ya salta RLS
+    const usuarios = await listarUsuarios();
+    
+    // Filtramos los que tengan rol de profesor
+    const profesores = usuarios.filter(u => u.rol === "profesor");
 
-  if (error) {
-    console.error("Error al cargar profesores:", error.message);
-    return;
+    selectProfesor.innerHTML = "<option value=''>Seleccione un profesor</option>";
+    
+    if (profesores.length === 0) {
+      selectProfesor.innerHTML += "<option value='' disabled>No hay profesores registrados</option>";
+      return;
+    }
+
+    profesores.forEach(p => {
+      selectProfesor.innerHTML += `<option value="${p.id}">${p.nombre}</option>`;
+    });
+
+  } catch (err) {
+    console.error("Error al cargar profesores:", err.message);
+    selectProfesor.innerHTML = "<option value=''>Error al cargar profesores</option>";
   }
-
-  selectProfesor.innerHTML = "<option value=''>Seleccione un profesor</option>";
-  profesores.forEach(p => {
-    selectProfesor.innerHTML += `<option value="${p.id}">${p.nombre}</option>`;
-  });
 }
 
 // ==========================================
