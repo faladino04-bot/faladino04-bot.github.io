@@ -222,34 +222,44 @@ if (btnGuardarCambios) {
   btnGuardarCambios.addEventListener("click", async () => {
     if (!usuarioSeleccionadoGlobal) return;
 
-    const nuevoUsuario = document.getElementById("mod_usuario").value.trim();
     const nuevoNombre = document.getElementById("mod_nombre").value.trim();
     const nuevoRol = document.getElementById("mod_rol").value;
+    const nuevoGrado = document.getElementById("mod_grado").value.trim();
     const nuevaPassword = document.getElementById("mod_password").value.trim();
+
+    if (!nuevoNombre || !nuevoRol) {
+      alert("El nombre y el rol son obligatorios.");
+      return;
+    }
 
     try {
       btnGuardarCambios.disabled = true;
       btnGuardarCambios.textContent = "Guardando...";
 
+      // 1. Si ingresó una contraseña nueva, la actualizamos con la Edge Function
       if (nuevaPassword) {
         await cambiarPassword(usuarioSeleccionadoGlobal.id, nuevaPassword);
       }
 
+      // 2. Actualizamos los datos generales directamente en la tabla perfiles
       const { error } = await db
         .from("perfiles")
         .update({
-          usuario: nuevoUsuario,
           nombre: nuevoNombre,
           rol: nuevoRol,
-          grado: nuevoRol === 'estudiante' ? document.getElementById("mod_grado").value.trim() : null
+          grado: nuevoRol.toLowerCase() === 'estudiante' ? nuevoGrado : null
         })
         .eq("id", usuarioSeleccionadoGlobal.id);
 
       if (error) throw error;
 
       alert("¡Datos del usuario actualizados correctamente!");
-      cajaModificar.style.display = "none";
       
+      // Ocultar caja y limpiar contraseña
+      cajaModificar.style.display = "none";
+      document.getElementById("mod_password").value = "";
+      
+      // Refrescar la búsqueda automáticamente
       if (btnEjecutarBusqueda) btnEjecutarBusqueda.click();
 
     } catch (err) {
