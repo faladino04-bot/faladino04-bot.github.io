@@ -216,40 +216,46 @@ if (btnMostrarModificar && cajaModificar) {
   });
 }
 
-// Guardar cambios de modificación en la BD
+// Guardar cambios de modificación en la BD a través de la Edge Function
 const btnGuardarCambios = document.getElementById("btn_guardar_cambios");
 if (btnGuardarCambios) {
   btnGuardarCambios.addEventListener("click", async () => {
     if (!usuarioSeleccionadoGlobal) return;
 
-    const nuevoUsuario = document.getElementById("mod_usuario").value.trim();
     const nuevoNombre = document.getElementById("mod_nombre").value.trim();
-    const nuevoRol = document.getElementById("mod_rol").value;
+    const nuevoRol = document.getElementById("mod_rol").value.toLowerCase();
+    const nuevoGrado = document.getElementById("mod_grado").value.trim();
     const nuevaPassword = document.getElementById("mod_password").value.trim();
+
+    if (!nuevoNombre || !nuevoRol) {
+      alert("El nombre y el rol son obligatorios.");
+      return;
+    }
 
     try {
       btnGuardarCambios.disabled = true;
       btnGuardarCambios.textContent = "Guardando...";
 
+      // 1. Actualizar datos (nombre, rol, grado) mediante la Edge Function
+      await actualizarUsuario({
+        id: usuarioSeleccionadoGlobal.id,
+        nombre: nuevoNombre,
+        rol: nuevoRol,
+        grado: nuevoRol === 'estudiante' ? nuevoGrado : null
+      });
+
+      // 2. Si ingresó una contraseña nueva, actualizarla también
       if (nuevaPassword) {
         await cambiarPassword(usuarioSeleccionadoGlobal.id, nuevaPassword);
       }
 
-      const { error } = await db
-        .from("perfiles")
-        .update({
-          usuario: nuevoUsuario,
-          nombre: nuevoNombre,
-          rol: nuevoRol,
-          grado: nuevoRol === 'estudiante' ? document.getElementById("mod_grado").value.trim() : null
-        })
-        .eq("id", usuarioSeleccionadoGlobal.id);
-
-      if (error) throw error;
-
-      alert("¡Datos del usuario actualizados correctamente!");
-      cajaModificar.style.display = "none";
+      alert("¡Datos y rol actualizados correctamente en la BD!");
       
+      // Ocultar caja y limpiar
+      cajaModificar.style.display = "none";
+      document.getElementById("mod_password").value = "";
+      
+      // Refrescar la búsqueda automáticamente
       if (btnEjecutarBusqueda) btnEjecutarBusqueda.click();
 
     } catch (err) {

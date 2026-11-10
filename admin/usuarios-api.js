@@ -51,6 +51,9 @@ async function cambiarPassword(id, password) {
   return llamarFuncionUsuarios({ accion: "cambiar_password", id, password });
 }
 
+async function actualizarUsuario({ id, nombre, rol, grado }) {
+  return llamarFuncionUsuarios({ accion: "actualizar", id, nombre, rol, grado });
+}
 /* Ejemplitos de uso
 
 // Crear (pantalla añadir):
