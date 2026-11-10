@@ -52,20 +52,17 @@ body{
 }
 
 /* Menú lateral flotante */
-#menu_lado {
+#menu_lado{
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 12px;
+    padding: 10px;
     position: absolute;
     top: 0;
     left: 0;
-    background: white;
+    background-color: white;
     z-index: 10;
-    min-height: 100%;
-    box-shadow: 3px 0 12px rgba(0, 0, 0, 0.05);
 }
-
 
 /* Items del menú con padding de 19.5px */
 .menu{
@@ -96,7 +93,6 @@ body{
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    
 }
 
 .student-card h1 {
@@ -131,7 +127,7 @@ body{
 }
 
 .tabla-notas th {
-    background-color: #004985;
+    background-color: #037EF5;
     color: white;
     font-weight: bold;
 }
