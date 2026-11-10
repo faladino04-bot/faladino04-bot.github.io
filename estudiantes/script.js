@@ -20,9 +20,14 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
             texto.classList.add("oculto");
             contenedorMenu.style.backgroundColor = "transparent";
         });
-        if (urlRedireccion) {
+        if (urlRedireccion == "estudiante.html"){
             icono.addEventListener("click", () => {
                 window.location.href = urlRedireccion;
+            });
+        }else if (urlRedireccion){
+            icono.addEventListener("click", () => {
+                url = idIcono+"/"+urlRedireccion
+                window.location.href = url
             });
         }
     }
