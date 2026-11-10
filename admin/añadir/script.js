@@ -113,3 +113,61 @@ const ROL_REQUERIDO = "administrador";
 
   console.log("Sesión válida:", perfil.nombre);
 })();
+// --- LÓGICA PARA REGISTRAR USUARIO EN LA BD ---
+const btnAccion = document.getElementById("btn-accion");
+
+if (btnAccion) {
+    btnAccion.addEventListener("click", async () => {
+        // Capturar los valores de los inputs
+        const usuarioInput = document.getElementById("usuario").value.trim();
+        const nombreInput = document.getElementById("nombre").value.trim();
+        const passwordInput = document.getElementById("contrasena").value.trim();
+        const rolSelect = document.getElementById("rol").value;
+        const gradoInput = document.getElementById("grado").value.trim();
+
+        // Validaciones básicas de campos vacíos
+        if (!usuarioInput || !nombreInput || !passwordInput || !rolSelect) {
+            alert("Por favor, completa todos los campos obligatorios.");
+            return;
+        }
+
+        // Normalizar el rol a minúsculas como lo espera la API (estudiante, profesor, administrador)[cite: 14]
+        const rolNormalizado = rolSelect.toLowerCase();
+
+        // Validar si es estudiante para requerir grado
+        if (rolNormalizado === "estudiante" && !gradoInput) {
+            alert("El grado es obligatorio para los estudiantes.");
+            return;
+        }
+
+        try {
+            // Mostrar estado de carga opcional o deshabilitar botón
+            btnAccion.disabled = true;
+            btnAccion.textContent = "Guardando...";
+
+            // Llamar a la función de la API de usuarios[cite: 14]
+            await crearUsuario({
+                usuario: usuarioInput,
+                password: passwordInput,
+                nombre: nombreInput,
+                rol: rolNormalizado,
+                grado: rolNormalizado === "estudiante" ? gradoInput : null
+            });
+
+            alert("¡Usuario registrado exitosamente en la base de datos!");
+            
+            // Limpiar el formulario después del éxito
+            document.getElementById("form-añadir").reset();
+            if (document.getElementById("contenedor_grado")) {
+                document.getElementById("contenedor_grado").style.display = "none";
+            }
+
+        } catch (error) {
+            // Muestra el mensaje de error que devuelva Supabase (ej. "Ese usuario ya existe")[cite: 14]
+            alert("Error al registrar: " + error.message);
+        } finally {
+            btnAccion.disabled = false;
+            btnAccion.textContent = "Añadir";
+        }
+    });
+}
