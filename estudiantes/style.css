@@ -84,16 +84,16 @@ body{
 
 /* Tarjeta del Estudiante */
 .student-card {
-    background: #f9f9f9;
+    background: #e3e4e6;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 650px;
+    width: 1000px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    
 }
 
 .student-card h1 {
@@ -112,7 +112,7 @@ body{
     width: 100%;
     background: white;
     padding: 15px;
-    border-radius: 8px;
+    border-radius: 20px;
 }
 
 /* Estilos de la Tabla */
@@ -128,7 +128,7 @@ body{
 }
 
 .tabla-notas th {
-    background-color: #037EF5;
+    background-color: #004985;
     color: white;
     font-weight: bold;
 }
