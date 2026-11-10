@@ -71,7 +71,6 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
 });
 
 
-
 // Protección de sesión con Supabase
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
@@ -99,4 +98,10 @@ const ROL_REQUERIDO = "administrador";
   }
 
   console.log("Sesión válida:", perfil.nombre);
+
+  // ---> CAMBIO NUEVO: Actualizar el texto de bienvenida con el nombre real de la BD <---
+  const textoPrincipal = document.getElementById("texto-principal");
+  if (textoPrincipal) {
+    textoPrincipal.textContent = `Bienvenido Administrador, ${perfil.nombre}`;
+  }
 })();
