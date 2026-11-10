@@ -82,3 +82,92 @@ body{
     justify-content: center;
     align-items: center;
 }
+/* Estilos para los recuadros de creación en Admin */
+.contenedor-creacion {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contenedor-creacion h2 {
+    color: #004985;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.grid-recuadros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.recuadro-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 73, 133, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-top: 5px solid #004985;
+}
+
+.recuadro-card h3 {
+    color: #004985;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #f3f7fc;
+    padding-bottom: 8px;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.grupo-input label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #444;
+}
+
+.grupo-input input, 
+.grupo-input select, 
+.grupo-input textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+.grupo-input input:focus, 
+.grupo-input select:focus, 
+.grupo-input textarea:focus {
+    border-color: #037EF5;
+}
+
+.btn-accion {
+    background-color: #004985;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-accion:hover {
+    background-color: #037EF5;
+}
+
+.btn-accion:active {
+    transform: scale(0.98);
+}
