@@ -38,6 +38,22 @@ configurarBotonMenu("anuncios", "texto_anuncios", "manuncios", "anuncios.html");
 configurarBotonMenu("mensajes", "texto_mensajes", "mmensajes", "mensajes.html");
 configurarBotonMenu("calendario", "texto_calendario", "mcalendario", "calendario.html");
 
+document.getElementById("cerrar").addEventListener("mouseenter", ()=>{
+  document.getElementById("texto_cerrar").classList.remove("oculto");
+  document.getElementById("mcerrar").style.backgroundColor = "#037EF5"
+});
+
+document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
+  document.getElementById("texto_cerrar").classList.add("oculto");
+  document.getElementById("mcerrar").style.backgroundColor = "transparent"
+});
+
+document.getElementById("cerrar").addEventListener("click", ()=>{
+  db.auth.signOut();
+  window.location.href = "../index.html";
+  return;
+});
+
 
 // DESCARGA DE TABLA EN FORMATO PDF
 const btnDescargarPDF = document.getElementById("btn_descargar_pdf");
