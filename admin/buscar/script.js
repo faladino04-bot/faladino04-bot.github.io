@@ -223,7 +223,7 @@ if (btnGuardarCambios) {
     if (!usuarioSeleccionadoGlobal) return;
 
     const nuevoNombre = document.getElementById("mod_nombre").value.trim();
-    const nuevoRol = document.getElementById("mod_rol").value;
+    const nuevoRol = document.getElementById("mod_rol").value.toLowerCase(); // Captura el rol seleccionado
     const nuevoGrado = document.getElementById("mod_grado").value.trim();
     const nuevaPassword = document.getElementById("mod_password").value.trim();
 
@@ -236,26 +236,34 @@ if (btnGuardarCambios) {
       btnGuardarCambios.disabled = true;
       btnGuardarCambios.textContent = "Guardando...";
 
-      // 1. Si ingresó una contraseña nueva, la actualizamos con la Edge Function
+      // 1. Si ingresó contraseña nueva, actualizarla
       if (nuevaPassword) {
         await cambiarPassword(usuarioSeleccionadoGlobal.id, nuevaPassword);
       }
 
-      // 2. Actualizamos los datos generales directamente en la tabla perfiles
-      const { error } = await db
+      // 2. Actualizar nombre, rol y grado en la tabla perfiles
+      const { data, error } = await db
         .from("perfiles")
         .update({
           nombre: nuevoNombre,
           rol: nuevoRol,
-          grado: nuevoRol.toLowerCase() === 'estudiante' ? nuevoGrado : null
+          grado: nuevoRol === 'estudiante' ? nuevoGrado : null
         })
-        .eq("id", usuarioSeleccionadoGlobal.id);
+        .eq("id", usuarioSeleccionadoGlobal.id)
+        .select(); // Obliga a retornar el registro modificado
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
-      alert("¡Datos del usuario actualizados correctamente!");
+      // Si data está vacío, significa que RLS bloqueó la actualización
+      if (!data || data.length === 0) {
+        throw new Error("La base de datos rechazó la actualización. Revisa que la política RLS esté activa en Supabase.");
+      }
+
+      alert("¡Datos y rol actualizados correctamente en la BD!");
       
-      // Ocultar caja y limpiar contraseña
+      // Ocultar caja y limpiar
       cajaModificar.style.display = "none";
       document.getElementById("mod_password").value = "";
       
