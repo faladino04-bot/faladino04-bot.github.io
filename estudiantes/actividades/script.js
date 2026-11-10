@@ -57,7 +57,7 @@ document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
 
 document.getElementById("cerrar").addEventListener("click", ()=>{
   db.auth.signOut();
-  window.location.href = "../index.html";
+  window.location.href = "../../index.html";
   return;
 });
 
@@ -145,7 +145,7 @@ const ROL_REQUERIDO = "estudiante";
 (async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
-    window.location.href = "../index.html";
+    window.location.href = "../../index.html";
     return;
   }
 
@@ -157,7 +157,7 @@ const ROL_REQUERIDO = "estudiante";
 
   if (!perfil || perfil.rol !== ROL_REQUERIDO) {
     await db.auth.signOut();
-    window.location.href = "../index.html";
+    window.location.href = "../../index.html";
     return;
   }
 
