@@ -61,6 +61,80 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
   return;
 });
 
+// 1. Control del acordeón de materias
+const botonesMateria = document.querySelectorAll(".materia-btn");
+
+botonesMateria.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const listaTareas = btn.nextElementSibling;
+        // Alterna la visibilidad de las tareas de esa materia
+        if (listaTareas.classList.contains("oculto")) {
+            listaTareas.classList.remove("oculto");
+        } else {
+            listaTareas.classList.add("oculto");
+        }
+    });
+});
+
+// 2. Control del Modal de Tareas y Validación de Fecha Límite
+const modal = document.getElementById("modal_tarea");
+const btnCerrarModal = document.getElementById("cerrar_modal");
+const tareasItems = document.querySelectorAll(".tarea-item");
+
+const modalTitulo = document.getElementById("modal_titulo");
+const modalLinkMaterial = document.getElementById("modal_link_material");
+const modalComentario = document.getElementById("modal_comentario");
+const modalFecha = document.getElementById("modal_fecha");
+const seccionEntrega = document.getElementById("seccion_entrega");
+const mensajeVencido = document.getElementById("mensaje_vencido");
+
+tareasItems.forEach(item => {
+    item.addEventListener("click", () => {
+        // Lee los atributos de la tarea seleccionada
+        const titulo = item.getAttribute("data-titulo");
+        const material = item.getAttribute("data-material");
+        const comentario = item.getAttribute("data-comentario");
+        const fechaLimiteStr = item.getAttribute("data-fecha"); // Formato ISO ej: 2026-11-15T23:59
+
+        // Rellena la ventana modal
+        modalTitulo.textContent = titulo;
+        modalLinkMaterial.textContent = " Descargar: " + material;
+        modalComentario.textContent = comentario;
+        modalFecha.textContent = new Date(fechaLimiteStr).toLocaleString();
+
+        // VALIDACIÓN DE FECHA LÍMITE (Compara con la fecha actual del sistema 2026)
+        const fechaActual = new Date();
+        const fechaLimite = new Date(fechaLimiteStr);
+
+        if (fechaActual > fechaLimite) {
+            // Si ya pasó la fecha, oculta el botón de subida y muestra la alerta
+            seccionEntrega.style.display = "none";
+            mensajeVencido.classList.remove("oculto");
+        } else {
+            // Si aún está a tiempo, muestra el formulario de entrega
+            seccionEntrega.style.display = "flex";
+            mensajeVencido.classList.add("oculto");
+        }
+
+        // Muestra el modal
+        modal.classList.remove("oculto");
+    });
+});
+
+// Cerrar el modal al hacer clic en la "X"
+if (btnCerrarModal) {
+    btnCerrarModal.addEventListener("click", () => {
+        modal.classList.add("oculto");
+    });
+}
+
+// Cerrar el modal si hacen clic fuera del contenido blanco
+window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        modal.classList.add("oculto");
+    }
+});
+
 // Protección de sesión con Supabase
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";

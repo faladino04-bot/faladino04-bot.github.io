@@ -1,0 +1,385 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* --- HEADER --- */
+#header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background: #004985;
+}
+
+.oculto{
+    display: none !important;
+}
+
+/* --- ICONOS DE LA BARRA LATERAL --- */
+.icono{
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.icono:hover{
+    width: 55px !important;
+    height: 55px !important;
+}
+
+#logo{
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+#logo2{
+    padding-right: 10px;
+}
+
+/* --- ESTRUCTURA PRINCIPAL --- */
+#menu_opciones {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+}
+
+/* Menú lateral flotante */
+#menu_lado{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+/* Items del menú con padding de 19.5px para el marco azul */
+.menu{
+    display: inline-flex;
+    align-items: center;
+    padding: 19.5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* --- CONTENIDO CENTRAL --- */
+#contenido {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* --- TARJETAS GENERALES --- */
+.student-card, .form-card, .search-card {
+    background: #e3e4e6;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.student-card h1, .form-card h2, .search-card h2 {
+    color: #333;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+/* --- TABLAS (BOLETÍN DE NOTAS) --- */
+#reporte_notas {
+    width: 100%;
+    background: white;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.tabla-notas {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.tabla-notas th, .tabla-notas td {
+    padding: 12px 8px;
+    border: 1px solid #ddd;
+}
+
+.tabla-notas th {
+    background-color: #004985;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla-notas tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* --- BOTONES GENERALES --- */
+#btn_descargar_pdf, #btn-accion, #btn-buscar {
+    width: 100%;
+    max-width: 250px;
+    padding: 12px;
+    background-color: #037EF5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+#btn_descargar_pdf {
+    background-color: #27ae60;
+}
+
+#btn_descargar_pdf:hover {
+    background-color: #219150;
+}
+
+#btn-accion:hover, #btn-buscar:hover {
+    background-color: #0262c2;
+}
+
+.btn-borrar {
+    background-color: #e74c3c !important;
+}
+
+.btn-borrar:hover {
+    background-color: #c0392b !important;
+}
+
+/* --- FORMULARIOS --- */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input, .form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    width: 100%;
+    background: white;
+}
+
+/* --- SECCIÓN DE PERFIL / USUARIO --- */
+.profile-image-container {
+    background-color: #e3f2fd;
+    border-radius: 50%;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.profile-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.info-value {
+    color: #333;
+}
+
+/* --- ACORDEONES Y ACTIVIDADES --- */
+.acordeon-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.materia-grupo {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.materia-btn {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #f1f3f5;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.materia-btn:hover {
+    background-color: #e2e6ea;
+}
+
+.badge-notif {
+    background-color: #e74c3c;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+.tareas-lista {
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fafafa;
+}
+
+.tarea-item {
+    padding: 12px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tarea-item:hover {
+    background-color: #e3f2fd;
+    border-color: #037EF5;
+}
+
+.badge-vencimiento {
+    font-size: 0.85rem;
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.sin-tareas {
+    color: #777;
+    font-style: italic;
+    padding: 5px 0;
+}
+
+/* --- VENTANA MODAL (POPUP) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
+}
+
+.modal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.modal-section strong {
+    color: #004985;
+}
+
+#btn_enviar_tarea {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#btn_enviar_tarea:hover {
+    background-color: #219150;
+}
+
+.alerta-vencido {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border: 1px solid #f5c6cb;
+    text-align: center;
+    font-weight: bold;
+}
