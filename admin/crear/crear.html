@@ -48,8 +48,65 @@
             </div>
         </div>
 
-        <main id="contenido">
-        </main>
+            <main id="contenido">
+                <div class="contenedor-creacion">
+                    <h2>Panel de Creación Administrativa</h2>
+                    
+                    <div class="grid-recuadros">
+                        <!-- Recuadro 1: Crear Grado -->
+                        <div class="recuadro-card">
+                            <h3>Crear Grado / Curso</h3>
+                            <form id="form-grado">
+                                <div class="grupo-input">
+                                    <label for="nombre_grado">Nombre del Grado (ej. 10° o Decimo):</label>
+                                    <input type="text" id="nombre_grado" required placeholder="Ej. 10°">
+                                </div>
+                                <button type="submit" class="btn-accion">Guardar Grado</button>
+                            </form>
+                        </div>
+
+                        <!-- Recuadro 2: Crear Asignatura -->
+                        <div class="recuadro-card">
+                            <h3>Crear Asignatura</h3>
+                            <form id="form-asignatura">
+                                <div class="grupo-input">
+                                    <label for="nombre_asignatura">Nombre de la Asignatura:</label>
+                                    <input type="text" id="nombre_asignatura" required placeholder="Ej. Matemáticas">
+                                </div>
+                                <div class="grupo-input">
+                                    <label for="select_grado">Seleccionar Grado:</label>
+                                    <select id="select_grado" required>
+                                        <option value="">Cargando grados...</option>
+                                    </select>
+                                </div>
+                                <div class="grupo-input">
+                                    <label for="select_profesor">Seleccionar Profesor:</label>
+                                    <select id="select_profesor" required>
+                                        <option value="">Cargando profesores...</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn-accion">Guardar Asignatura</button>
+                            </form>
+                        </div>
+
+                        <!-- Recuadro 3: Crear Anuncio General -->
+                        <div class="recuadro-card">
+                            <h3>Crear Anuncio General</h3>
+                            <form id="form-anuncio">
+                                <div class="grupo-input">
+                                    <label for="titulo_anuncio">Título del Anuncio:</label>
+                                    <input type="text" id="titulo_anuncio" required placeholder="Ej. Inicio de semana cultural">
+                                </div>
+                                <div class="grupo-input">
+                                    <label for="contenido_anuncio">Contenido:</label>
+                                    <textarea id="contenido_anuncio" rows="4" required placeholder="Escribe los detalles del anuncio aquí..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-accion">Publicar Anuncio</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
