@@ -20,7 +20,7 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
             texto.classList.add("oculto");
             contenedorMenu.style.backgroundColor = "transparent";
         });
-        if (urlRedireccion == "estudiante.html"){
+        if (urlRedireccion == "profesor.html"){
             icono.addEventListener("click", () => {
                 window.location.href = urlRedireccion;
             });

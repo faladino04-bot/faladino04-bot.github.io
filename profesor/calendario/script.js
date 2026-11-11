@@ -29,7 +29,7 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
                 url = urlRedireccion
                 window.location.href = url
             });
-        }else if (urlRedireccion){
+        }else {
             url = "../" + idIcono + "/" + urlRedireccion
             window.location.href = url
         }
