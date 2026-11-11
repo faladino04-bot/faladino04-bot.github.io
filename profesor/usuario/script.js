@@ -30,8 +30,10 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
                 window.location.href = url
             });
         }else{
-            url = "../" + idIcono + "/" + urlRedireccion
-            window.location.href = url
+            icono.addEventListener("click", () => {
+                url = "../" + idIcono + "/" + urlRedireccion
+                window.location.href = url
+            })
         }
     }
 }
@@ -89,3 +91,63 @@ const ROL_REQUERIDO = "profesor";
 
   console.log("Sesión válida:", perfil.nombre);
 })();
+
+// Función específica para rellenar el perfil del profesor y sus grados
+async function cargarDatosPerfilProfesor(perfil) {
+    const lblNombre = document.getElementById("perfil_nombre");
+    const lblUsuario = document.getElementById("perfil_usuario");
+    const contenedorGrados = document.getElementById("perfil_grados");
+
+    if (lblNombre) lblNombre.textContent = perfil.nombre;
+    if (lblUsuario) lblUsuario.textContent = perfil.nombre; // O el campo de usuario que tengas
+
+    if (!contenedorGrados) return;
+
+    try {
+        // Consultar asignaturas y el nombre del grado relacionado para este profesor
+        const { data: asignaturas, error } = await db
+            .from("asignaturas")
+            .select(`
+                nombre,
+                grados:grado_id (nombre)
+            `)
+            .eq("profesor_id", perfil.id);
+
+        if (error) throw error;
+
+        if (!asignaturas || asignaturas.length === 0) {
+            contenedorGrados.innerHTML = "<span style='color: #777;'>No tienes grados o asignaturas asignadas</span>";
+            return;
+        }
+
+        // Agrupar materias por cada grado
+        const gradosMap = new Map();
+        asignaturas.forEach(item => {
+            if (item.grados) {
+                const nombreGrado = item.grados.nombre;
+                if (!gradosMap.has(nombreGrado)) {
+                    gradosMap.set(nombreGrado, []);
+                }
+                gradosMap.get(nombreGrado).push(item.nombre);
+            }
+        });
+
+        if (gradosMap.size === 0) {
+            contenedorGrados.innerHTML = "<span style='color: #777;'>Sin grados registrados</span>";
+            return;
+        }
+
+        // Construir la lista visualmente limpia dentro de la tarjeta
+        let htmlLista = "<ul style='list-style-type: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;'>";
+        gradosMap.forEach((materias, grado) => {
+            htmlLista += `<li><strong style='color: #004985;'>Grado ${grado}:</strong> <span style='color: #555;'>${materias.join(", ")}</span></li>`;
+        });
+        htmlLista += "</ul>";
+
+        contenedorGrados.innerHTML = htmlLista;
+
+    } catch (err) {
+        console.error("Error al obtener los grados del profesor:", err.message);
+        contenedorGrados.textContent = "Error al cargar los grados";
+    }
+}

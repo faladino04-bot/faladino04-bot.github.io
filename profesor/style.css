@@ -156,3 +156,76 @@ body{
 #btn_descargar_pdf:hover {
     background-color: #219150;
 }
+
+/* ==========================================
+   ESTILOS PARA EL HORARIO DEL PROFESOR
+   ================================---------- */
+.schedule-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 6px 25px rgba(0, 73, 133, 0.08);
+    border: 1px solid #e6edf5;
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.schedule-card h1 {
+    color: #004985;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.schedule-card h2 {
+    color: #666;
+    font-size: 1rem;
+    margin-top: -10px;
+    text-align: center;
+}
+
+.schedule-table-container {
+    width: 100%;
+    overflow-x: auto;
+    max-height: 65vh;
+}
+
+.tabla-horario {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.tabla-horario th, .tabla-horario td {
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    height: 48px;
+    vertical-align: middle;
+}
+
+.tabla-horario th {
+    background-color: #004985;
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.tabla-horario td.hora-col {
+    background-color: #f8fafc;
+    font-weight: bold;
+    color: #555;
+    width: 110px;
+}
+
+.clase-ocupada {
+    background-color: #e3f2fd;
+    color: #004985;
+    border-left: 4px solid #037EF5;
+    border-radius: 4px;
+}

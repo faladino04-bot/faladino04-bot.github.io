@@ -1,5 +1,3 @@
-//const { data: { session } } = await db.auth.getSession();
-//if (!session) window.location.href = "../index.html";
 // Toggle del Menú lateral al pulsar el Logo
 document.getElementById("logo").addEventListener("click", () => {
     document.getElementById("menu_lado").classList.toggle("oculto");
@@ -26,8 +24,8 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
             });
         }else if (urlRedireccion){
             icono.addEventListener("click", () => {
-                url = idIcono+"/"+urlRedireccion
-                window.location.href = url
+                url = idIcono + "/" + urlRedireccion;
+                window.location.href = url;
             });
         }
     }
@@ -44,12 +42,12 @@ configurarBotonMenu("calendario", "texto_calendario", "mcalendario", "calendario
 
 document.getElementById("cerrar").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_cerrar").classList.remove("oculto");
-  document.getElementById("mcerrar").style.backgroundColor = "#037EF5"
+  document.getElementById("mcerrar").style.backgroundColor = "#037EF5";
 });
 
 document.getElementById("cerrar").addEventListener("mouseleave", ()=>{
   document.getElementById("texto_cerrar").classList.add("oculto");
-  document.getElementById("mcerrar").style.backgroundColor = "transparent"
+  document.getElementById("mcerrar").style.backgroundColor = "transparent";
 });
 
 document.getElementById("cerrar").addEventListener("click", ()=>{
@@ -65,6 +63,48 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ROL_REQUERIDO = "profesor";
 
+// --- GENERADOR DE HORARIO PARA PROFESOR (PLACEHOLDER EJEMPLO) ---
+function inicializarHorarioProfesor() {
+    const cuerpoHorario = document.getElementById("cuerpo_horario");
+    if (!cuerpoHorario) return;
+
+    cuerpoHorario.innerHTML = "";
+
+    // Generar filas desde las 6:00 a.m. (6) hasta las 10:00 p.m. (22)
+    for (let hora = 6; hora < 22; hora++) {
+        const horaInicio = `${hora < 10 ? '0' + hora : hora}:00`;
+        const horaSiguiente = `${(hora + 1) < 10 ? '0' + (hora + 1) : (hora + 1)}:00`;
+        const rangoHora = `${horaInicio} - ${horaSiguiente}`;
+
+        const tr = document.createElement("tr");
+
+        // Columna fija con la hora
+        const tdHora = document.createElement("td");
+        tdHora.className = "hora-col";
+        tdHora.textContent = rangoHora;
+        tr.appendChild(tdHora);
+
+        // Columnas para los días de la semana (Lunes=1 a Viernes=5)
+        for (let dia = 1; dia <= 5; dia++) {
+            const td = document.createElement("td");
+
+            // EJEMPLO SOLICITADO: Miércoles (dia === 3) de 6:00 a 8:00 (hora 6 y hora 7) da Matemáticas en Grado 11
+            if (dia === 3 && (hora === 6 || hora === 7)) {
+                td.className = "clase-ocupada";
+                td.innerHTML = `<strong>Matemáticas</strong><br><small>Grado 11</small>`;
+            } else {
+                td.textContent = "-";
+                td.style.color = "#cbd5e1";
+            }
+
+            tr.appendChild(td);
+        }
+
+        cuerpoHorario.appendChild(tr);
+    }
+}
+
+// Verificación única de sesión y arranque de funciones de la vista
 (async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
@@ -85,4 +125,7 @@ const ROL_REQUERIDO = "profesor";
   }
 
   console.log("Sesión válida:", perfil.nombre);
+
+  // Inicializar el horario del profesor de forma limpia
+  inicializarHorarioProfesor();
 })();

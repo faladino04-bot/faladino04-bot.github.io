@@ -1,49 +1,47 @@
-*{
+
+* {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     font-family: Arial, Helvetica, sans-serif;
+    background: #f3f7fc;
     overflow-x: hidden;
+    color: #333;
 }
 
-#header{
+/* Elementos ocultos */
+.oculto {
+    display: none !important;
+}
+
+/* ENCABEZADO */
+#header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100px;
+    padding: 0 15px;
     background: #004985;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+    position: relative;
+    z-index: 20;
 }
 
-.oculto{
-    display: none !important;
-}
-
-/* Iconos de la barra lateral */
-.icono{
-    width: 50px !important;
-    height: 50px !important;
-    object-fit: contain;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.icono:hover{
-    width: 55px !important;
-    height: 55px !important;
-}
-
-#logo{
+#logo {
     padding-left: 5px;
     cursor: pointer;
+    object-fit: contain;
 }
 
-#logo2{
+#logo2 {
     padding-right: 10px;
+    object-fit: contain;
 }
 
-/* Estructura principal */
+/* CONTENEDOR PRINCIPAL */
 #menu_opciones {
     position: relative;
     width: 100%;
@@ -51,7 +49,7 @@ body{
     display: flex;
 }
 
-/* Menú lateral flotante */
+/* MENÚ LATERAL */
 #menu_lado {
     display: flex;
     flex-direction: column;
@@ -66,93 +64,271 @@ body{
     box-shadow: 3px 0 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Items del menú con padding de 19.5px */
-.menu{
+.menu {
     display: inline-flex;
     align-items: center;
     padding: 19.5px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
+    transition: all 0.25s ease;
 }
 
-/* Contenido centrado */
+.menu:hover {
+    background: #e3f2fd;
+    transform: translateX(3px);
+}
+
+.icono {
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.icono:hover {
+    transform: scale(1.1);
+}
+
+.menu p {
+    color: #004985;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* CONTENIDO */
 #contenido {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px 30px 40px 100px;
 }
 
-/* Tarjeta del Estudiante */
+/* TARJETA DEL PERFIL */
 .student-card {
-    background: #e3e4e6;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 1000px;
+    width: 100%;
+    max-width: 750px;
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 6px 25px rgba(0, 73, 133, 0.08);
+    border: 1px solid #e6edf5;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    gap: 25px;
 }
 
-.student-card h1 {
-    color: #333;
+/* ENCABEZADO DEL PERFIL */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* IMAGEN PRINCIPAL */
+.profile-image-container {
+    width: 125px;
+    height: 125px;
+    min-width: 125px;
+    background: #e3f2fd;
+    border: 5px solid #f2f8ff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 3px 12px rgba(3, 126, 245, 0.12);
+}
+
+.profile-avatar {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+}
+
+/* TÍTULOS DEL PERFIL */
+.profile-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-subtitle {
+    color: #037EF5;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.profile-heading h2 {
+    color: #004985;
     font-size: 1.8rem;
 }
 
-.student-card h2 {
-    color: #555;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    text-align: center;
+.profile-heading p {
+    color: #8593a2;
+    font-size: 0.95rem;
 }
 
-#reporte_notas {
+/* SEPARADOR */
+.profile-divider {
     width: 100%;
-    background: white;
-    padding: 15px;
-    border-radius: 20px;
+    height: 1px;
+    background: #e8eef5;
 }
 
-/* Estilos de la Tabla */
-.tabla-notas {
+/* INFORMACIÓN DEL ESTUDIANTE */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-section h3 {
+    color: #004985;
+    font-size: 1.1rem;
+}
+
+.profile-info {
     width: 100%;
-    border-collapse: collapse;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.tabla-notas th, .tabla-notas td {
-    padding: 12px 8px;
-    border: 1px solid #ddd;
+/* CAMPOS DE INFORMACIÓN */
+.info-group {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 17px;
+    background: #f7faff;
+    border: 1px solid #e5edf6;
+    border-radius: 12px;
+    transition: all 0.25s ease;
 }
 
-.tabla-notas th {
-    background-color: #037EF5;
-    color: white;
+.info-group:hover {
+    background: #edf6ff;
+    border-color: #b8d9fa;
+    transform: translateY(-2px);
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow-wrap: anywhere;
+}
+
+.info-label {
+    font-size: 0.85rem;
     font-weight: bold;
+    color: #8493a3;
 }
 
-.tabla-notas tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-/* Botón PDF */
-#btn_descargar_pdf {
-    width: 100%;
-    max-width: 250px;
-    padding: 12px;
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 6px;
+.info-value {
     font-size: 1rem;
-    cursor: pointer;
     font-weight: bold;
-    transition: background 0.2s;
+    color: #004985;
 }
 
-#btn_descargar_pdf:hover {
-    background-color: #219150;
+/* PIE DE LA TARJETA */
+.profile-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: #f0f7ff;
+    border-radius: 10px;
+}
+
+.profile-footer p {
+    color: #39709e;
+    font-size: 0.85rem;
+}
+
+.footer-dot {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    background: #037EF5;
+    border-radius: 50%;
+}
+
+/* DISEÑO PARA CELULARES Y TABLETS */
+@media (max-width: 650px) {
+
+    #header {
+        height: 80px;
+        padding: 0 10px;
+    }
+
+    #logo,
+    #logo2 {
+        max-height: 75px;
+        max-width: 45%;
+        object-fit: contain;
+    }
+
+    #menu_opciones {
+        min-height: calc(100vh - 80px);
+    }
+
+    #menu_lado {
+        padding: 5px;
+        gap: 5px;
+    }
+
+    .menu {
+        padding: 10px;
+    }
+
+    .icono {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    #contenido {
+        padding: 25px 12px 25px 65px;
+    }
+
+    .student-card {
+        padding: 22px 16px;
+        gap: 20px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .profile-heading {
+        align-items: center;
+    }
+
+    .profile-heading h2 {
+        font-size: 1.4rem;
+    }
+
+    .profile-image-container {
+        width: 110px;
+        height: 110px;
+        min-width: 110px;
+    }
+
+    .profile-avatar {
+        width: 75px;
+        height: 75px;
+    }
+
+    .info-group {
+        padding: 13px;
+    }
+
+    .profile-footer {
+        align-items: flex-start;
+    }
 }

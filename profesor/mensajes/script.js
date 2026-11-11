@@ -31,8 +31,10 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
                 window.location.href = url
             });
         }else{
-            url = "../" + idIcono + "/" + urlRedireccion
-            window.location.href = url
+            icono.addEventListener("click", () => {
+                url = "../" + idIcono + "/" + urlRedireccion
+                window.location.href = url
+            })
         }
     }
 }
