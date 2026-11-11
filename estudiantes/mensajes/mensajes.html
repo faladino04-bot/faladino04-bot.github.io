@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
+    <title>Schoolaret - Mensajes y Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ENCABEZADO -->
+    <header id="header">
+        <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="Logo Schoolaret" width="100" height="100" id="logo">
+        <a href="../../explicon/explicon.html">
+            <img src="../../imagenes/logo/253950-removebg-preview.png" alt="Logo Schoolaret" height="100px" width="auto" id="logo2">
+        </a>
+    </header>
+
+    <div id="menu_opciones">
+        <!-- MENÚ LATERAL -->
+        <div id="menu_lado" class="oculto">
+            <div class="menu" id="mhome">
+                <img class="icono" src="../../imagenes/iconos/hogar.png" alt="Inicio" id="home">
+                <p id="texto_home" class="oculto">Inicio</p>
+            </div>
+            <div class="menu" id="musuario">
+                <img class="icono" src="../../imagenes/iconos/usuario.png" alt="Perfil" id="usuario">
+                <p id="texto_usuario" class="oculto">perfil</p>
+            </div>
+            <div class="menu" id="mestadisticas">
+                <img class="icono" src="../../imagenes/iconos/grafico-circular.png" alt="Estadísticas" id="estadisticas">
+                <p id="texto_estadisticas" class="oculto">estadísticas</p>
+            </div>
+            <div class="menu" id="mactividades">
+                <img class="icono" src="../../imagenes/iconos/editar.png" alt="Actividades" id="actividades">
+                <p id="texto_actividades" class="oculto">actividades</p>
+            </div>
+            <div class="menu" id="mexamenes">
+                <img class="icono" src="../../imagenes/iconos/aprobado.png" alt="Exámenes" id="examenes">
+                <p id="texto_examenes" class="oculto">exámenes</p>
+            </div>
+            <div class="menu" id="manuncios">
+                <img class="icono" src="../../imagenes/iconos/sobre.png" alt="Anuncios" id="anuncios">
+                <p id="texto_anuncios" class="oculto">anuncios</p>
+            </div>
+            <div class="menu" id="mmensajes">
+                <img class="icono" src="../../imagenes/iconos/mensajero.png" alt="Mensajes" id="mensajes">
+                <p id="texto_mensajes" class="oculto">mensajes</p>
+            </div>
+            <div class="menu" id="mcalendario">
+                <img class="icono" src="../../imagenes/iconos/calendario.png" alt="Calendario" id="calendario">
+                <p id="texto_calendario" class="oculto">calendario</p>
+            </div>
+            <div class="menu" id="mcerrar">
+                <img class="icono" src="../../imagenes/iconos/cerrar-sesion.png" alt="Cerrar sesión" id="cerrar">
+                <p id="texto_cerrar" class="oculto">cerrar sesión</p>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL DE CHAT -->
+        <main id="contenido">
+            <div class="chat-wrapper">
+                
+                <!-- 1. BUSCADOR DE PROFESORES SUPERIOR -->
+                <div class="chat-search-bar">
+                    <input type="text" id="input_buscar_profesor" placeholder="Buscar profesor por nombre...">
+                    <div id="resultados_busqueda_profesores" class="search-results-dropdown oculto">
+                        <!-- Lista desplegable de resultados de búsqueda -->
+                    </div>
+                </div>
+
+                <!-- 2. CONTENEDOR PRINCIPAL (PANEL IZQ: CHATS | PANEL DER: CONVERSACIÓN) -->
+                <div class="chat-main-container">
+                    
+                    <!-- Lista de chats recientes -->
+                    <div class="chat-sidebar">
+                        <h3>Chats Recientes</h3>
+                        <div id="lista_chats_recientes" class="recent-chats-list">
+                            <p class="empty-chats">No hay chats recientes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Área del chat seleccionado -->
+                    <div class="chat-conversation-area">
+                        <div id="chat_placeholder" class="chat-placeholder">
+                            <p>Selecciona un profesor o búscalo arriba para iniciar un mensaje.</p>
+                        </div>
+
+                        <div id="chat_activo_container" class="chat-active-container oculto">
+                            <!-- Cabecera del chat activo -->
+                            <div class="chat-active-header">
+                                <img src="../../imagenes/iconos/usuario.png" alt="Avatar" class="chat-user-avatar">
+                                <span id="chat_nombre_destinatario">Nombre del Profesor</span>
+                            </div>
+
+                            <!-- Mensajes del chat -->
+                            <div id="mensajes_scroll_area" class="chat-messages-scroll">
+                                <!-- Burbujas de chat dinámicas -->
+                            </div>
+
+                            <!-- Barra de escribir mensaje -->
+                            <div class="chat-input-bar">
+                                <input type="text" id="input_nuevo_mensaje" placeholder="Escribe un mensaje...">
+                                <button type="button" id="btn_enviar_mensaje">➤</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>

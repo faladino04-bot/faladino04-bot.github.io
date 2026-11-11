@@ -1,8 +1,10 @@
+// ==========================================
+// 1. MENÚ LATERAL Y NAVEGACIÓN
+// ==========================================
 document.getElementById("logo").addEventListener("click", () => {
     document.getElementById("menu_lado").classList.toggle("oculto");
 });
 
-// Función reutilizable para eventos de los botones del menú
 function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
     const icono = document.getElementById(idIcono);
     const texto = document.getElementById(idTexto);
@@ -35,7 +37,6 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
     }
 }
 
-// Configuración de interacción para todos los botones del menú
 configurarBotonMenu("home", "texto_home", "mhome", "estudiante.html");
 configurarBotonMenu("usuario", "texto_usuario", "musuario", "usuario.html");
 configurarBotonMenu("estadisticas", "texto_estadisticas", "mestadisticas", "estadisticas.html");
@@ -61,12 +62,20 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
   return;
 });
 
-// Protección de sesión con Supabase
+// ==========================================
+// 2. PROTECCIÓN DE SESIÓN Y CALENDARIO
+// ==========================================
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ROL_REQUERIDO = "estudiante";
+
+let fechaActual = new Date(); 
+let diaSeleccionadoStr = null;
+let notasUsuarioBD = {}; 
+
+const mesesNombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
 (async () => {
   const { data: { session } } = await db.auth.getSession();
@@ -88,41 +97,54 @@ const ROL_REQUERIDO = "estudiante";
   }
 
   console.log("Sesión válida:", perfil.nombre);
+  
+  // Cargar notas de la BD al iniciar correctamente la sesión
+  await cargarNotasCalendario();
 })();
 
-// --- LÓGICA DEL CALENDARIO INTERACTIVO ---
+// Cargar notas desde Supabase
+async function cargarNotasCalendario() {
+    try {
+        const { data: { session } } = await db.auth.getSession();
+        if (!session) return;
 
-let fechaActual = new Date(); // Toma la fecha actual (Año 2026)
-let diaSeleccionadoStr = null;
+        const { data, error } = await db
+            .from("calendario_notas")
+            .select("*")
+            .eq("estudiante_id", session.user.id);
 
-// Base de datos simulada de eventos (Tareas de ejemplo + Notas personales)
-// Formato de clave: "YYYY-MM-DD"
-let eventosBD = {
-    "2026-11-15": [{ tipo: "tarea", texto: "Entrega: Ejercicios de Ecuaciones" }],
-    "2026-11-10": [{ tipo: "tarea", texto: "Entrega: Taller de Fracciones" }],
-    "2026-11-20": [{ tipo: "tarea", texto: "Entrega: Maqueta Celular" }]
-};
+        if (error) throw error;
 
-const mesesNombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        notasUsuarioBD = {};
+        if (data) {
+            data.forEach(item => {
+                if (!notasUsuarioBD[item.fecha]) {
+                    notasUsuarioBD[item.fecha] = [];
+                }
+                notasUsuarioBD[item.fecha].push({ id: item.id, tipo: item.tipo, texto: item.texto });
+            });
+        }
+        renderizarCalendario();
+    } catch (err) {
+        console.error("Error al cargar notas del calendario:", err.message);
+    }
+}
 
 function renderizarCalendario() {
     const anio = fechaActual.getFullYear();
     const mes = fechaActual.getMonth();
 
-    // Actualizar título del mes
     document.getElementById("mes_anio_actual").textContent = `${mesesNombres[mes]} ${anio}`;
 
     const primerDiaIndex = new Date(anio, mes, 1).getDay();
-    // Ajustar para que la semana empiece en Lunes (0 = Lunes, 6 = Domingo)
     const primerDiaLunes = (primerDiaIndex === 0) ? 6 : primerDiaIndex - 1;
-    
     const ultimoDia = new Date(anio, mes + 1, 0).getDate();
     const ultimoDiaMesAnterior = new Date(anio, mes, 0).getDate();
 
     const contenedorDias = document.getElementById("calendar_days");
     contenedorDias.innerHTML = "";
 
-    // 1. Días del mes anterior (relleno)
+    // Días mes anterior
     for (let i = primerDiaLunes; i > 0; i--) {
         const diaDiv = document.createElement("div");
         diaDiv.classList.add("day-cell", "other-month");
@@ -130,7 +152,7 @@ function renderizarCalendario() {
         contenedorDias.appendChild(diaDiv);
     }
 
-    // 2. Días del mes actual
+    // Días mes actual
     for (let i = 1; i <= ultimoDia; i++) {
         const diaDiv = document.createElement("div");
         diaDiv.classList.add("day-cell");
@@ -141,19 +163,11 @@ function renderizarCalendario() {
 
         diaDiv.innerHTML = `<span>${i}</span>`;
 
-        // Verificar si hay eventos en este día para poner los puntos indicadores
-        if (eventosBD[fechaClave]) {
+        if (notasUsuarioBD[fechaClave] && notasUsuarioBD[fechaClave].length > 0) {
             const indicadoresDiv = document.createElement("div");
             indicadoresDiv.classList.add("day-indicators");
             
-            let tieneTarea = eventosBD[fechaClave].some(e => e.tipo === "tarea");
-            let tieneNota = eventosBD[fechaClave].some(e => e.tipo === "nota");
-
-            if (tieneTarea) {
-                const puntoT = document.createElement("div");
-                puntoT.classList.add("dot-tarea");
-                indicadoresDiv.appendChild(puntoT);
-            }
+            let tieneNota = notasUsuarioBD[fechaClave].some(e => e.tipo === "nota");
             if (tieneNota) {
                 const puntoN = document.createElement("div");
                 puntoN.classList.add("dot-nota");
@@ -162,7 +176,6 @@ function renderizarCalendario() {
             diaDiv.appendChild(indicadoresDiv);
         }
 
-        // Evento al hacer clic en el día
         diaDiv.addEventListener("click", () => {
             document.querySelectorAll(".day-cell").forEach(d => d.classList.remove("selected"));
             diaDiv.classList.add("selected");
@@ -180,11 +193,30 @@ function seleccionarDia(fechaClave, diaNum, mesNombre, anioNum) {
     const listaEventos = document.getElementById("lista_eventos_dia");
     listaEventos.innerHTML = "";
 
-    if (eventosBD[fechaClave] && eventosBD[fechaClave].length > 0) {
-        eventosBD[fechaClave].forEach(evento => {
+    if (notasUsuarioBD[fechaClave] && notasUsuarioBD[fechaClave].length > 0) {
+        notasUsuarioBD[fechaClave].forEach(evento => {
             const item = document.createElement("div");
             item.classList.add("event-item", evento.tipo);
-            item.textContent = evento.texto;
+            item.style.cssText = "display: flex; justify-content: space-between; align-items: center;";
+            
+            const spanTexto = document.createElement("span");
+            spanTexto.textContent = evento.texto;
+            item.appendChild(spanTexto);
+
+            // Botón de eliminar si es una nota propia guardada en BD
+            if (evento.id) {
+                const btnEliminar = document.createElement("button");
+                btnEliminar.textContent = "❌";
+                btnEliminar.style.cssText = "background: none; border: none; cursor: pointer; font-size: 0.8rem;";
+                btnEliminar.title = "Eliminar nota";
+                btnEliminar.onclick = async () => {
+                    if (confirm("¿Deseas eliminar esta nota?")) {
+                        await eliminarNotaCalendario(evento.id, fechaClave);
+                    }
+                };
+                item.appendChild(btnEliminar);
+            }
+
             listaEventos.appendChild(item);
         });
     } else {
@@ -203,8 +235,8 @@ document.getElementById("mes_siguiente").addEventListener("click", () => {
     renderizarCalendario();
 });
 
-// Guardar nota personal del estudiante
-document.getElementById("btn_guardar_nota").addEventListener("click", () => {
+// Guardar nota personal en Supabase
+document.getElementById("btn_guardar_nota").addEventListener("click", async () => {
     const inputNota = document.getElementById("input_titulo_nota");
     const textoNota = inputNota.value.trim();
 
@@ -217,22 +249,47 @@ document.getElementById("btn_guardar_nota").addEventListener("click", () => {
         return;
     }
 
-    // Inicializa el array de ese día si no existe
-    if (!eventosBD[diaSeleccionadoStr]) {
-        eventosBD[diaSeleccionadoStr] = [];
+    try {
+        const { data: { session } } = await db.auth.getSession();
+        if (!session) return;
+
+        const { error } = await db
+            .from("calendario_notas")
+            .insert([{
+                estudiante_id: session.user.id,
+                fecha: diaSeleccionadoStr,
+                texto: textoNota,
+                tipo: "nota"
+            }]);
+
+        if (error) throw error;
+
+        inputNota.value = "";
+        await cargarNotasCalendario();
+
+        const [a, m, d] = diaSeleccionadoStr.split("-");
+        seleccionarDia(diaSeleccionadoStr, parseInt(d), mesesNombres[parseInt(m)-1], a);
+
+    } catch (err) {
+        alert("Error al guardar la nota: " + err.message);
     }
-
-    // Añade la nota personal
-    eventosBD[diaSeleccionadoStr].push({ tipo: "nota", texto: textoNota });
-    inputNota.value = "";
-
-    // Actualiza la vista del calendario y del panel lateral
-    renderizarCalendario();
-    
-    // Refresca la selección actual
-    const [a, m, d] = diaSeleccionadoStr.split("-");
-    seleccionarDia(diaSeleccionadoStr, parseInt(d), mesesNombres[parseInt(m)-1], a);
 });
 
-// Inicializar el calendario al cargar
-renderizarCalendario();
+// Función para eliminar nota de Supabase
+async function eliminarNotaCalendario(idNota, fechaClave) {
+    try {
+        const { error } = await db
+            .from("calendario_notas")
+            .delete()
+            .eq("id", idNota);
+
+        if (error) throw error;
+
+        await cargarNotasCalendario();
+
+        const [a, m, d] = fechaClave.split("-");
+        seleccionarDia(fechaClave, parseInt(d), mesesNombres[parseInt(m)-1], a);
+    } catch (err) {
+        alert("Error al eliminar la nota: " + err.message);
+    }
+}

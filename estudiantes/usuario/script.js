@@ -61,7 +61,9 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
   return;
 });
 
-// Protección de sesión con Supabase
+// ==========================================
+// PROTECCIÓN DE SESIÓN Y CARGA DE PERFIL
+// ==========================================
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -75,9 +77,10 @@ const ROL_REQUERIDO = "estudiante";
     return;
   }
 
+  // Consultamos también el campo "grado" en la tabla perfiles
   const { data: perfil } = await db
     .from("perfiles")
-    .select("nombre, rol")
+    .select("nombre, rol, grado")
     .eq("id", session.user.id)
     .single();
 
@@ -88,4 +91,23 @@ const ROL_REQUERIDO = "estudiante";
   }
 
   console.log("Sesión válida:", perfil.nombre);
+
+  // Rellenar las casillas correspondientes en la interfaz de usuario.html
+  const elNombre = document.getElementById("perfil_nombre");
+  const elUsuario = document.getElementById("perfil_usuario");
+  const elGrado = document.getElementById("perfil_grado");
+
+  if (elNombre) {
+    elNombre.textContent = perfil.nombre || "No disponible";
+  }
+
+  if (elUsuario) {
+    // Extraer el nombre de usuario antes del "@" del correo electrónico registrado en Auth
+    const email = session.user.email || "";
+    elUsuario.textContent = email.split("@")[0] || "No disponible";
+  }
+
+  if (elGrado) {
+    elGrado.textContent = perfil.grado || "No asignado";
+  }
 })();
