@@ -1,0 +1,158 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+#header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background: #004985;
+}
+
+.oculto{
+    display: none !important;
+}
+
+/* Iconos de la barra lateral */
+.icono{
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.icono:hover{
+    width: 55px !important;
+    height: 55px !important;
+}
+
+#logo{
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+#logo2{
+    padding-right: 10px;
+}
+
+/* Estructura principal */
+#menu_opciones {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+}
+
+/* Menú lateral flotante */
+#menu_lado {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 10;
+    min-height: 100%;
+    box-shadow: 3px 0 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Items del menú con padding de 19.5px */
+.menu{
+    display: inline-flex;
+    align-items: center;
+    padding: 19.5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Contenido centrado */
+#contenido {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Tarjeta del Estudiante */
+.student-card {
+    background: #e3e4e6;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.student-card h1 {
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.student-card h2 {
+    color: #555;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#reporte_notas {
+    width: 100%;
+    background: white;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+/* Estilos de la Tabla */
+.tabla-notas {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.tabla-notas th, .tabla-notas td {
+    padding: 12px 8px;
+    border: 1px solid #ddd;
+}
+
+.tabla-notas th {
+    background-color: #037EF5;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla-notas tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Botón PDF */
+#btn_descargar_pdf {
+    width: 100%;
+    max-width: 250px;
+    padding: 12px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+#btn_descargar_pdf:hover {
+    background-color: #219150;
+}

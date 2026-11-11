@@ -36,7 +36,6 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
 // Configuración de interacción para todos los botones del menú
 configurarBotonMenu("home", "texto_home", "mhome", "estudiante.html");
 configurarBotonMenu("usuario", "texto_usuario", "musuario", "usuario.html");
-configurarBotonMenu("estadisticas", "texto_estadisticas", "mestadisticas", "estadisticas.html");
 configurarBotonMenu("actividades", "texto_actividades", "mactividades", "actividades.html");
 configurarBotonMenu("examenes", "texto_examenes", "mexamenes", "examenes.html");
 configurarBotonMenu("anuncios", "texto_anuncios", "manuncios", "anuncios.html");
@@ -58,27 +57,6 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
   window.location.href = "../index.html";
   return;
 });
-
-
-// DESCARGA DE TABLA EN FORMATO PDF
-const btnDescargarPDF = document.getElementById("btn_descargar_pdf");
-
-if (btnDescargarPDF) {
-    btnDescargarPDF.addEventListener("click", () => {
-        const elemento = document.getElementById("reporte_notas");
-        const opciones = {
-            margin:       10,
-            filename:     'Boletin_Calificaciones.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        // Genera y descarga el PDF directamente en el navegador
-        html2pdf().set(opciones).from(elemento).save();
-    });
-}
-
 
 // Protección de sesión con Supabase
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
