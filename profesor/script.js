@@ -87,10 +87,9 @@ const ROL_REQUERIDO = "profesor";
 
   console.log("Sesión válida:", perfil.nombre);
 
-  // Inicializar el horario del profesor de forma limpia
-  inicializarHorarioProfesor();
+  // Cargar el horario del profesor autenticado pasando su ID
+  cargarHorarioProfesorLogueado(session.user.id);
 })();
-
 // Cargar el horario del profesor autenticado
 async function cargarHorarioProfesorLogueado(profesorId) {
     const cuerpoHorario = document.getElementById("cuerpo_horario");
