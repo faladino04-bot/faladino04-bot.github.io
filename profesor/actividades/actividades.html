@@ -1,24 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
-    <title>Schoolaret - Profesor</title>
+    <title>Schoolaret - Gestión de Actividades</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Librería para exportar la tabla a PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <header id="header">
-        <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="" width="100px" height="100px" id="logo">
-        
+        <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="Logo" width="100" height="100" id="logo">
         <a href="../../explicon/explicon.html">
-        <img src="../../imagenes/logo/253950-removebg-preview.png"
-         alt="Logo Schoolaret"
-         height="100px"
-         width="auto"
-         id="logo2">
+            <img src="../../imagenes/logo/253950-removebg-preview.png" alt="Logo Schoolaret" height="100px" width="auto" id="logo2">
         </a>
     </header>
 
@@ -27,46 +20,130 @@
         <div id="menu_lado" class="oculto">
             <div class="menu" id="mhome">
                 <img class="icono" src="../../imagenes/iconos/hogar.png" alt="" id="home">
-                <p id="texto_home" class="oculto">hogar</p>
+                <p id="texto_home" class="oculto">Inicio</p>
             </div>
             <div class="menu" id="musuario">
                 <img class="icono" src="../../imagenes/iconos/usuario.png" alt="" id="usuario">
-                <p id="texto_usuario" class="oculto">perfil</p>
+                <p id="texto_usuario" class="oculto">Perfil</p>
             </div>
-
             <div class="menu" id="mpea">
                 <img class="icono" src="../../imagenes/iconos/planificacion.png" alt="" id="pea">
-                <p id="texto_pea" class="oculto">pea</p>
+                <p id="texto_pea" class="oculto">PEA</p>
             </div>
-
             <div class="menu" id="mactividades">
                 <img class="icono" src="../../imagenes/iconos/editar.png" alt="" id="actividades">
-                <p id="texto_actividades" class="oculto">actividades</p>
+                <p id="texto_actividades" class="oculto">Actividades</p>
             </div>
             <div class="menu" id="mexamenes">
                 <img class="icono" src="../../imagenes/iconos/aprobado.png" alt="" id="examenes">
-                <p id="texto_examenes" class="oculto">exámenes</p>
+                <p id="texto_examenes" class="oculto">Exámenes</p>
             </div>
             <div class="menu" id="manuncios">
                 <img class="icono" src="../../imagenes/iconos/sobre.png" alt="" id="anuncios">
-                <p id="texto_anuncios" class="oculto">anuncios</p>
+                <p id="texto_anuncios" class="oculto">Anuncios</p>
             </div>
             <div class="menu" id="mmensajes">
                 <img class="icono" src="../../imagenes/iconos/mensajero.png" alt="" id="mensajes">
-                <p id="texto_mensajes" class="oculto">mensajes</p>
+                <p id="texto_mensajes" class="oculto">Mensajes</p>
             </div>
             <div class="menu" id="mcalendario">
                 <img class="icono" src="../../imagenes/iconos/calendario.png" alt="" id="calendario">
-                <p id="texto_calendario" class="oculto">calendario</p>
+                <p id="texto_calendario" class="oculto">Calendario</p>
             </div>
             <div class="menu" id="mcerrar">
                 <img class="icono" src="../../imagenes/iconos/cerrar-sesion.png" alt="" id="cerrar">
-                <p id="texto_cerrar" class="oculto">cerrar sesion</p>
+                <p id="texto_cerrar" class="oculto">Cerrar sesión</p>
             </div>
         </div>
 
-        
+        <!-- Contenido Principal -->
+        <main id="contenido">
+            <div class="actividades-card">
+                <h1>Gestión de Actividades y Tareas</h1>
+                <h2>Crea actividades por curso, asignatura y tema del PEA</h2>
 
+                <!-- Formulario de Creación -->
+                <form id="form_crear_actividad" class="actividad-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Curso / Grado:</label>
+                            <select id="select_grado" required>
+                                <option value="">Seleccione un grado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Asignatura:</label>
+                            <select id="select_asignatura" required>
+                                <option value="">Seleccione asignatura</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tema del PEA:</label>
+                            <select id="select_pea_tema">
+                                <option value="">Seleccione un tema (Opcional)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 2;">
+                            <label>Título de la Actividad:</label>
+                            <input type="text" id="input_titulo" placeholder="Ej. Taller práctico de ecuaciones" required autocomplete="off">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Fecha Límite:</label>
+                            <input type="datetime-local" id="input_fecha_limite" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descripción / Instrucciones:</label>
+                        <textarea id="input_descripcion" rows="3" placeholder="Instrucciones detalladas para los estudiantes..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Material de clase / Archivo adjunto:</label>
+                            <input type="file" id="input_archivo">
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-end;">
+                            <button type="submit" id="btn_publicar" class="btn-primary">Publicar Actividad</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Listado de Actividades Publicadas -->
+                <div class="lista-seccion">
+                    <h3>Actividades Publicadas</h3>
+                    <div id="contenedor_actividades" class="grid-actividades">
+                        <p class="empty-msg">Cargando actividades...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL PARA VER RESPUESTAS Y CALIFICAR -->
+    <div id="modal_respuestas" class="modal-overlay oculto">
+        <div class="modal-content">
+            <button type="button" id="cerrar_modal" class="modal-close">&times;</button>
+            <h2 id="modal_titulo_actividad">Entregas de Estudiantes</h2>
+            <div class="tabla-respuestas-container">
+                <table class="tabla-respuestas">
+                    <thead>
+                        <tr>
+                            <th>Estudiante</th>
+                            <th>Fecha de Entrega</th>
+                            <th>Archivo / Comentario</th>
+                            <th>Calificación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo_tabla_respuestas">
+                        <!-- Creado dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
