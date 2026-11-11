@@ -90,9 +90,6 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
 // ==========================================
 // PROTECCIÓN DE SESIÓN Y CARGA DE DATOS
 // ==========================================
-// ==========================================
-// PROTECCIÓN DE SESIÓN Y CARGA DE DATOS
-// ==========================================
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -100,10 +97,8 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const ROL_REQUERIDO = "administrador";
 
 window.addEventListener("DOMContentLoaded", async () => {
-window.addEventListener("DOMContentLoaded", async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
-    window.location.href = "../../index.html";
     window.location.href = "../../index.html";
     return;
   }
@@ -135,101 +130,6 @@ async function cargarSelectGrados() {
     return;
   }
 
-  selectGrado.innerHTML = "<option value=''>Seleccione un grado</option>";
-  grados.forEach(g => {
-    selectGrado.innerHTML += `<option value="${g.id}">${g.nombre}</option>`;
-  });
-}
-
-async function cargarSelectProfesores() {
-  const selectProfesor = document.getElementById("select_profesor");
-  // Filtramos los perfiles cuyo rol sea "profesor"
-  const { data: profesores, error } = await db.from("perfiles").select("id, nombre").eq("rol", "profesor").order("nombre");
-  
-  if (error) {
-    console.error("Error al cargar profesores:", error.message);
-    window.location.href = "../../index.html";
-    return;
-  }
-
-  // Cargar selects de Grados y Profesores al iniciar
-  await cargarSelectGrados();
-  await cargarSelectProfesores();
-});
-
-// Funciones para poblar los selectores dinámicamente
-async function cargarSelectGrados() {
-  const selectGrado = document.getElementById("select_grado");
-  const { data: grados, error } = await db.from("grados").select("id, nombre").order("nombre");
-  
-  if (error) {
-    console.error("Error al cargar grados:", error.message);
-    return;
-  }
-
-  selectProfesor.innerHTML = "<option value=''>Seleccione un profesor</option>";
-  profesores.forEach(p => {
-    selectProfesor.innerHTML += `<option value="${p.id}">${p.nombre}</option>`;
-  });
-}
-
-// ==========================================
-// ACCIONES DE FORMULARIOS (CREAR)
-// ==========================================
-
-// 1. Crear Grado
-document.getElementById("form-grado").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const nombreGrado = document.getElementById("nombre_grado").value.trim();
-
-  const { error } = await db.from("grados").insert([{ nombre: nombreGrado }]);
-  if (error) {
-    alert("Error al crear grado: " + error.message);
-  } else {
-    alert("¡Grado creado exitosamente!");
-    document.getElementById("nombre_grado").value = "";
-    await cargarSelectGrados(); // Actualizar el select automáticamente
-  }
-});
-
-// 2. Crear Asignatura
-document.getElementById("form-asignatura").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const nombreAsig = document.getElementById("nombre_asignatura").value.trim();
-  const gradoId = document.getElementById("select_grado").value;
-  const profesorId = document.getElementById("select_profesor").value;
-
-  const { error } = await db.from("asignaturas").insert([{
-    nombre: nombreAsig,
-    grado_id: gradoId,
-    profesor_id: profesorId
-  }]);
-
-  if (error) {
-    alert("Error al crear asignatura: " + error.message);
-  } else {
-    alert("¡Asignatura creada y asignada correctamente!");
-    document.getElementById("form-asignatura").reset();
-    await cargarSelectGrados();
-    await cargarSelectProfesores();
-  }
-});
-
-// 3. Crear Anuncio General
-document.getElementById("form-anuncio").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const titulo = document.getElementById("titulo_anuncio").value.trim();
-  const contenido = document.getElementById("contenido_anuncio").value.trim();
-
-  const { error } = await db.from("anuncios").insert([{ titulo, contenido }]);
-
-  if (error) {
-    alert("Error al publicar anuncio: " + error.message);
-  } else {
-    alert("¡Anuncio general publicado con éxito!");
-    document.getElementById("form-anuncio").reset();
-  }
-});
   selectGrado.innerHTML = "<option value=''>Seleccione un grado</option>";
   grados.forEach(g => {
     selectGrado.innerHTML += `<option value="${g.id}">${g.nombre}</option>`;
