@@ -34,7 +34,7 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
 }
 
 // Configuración de interacción para todos los botones del menú
-configurarBotonMenu("home", "texto_home", "mhome", "estudiante.html");
+configurarBotonMenu("home", "texto_home", "mhome", "profesor.html");
 configurarBotonMenu("usuario", "texto_usuario", "musuario", "usuario.html");
 configurarBotonMenu("actividades", "texto_actividades", "mactividades", "actividades.html");
 configurarBotonMenu("examenes", "texto_examenes", "mexamenes", "examenes.html");
