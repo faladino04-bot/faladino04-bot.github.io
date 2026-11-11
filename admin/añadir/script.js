@@ -69,7 +69,6 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
   return;
 });
 
-
 // Mostrar u ocultar el campo "Grado" según el rol seleccionado
 const selectRol = document.getElementById("rol");
 const contenedorGrado = document.getElementById("contenedor_grado");
@@ -77,20 +76,38 @@ const contenedorGrado = document.getElementById("contenedor_grado");
 if (selectRol && contenedorGrado) {
     selectRol.addEventListener("change", (e) => {
         if (e.target.value === "Estudiante") {
-            contenedorGrado.style.display = "flex"; // Muestra el campo
+            contenedorGrado.style.display = "flex"; 
         } else {
-            contenedorGrado.style.display = "none";  // Oculta el campo
-            document.getElementById("grado").value = ""; // Limpia el valor si cambia de opinión
+            contenedorGrado.style.display = "none";  
+            document.getElementById("grado").value = ""; 
         }
     });
 }
 
-// Protección de sesion con Supabase
+// Protección de sesion con Supabase y carga de grados
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ROL_REQUERIDO = "administrador";
+
+async function cargarGradosEnSelect() {
+  const selectGrado = document.getElementById("grado");
+  if (!selectGrado) return;
+
+  const { data: grados, error } = await db.from("grados").select("nombre").order("nombre");
+
+  if (error) {
+    console.error("Error al cargar grados:", error.message);
+    selectGrado.innerHTML = "<option value=''>Error al cargar grados</option>";
+    return;
+  }
+
+  selectGrado.innerHTML = "<option value=''>Seleccione un grado</option>";
+  grados.forEach(g => {
+    selectGrado.innerHTML += `<option value="${g.nombre}">${g.nombre}</option>`;
+  });
+}
 
 (async () => {
   const { data: { session } } = await db.auth.getSession();
@@ -112,58 +129,54 @@ const ROL_REQUERIDO = "administrador";
   }
 
   console.log("Sesión válida:", perfil.nombre);
+  
+  // Cargar los grados dinámicamente al iniciar sesión con éxito
+  await cargarGradosEnSelect();
 })();
+
 // --- LÓGICA PARA REGISTRAR USUARIO EN LA BD ---
 const btnAccion = document.getElementById("btn-accion");
 
 if (btnAccion) {
     btnAccion.addEventListener("click", async () => {
-        // Capturar los valores de los inputs
         const usuarioInput = document.getElementById("usuario").value.trim();
         const nombreInput = document.getElementById("nombre").value.trim();
         const passwordInput = document.getElementById("contrasena").value.trim();
         const rolSelect = document.getElementById("rol").value;
-        const gradoInput = document.getElementById("grado").value.trim();
+        const gradoSelect = document.getElementById("grado").value; // Ahora captura del select
 
-        // Validaciones básicas de campos vacíos
         if (!usuarioInput || !nombreInput || !passwordInput || !rolSelect) {
             alert("Por favor, completa todos los campos obligatorios.");
             return;
         }
 
-        // Normalizar el rol a minúsculas como lo espera la API (estudiante, profesor, administrador)[cite: 14]
         const rolNormalizado = rolSelect.toLowerCase();
 
-        // Validar si es estudiante para requerir grado
-        if (rolNormalizado === "estudiante" && !gradoInput) {
+        if (rolNormalizado === "estudiante" && !gradoSelect) {
             alert("El grado es obligatorio para los estudiantes.");
             return;
         }
 
         try {
-            // Mostrar estado de carga opcional o deshabilitar botón
             btnAccion.disabled = true;
             btnAccion.textContent = "Guardando...";
 
-            // Llamar a la función de la API de usuarios[cite: 14]
             await crearUsuario({
                 usuario: usuarioInput,
                 password: passwordInput,
                 nombre: nombreInput,
                 rol: rolNormalizado,
-                grado: rolNormalizado === "estudiante" ? gradoInput : null
+                grado: rolNormalizado === "estudiante" ? gradoSelect : null
             });
 
             alert("¡Usuario registrado exitosamente en la base de datos!");
             
-            // Limpiar el formulario después del éxito
             document.getElementById("form-añadir").reset();
             if (document.getElementById("contenedor_grado")) {
                 document.getElementById("contenedor_grado").style.display = "none";
             }
 
         } catch (error) {
-            // Muestra el mensaje de error que devuelva Supabase (ej. "Ese usuario ya existe")[cite: 14]
             alert("Error al registrar: " + error.message);
         } finally {
             btnAccion.disabled = false;
