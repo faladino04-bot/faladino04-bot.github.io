@@ -61,10 +61,17 @@
         <main id="contenido">
             <div class="pea-card">
                 <h1>Plan de Estudios (PEA)</h1>
-                <h2>Organización de Temas por Periodos Académicos</h2>
+                <h2>Gestión de Temas por Grado y Periodo Académico</h2>
 
-                <!-- Formulario para agregar temas -->
+                <!-- Selector de Grado Principal y Formulario de Ingreso -->
                 <div class="pea-form-container">
+                    <div class="input-group-pea" style="margin-bottom: 15px;">
+                        <label for="select_grado_filtro" style="font-weight: bold; color: #004985; align-self: center;">Seleccionar Grado:</label>
+                        <select id="select_grado_filtro" style="flex: 1;">
+                            <option value="">Cargando grados...</option>
+                        </select>
+                    </div>
+
                     <div class="input-group-pea">
                         <select id="select_periodo">
                             <option value="1">Periodo 1</option>
@@ -76,13 +83,13 @@
                     </div>
                 </div>
 
-                <!-- Cuadrícula de 3 Periodos -->
+                <!-- Cuadrícula de 3 Periodos para el Grado Seleccionado -->
                 <div class="periodos-grid">
                     <!-- PERIODO 1 -->
                     <div class="periodo-box">
                         <h3>Periodo 1</h3>
                         <ul id="lista_periodo_1" class="temas-list">
-                            <li class="empty-msg">No hay temas registrados</li>
+                            <li class="empty-msg">Seleccione un grado</li>
                         </ul>
                     </div>
 
@@ -90,7 +97,7 @@
                     <div class="periodo-box">
                         <h3>Periodo 2</h3>
                         <ul id="lista_periodo_2" class="temas-list">
-                            <li class="empty-msg">No hay temas registrados</li>
+                            <li class="empty-msg">Seleccione un grado</li>
                         </ul>
                     </div>
 
@@ -98,7 +105,7 @@
                     <div class="periodo-box">
                         <h3>Periodo 3</h3>
                         <ul id="lista_periodo_3" class="temas-list">
-                            <li class="empty-msg">No hay temas registrados</li>
+                            <li class="empty-msg">Seleccione un grado</li>
                         </ul>
                     </div>
                 </div>
