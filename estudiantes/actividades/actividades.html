@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +10,8 @@
 <body>
     <header id="header">
         <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="" width="100px" height="100px" id="logo">
-
         <a href="../../explicon/explicon.html">
-        <img src="../../imagenes/logo/253950-removebg-preview.png"
-         alt="Logo Schoolaret"
-         height="100px"
-         width="auto"
-         id="logo2">
+        <img src="../../imagenes/logo/253950-removebg-preview.png" alt="Logo Schoolaret" height="100px" width="auto" id="logo2">
         </a>
     </header>
 
@@ -25,138 +20,46 @@
         <div id="menu_lado" class="oculto">
             <div class="menu" id="mhome">
                 <img class="icono" src="../../imagenes/iconos/hogar.png" alt="" id="home">
-                <p id="texto_home" class="oculto">hogar</p>
+                <p id="texto_home" class="oculto">Inicio</p>
             </div>
             <div class="menu" id="musuario">
                 <img class="icono" src="../../imagenes/iconos/usuario.png" alt="" id="usuario">
-                <p id="texto_usuario" class="oculto">perfil</p>
+                <p id="texto_usuario" class="oculto">Perfil</p>
             </div>
             <div class="menu" id="mestadisticas">
                 <img class="icono" src="../../imagenes/iconos/grafico-circular.png" alt="" id="estadisticas">
-                <p id="texto_estadisticas" class="oculto">estadísticas</p>
+                <p id="texto_estadisticas" class="oculto">Estadísticas</p>
             </div>
             <div class="menu" id="mactividades">
                 <img class="icono" src="../../imagenes/iconos/editar.png" alt="" id="actividades">
-                <p id="texto_actividades" class="oculto">actividades</p>
+                <p id="texto_actividades" class="oculto">Actividades</p>
             </div>
-            
             <div class="menu" id="manuncios">
                 <img class="icono" src="../../imagenes/iconos/sobre.png" alt="" id="anuncios">
-                <p id="texto_anuncios" class="oculto">anuncios</p>
+                <p id="texto_anuncios" class="oculto">Anuncios</p>
             </div>
             <div class="menu" id="mmensajes">
                 <img class="icono" src="../../imagenes/iconos/mensajero.png" alt="" id="mensajes">
-                <p id="texto_mensajes" class="oculto">mensajes</p>
+                <p id="texto_mensajes" class="oculto">Mensajes</p>
             </div>
             <div class="menu" id="mcalendario">
                 <img class="icono" src="../../imagenes/iconos/calendario.png" alt="" id="calendario">
-                <p id="texto_calendario" class="oculto">calendario</p>
+                <p id="texto_calendario" class="oculto">Calendario</p>
             </div>
             <div class="menu" id="mcerrar">
                 <img class="icono" src="../../imagenes/iconos/cerrar-sesion.png" alt="" id="cerrar">
-                <p id="texto_cerrar" class="oculto">cerrar sesion</p>
+                <p id="texto_cerrar" class="oculto">Cerrar sesión</p>
             </div>
         </div>
 
         <!-- Área de Contenido Principal -->
         <main id="contenido">
-            <div class="student-card">
+            <div class="student-card" style="max-width: 900px;">
                 <h1>Mis Actividades Pendientes</h1>
+                <h2>Consulta las tareas publicadas por tus profesores y sube tus desarrollos</h2>
                 
-                <div class="acordeon-container">
-                    
-                    
-                    <div class="materia-grupo">
-                        <button class="materia-btn">
-                            <span>Matemáticas</span>
-                            <span class="badge-notif">2</span>
-                        </button>
-                        <div class="tareas-lista oculto">
-                            <div class="tarea-item" data-titulo="Ejercicios de Ecuaciones" data-material="Guia_Ecuaciones.pdf" data-comentario="Revisar los puntos del 1 al 10 con procedimiento." data-fecha="2026-11-15T23:59">
-                                <span>Ejercicios de Ecuaciones</span>
-                                <span class="badge-vencimiento">Vence: 15/11/2026</span>
-                            </div>
-                            <div class="tarea-item" data-titulo="Taller de Fracciones" data-material="Taller_Fracciones.pdf" data-comentario="Entregar en formato digital limpio." data-fecha="2026-11-10T12:00">
-                                <span>Taller de Fracciones</span>
-                                <span class="badge-vencimiento">Vence: 10/11/2026</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="materia-grupo">
-                        <button class="materia-btn">
-                            <span>Español</span>
-                            <span class="badge-notif">1</span>
-                        </button>
-                        <div class="tareas-lista oculto">
-                            <div class="tarea-item" data-titulo="Maqueta Celular" data-material="Instrucciones_Maqueta.pdf" data-comentario="Usar materiales reciclables por favor." data-fecha="2026-11-20T18:00">
-                                <span> Actividad libro</span>
-                                <span class="badge-vencimiento">Vence: 20/11/2026</span>
-                            </div>
-                        </div>
-                    </div>
-
-                   
-                    <div class="materia-grupo">
-                        <button class="materia-btn">
-                            <span>Biologia</span>
-                        </button>
-                        <div class="tareas-lista oculto">
-                            <p class="sin-tareas">No hay tareas pendientes en esta materia.</p>
-                        </div>
-                    </div>
-
-
-                    <div class="materia-grupo">
-                        <button class="materia-btn">
-                            <span>Ingles</span>
-                        </button>
-                        <div class="tareas-lista oculto">
-                            <p class="sin-tareas">No hay tareas pendientes en esta materia.</p>
-                        </div>
-                    </div>
-
-
-                    <div class="materia-grupo">
-                        <button class="materia-btn">
-                            <span>Sociales</span>
-                        </button>
-                        <div class="tareas-lista oculto">
-                            <p class="sin-tareas">No hay tareas pendientes en esta materia.</p>
-                        </div>
-                    </div>
-
-
-                    <div class="materia-grupo">
-                        <button class="materia-btn">
-                            <span>Tecnologia</span>
-                        </button>
-                        <div class="tareas-lista oculto">
-                            <p class="sin-tareas">No hay tareas pendientes en esta materia.</p>
-                        </div>
-                    </div>
-
-
-                    <div class="materia-grupo">
-                        <button class="materia-btn">
-                            <span>Fisica</span>
-                        </button>
-                        <div class="tareas-lista oculto">
-                            <p class="sin-tareas">No hay tareas pendientes en esta materia.</p>
-                        </div>
-                    </div>
-
-
-                    <div class="materia-grupo">
-                        <button class="materia-btn">
-                            <span>Deportes</span>
-                        </button>
-                        <div class="tareas-lista oculto">
-                            <p class="sin-tareas">No hay tareas pendientes en esta materia.</p>
-                        </div>
-                    </div>
-
+                <div id="contenedor_acordeon_materias" class="acordeon-container">
+                    <p class="empty-msg" style="text-align: center; padding: 20px;">Cargando actividades...</p>
                 </div>
             </div>
         </main>
@@ -165,27 +68,27 @@
     <!-- VENTANA MODAL (POPUP) PARA DETALLE Y ENTREGA DE TAREA -->
     <div id="modal_tarea" class="modal-overlay oculto">
         <div class="modal-content">
-            <button id="cerrar_modal" class="modal-close">&times;</button>
+            <button type="button" id="cerrar_modal" class="modal-close">&times;</button>
             <h2 id="modal_titulo">Título de la Tarea</h2>
             
             <div class="modal-section">
                 <strong>Material de clase / Guía:</strong>
-                <a href="#" id="modal_link_material" target="_blank">Descargar material adjunto</a>
+                <a href="#" id="modal_link_material" target="_blank" style="color: #037EF5; font-weight: bold;">Sin material adjunto</a>
             </div>
 
             <div class="modal-section">
-                <strong>Comentario del Profesor:</strong>
-                <p id="modal_comentario">Comentario del profe...</p>
+                <strong>Instrucciones del Profesor:</strong>
+                <p id="modal_comentario">Sin descripción...</p>
             </div>
 
             <div class="modal-section">
                 <strong>Fecha Límite:</strong>
-                <p id="modal_fecha">15/11/2026 23:59</p>
+                <p id="modal_fecha">Sin límite</p>
             </div>
 
             <!-- Formulario de entrega -->
-            <div id="seccion_entrega" class="modal-section">
-                <strong>Subir tu tarea:</strong>
+            <div id="seccion_entrega" class="modal-section" style="margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+                <strong>Subir tu tarea (Archivo):</strong>
                 <input type="file" id="archivo_tarea" style="margin-top: 5px;">
                 <button type="button" id="btn_enviar_tarea">Entregar Tarea</button>
             </div>
