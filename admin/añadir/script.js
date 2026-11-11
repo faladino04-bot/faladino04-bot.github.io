@@ -143,11 +143,11 @@ async function cargarGradosEnSelect() {
 
   console.log("Sesión válida:", perfil.nombre);
   
-  // Cargar los grados dinámicamente al iniciar sesión con éxito
+  // Cargar los grados dinámicamente al iniciar sesión con exito
   await cargarGradosEnSelect();
 })();
 
-// --- LÓGICA PARA REGISTRAR USUARIO EN LA BD ---
+// esta es la logica para agregar al usuario a la Base de datos
 const btnAccion = document.getElementById("btn-accion");
 
 if (btnAccion) {
