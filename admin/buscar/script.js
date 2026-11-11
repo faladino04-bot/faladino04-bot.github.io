@@ -18,6 +18,21 @@ document.getElementById("home").addEventListener("mouseleave", () => {
   document.getElementById("mhome").style.backgroundColor = "transparent";
 });
 
+
+//crear curso/asignatura/anuncio
+document.getElementById("crear").addEventListener("mouseenter", ()=>{
+  document.getElementById("texto_crear").classList.remove("oculto");
+  document.getElementById("mcrear").style.backgroundColor = "#037EF5"
+});
+document.getElementById("crear").addEventListener("click", ()=>{
+  window.location.href = "../crear/crear.html";
+});
+document.getElementById("crear").addEventListener("mouseleave", ()=>{
+  document.getElementById("texto_crear").classList.add("oculto");
+  document.getElementById("mcrear").style.backgroundColor = "transparent"
+});
+
+
 document.getElementById("agregar_usuario").addEventListener("mouseenter", () => {
   document.getElementById("texto_agregar").classList.remove("oculto");
   document.getElementById("magregar_usuario").style.backgroundColor = "#037EF5";
