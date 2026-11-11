@@ -190,9 +190,14 @@ function configurarModalTareas() {
     const modalFecha = document.getElementById("modal_fecha");
     const seccionEntrega = document.getElementById("seccion_entrega");
     const mensajeVencido = document.getElementById("mensaje_vencido");
+    
+    // Elementos de calificación
+    const seccionCalificacion = document.getElementById("seccion_calificacion");
+    const estadoEntregaTexto = document.getElementById("estado_entrega_texto");
+    const notaEstudianteSpan = document.getElementById("nota_estudiante");
 
     document.querySelectorAll(".tarea-item").forEach(item => {
-        item.addEventListener("click", () => {
+        item.addEventListener("click", async () => {
             actividadSeleccionadaId = item.getAttribute("data-id");
             const titulo = item.getAttribute("data-titulo");
             const materialUrl = item.getAttribute("data-material");
@@ -210,6 +215,31 @@ function configurarModalTareas() {
             } else {
                 modalLinkMaterial.href = "#";
                 modalLinkMaterial.textContent = "Sin material adjunto";
+            }
+
+            // Consultar si el estudiante ya entregó esta tarea y si tiene nota
+            seccionCalificacion.style.display = "none";
+            try {
+                const { data: entregaData } = await db
+                    .from("actividades_entregas")
+                    .select("nota, fecha_entrega, archivo_url")
+                    .eq("actividad_id", actividadSeleccionadaId)
+                    .eq("estudiante_id", usuarioActualId)
+                    .maybeSingle();
+
+                if (entregaData) {
+                    seccionCalificacion.style.display = "block";
+                    const fechaEntregaStr = new Date(entregaData.fecha_entrega).toLocaleString();
+                    estadoEntregaTexto.innerHTML = `Entregado el ${fechaEntregaStr} - <a href="${entregaData.archivo_url}" target="_blank" style="color:#037EF5;">Ver archivo enviado</a>`;
+                    
+                    if (entregaData.nota !== null && entregaData.nota !== undefined) {
+                        notaEstudianteSpan.textContent = `${entregaData.nota} / 5.0`;
+                    } else {
+                        notaEstudianteSpan.textContent = "Entregado (Pendiente de calificar)";
+                    }
+                }
+            } catch (err) {
+                console.error("Error al consultar entrega:", err.message);
             }
 
             // Validar fecha límite
