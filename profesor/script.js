@@ -64,46 +64,6 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ROL_REQUERIDO = "profesor";
 
-// --- GENERADOR DE HORARIO PARA PROFESOR (PLACEHOLDER EJEMPLO) ---
-function inicializarHorarioProfesor() {
-    const cuerpoHorario = document.getElementById("cuerpo_horario");
-    if (!cuerpoHorario) return;
-
-    cuerpoHorario.innerHTML = "";
-
-    // Generar filas desde las 6:00 a.m. (6) hasta las 10:00 p.m. (22)
-    for (let hora = 6; hora < 22; hora++) {
-        const horaInicio = `${hora < 10 ? '0' + hora : hora}:00`;
-        const horaSiguiente = `${(hora + 1) < 10 ? '0' + (hora + 1) : (hora + 1)}:00`;
-        const rangoHora = `${horaInicio} - ${horaSiguiente}`;
-
-        const tr = document.createElement("tr");
-
-        // Columna fija con la hora
-        const tdHora = document.createElement("td");
-        tdHora.className = "hora-col";
-        tdHora.textContent = rangoHora;
-        tr.appendChild(tdHora);
-
-        // Columnas para los días de la semana (Lunes=1 a Viernes=5)
-        for (let dia = 1; dia <= 5; dia++) {
-            const td = document.createElement("td");
-
-            // EJEMPLO SOLICITADO: Miércoles (dia === 3) de 6:00 a 8:00 (hora 6 y hora 7) da Matemáticas en Grado 11
-            if (dia === 3 && (hora === 6 || hora === 7)) {
-                td.className = "clase-ocupada";
-                td.innerHTML = `<strong>Matemáticas</strong><br><small>Grado 11</small>`;
-            } else {
-                td.textContent = "-";
-                td.style.color = "#cbd5e1";
-            }
-
-            tr.appendChild(td);
-        }
-
-        cuerpoHorario.appendChild(tr);
-    }
-}
 
 // Verificación única de sesión y arranque de funciones de la vista
 (async () => {
@@ -130,3 +90,55 @@ function inicializarHorarioProfesor() {
   // Inicializar el horario del profesor de forma limpia
   inicializarHorarioProfesor();
 })();
+
+// Cargar el horario del profesor autenticado
+async function cargarHorarioProfesorLogueado(profesorId) {
+    const cuerpoHorario = document.getElementById("cuerpo_horario");
+    if (!cuerpoHorario) return;
+
+    // Generar filas de 6:00 a 22:00
+    const horas = [];
+    for (let h = 6; h <= 22; h++) {
+        const hStr = h < 10 ? `0${h}:00` : `${h}:00`;
+        horas.push(hStr);
+    }
+
+    const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+
+    try {
+        const { data: bloques, error } = await db
+            .from("horarios")
+            .select("*")
+            .eq("profesor_id", profesorId);
+
+        if (error) throw error;
+
+        // Mapear bloques por "hora_dia"
+        const mapaHorario = {};
+        if (bloques) {
+            bloques.forEach(b => {
+                mapaHorario[`${b.hora}_${b.dia}`] = `${b.materia} (${b.grado})`;
+            });
+        }
+
+        cuerpoHorario.innerHTML = "";
+        horas.forEach(hora => {
+            const tr = document.createElement("tr");
+            
+            // Columna de hora am/pm
+            const horaAmPm = parseInt(hora) === 12 ? '12:00 p.m.' : parseInt(hora) > 12 ? `${parseInt(hora) - 12}:00 p.m.` : `${parseInt(hora)}:00 a.m.`;
+            let htmlRow = `<td style="font-weight:bold; background:#f8fafc;">${horaAmPm}</td>`;
+
+            dias.forEach(dia => {
+                const contenidoClase = mapaHorario[`${hora}_${dia}`] || "";
+                htmlRow += `<td style="text-align:center; padding:8px; border:1px solid #ddd;">${contenidoClase}</td>`;
+            });
+
+            tr.innerHTML = htmlRow;
+            cuerpoHorario.appendChild(tr);
+        });
+
+    } catch (err) {
+        console.error("Error al cargar el horario del profesor:", err.message);
+    }
+}

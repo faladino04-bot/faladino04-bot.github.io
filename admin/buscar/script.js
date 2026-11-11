@@ -339,3 +339,134 @@ if (btnGuardarCambios) {
     }
   });
 }
+// ==========================================
+// 4. GESTIÓN DE HORARIO DEL PROFESOR
+// ==========================================
+const selectHora = document.getElementById("horario_hora");
+if (selectHora) {
+  selectHora.innerHTML = "";
+  for (let h = 6; h <= 22; h++) {
+    const horaFormato = h < 10 ? `0${h}:00` : `${h}:00`;
+    const horaAmPm = h === 12 ? '12:00 p.m.' : h > 12 ? `${h - 12}:00 p.m.` : `${h}:00 a.m.`;
+    const opt = document.createElement("option");
+    opt.value = horaFormato;
+    opt.textContent = horaAmPm;
+    selectHora.appendChild(opt);
+  }
+}
+
+const btnMostrarHorario = document.getElementById("btn_mostrar_horario");
+const cajaHorario = document.getElementById("caja_horario");
+
+if (btnMostrarHorario && cajaHorario) {
+  btnMostrarHorario.addEventListener("click", async () => {
+    if (cajaHorario.style.display === "none" || cajaHorario.style.display === "") {
+      cajaHorario.style.display = "flex";
+      if (cajaMensaje) cajaMensaje.style.display = "none";
+      if (cajaModificar) cajaModificar.style.display = "none";
+      await cargarHorarioProfesorAdmin();
+    } else {
+      cajaHorario.style.display = "none";
+    }
+  });
+}
+
+// Cuando se selecciona un usuario en la búsqueda, verificar si es profesor
+document.addEventListener("change", (e) => {
+  if (e.target && e.target.classList.contains("radio-usuario")) {
+    const rol = e.target.getAttribute("data-rol").toLowerCase();
+    if (btnMostrarHorario) {
+      if (rol === "profesor") {
+        btnMostrarHorario.style.display = "block";
+      } else {
+        btnMostrarHorario.style.display = "none";
+        if (cajaHorario) cajaHorario.style.display = "none";
+      }
+    }
+  }
+});
+
+async function cargarHorarioProfesorAdmin() {
+  if (!usuarioSeleccionadoGlobal) return;
+  const tbody = document.getElementById("tabla_horario_admin_cuerpo");
+  tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Cargando horario...</td></tr>";
+
+  try {
+    const { data: bloques, error } = await db
+      .from("horarios")
+      .select("*")
+      .eq("profesor_id", usuarioSeleccionadoGlobal.id)
+      .order("created_at", { ascending: true });
+
+    if (error) throw error;
+
+    tbody.innerHTML = "";
+    if (!bloques || bloques.length === 0) {
+      tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#777;'>No hay clases asignadas.</td></tr>";
+      return;
+    }
+
+    bloques.forEach(b => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td style="padding: 6px; border: 1px solid #ddd;">${b.dia}</td>
+        <td style="padding: 6px; border: 1px solid #ddd;">${b.hora}</td>
+        <td style="padding: 6px; border: 1px solid #ddd;">${b.materia} (${b.grado})</td>
+        <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">
+          <button type="button" onclick="eliminarBloqueHorario('${b.id}')" style="background:#e74c3c; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">Eliminar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error("Error al cargar horario:", err.message);
+    tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>Error al cargar.</td></tr>";
+  }
+}
+
+const btnGuardarBloque = document.getElementById("btn_guardar_bloque_horario");
+if (btnGuardarBloque) {
+  btnGuardarBloque.addEventListener("click", async () => {
+    if (!usuarioSeleccionadoGlobal) return;
+
+    const dia = document.getElementById("horario_dia").value;
+    const hora = document.getElementById("horario_hora").value;
+    const materia = document.getElementById("horario_materia").value.trim();
+    const grado = document.getElementById("horario_grado").value.trim();
+
+    if (!materia || !grado) {
+      alert("Por favor completa la materia y el grado.");
+      return;
+    }
+
+    try {
+      const { error } = await db.from("horarios").insert([{
+        profesor_id: usuarioSeleccionadoGlobal.id,
+        dia: dia,
+        hora: hora,
+        materia: materia,
+        grado: grado
+      }]);
+
+      if (error) throw error;
+
+      alert("¡Clase añadida al horario correctamente!");
+      document.getElementById("horario_materia").value = "";
+      document.getElementById("horario_grado").value = "";
+      await cargarHorarioProfesorAdmin();
+    } catch (err) {
+      alert("Error al guardar bloque: " + err.message);
+    }
+  });
+}
+
+window.eliminarBloqueHorario = async function(idBloque) {
+  if (!confirm("¿Estás seguro de eliminar este bloque de horario?")) return;
+  try {
+    const { error } = await db.from("horarios").delete().eq("id", idBloque);
+    if (error) throw error;
+    await cargarHorarioProfesorAdmin();
+  } catch (err) {
+    alert("Error al eliminar: " + err.message);
+  }
+};

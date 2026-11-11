@@ -49,7 +49,7 @@
         </div>
 
         <main id="contenido">
-            <div class="search-card">
+            <div class="search-card" style="max-width: 750px;">
                 <h2>Buscar y Gestionar Usuarios</h2>
                 
                 <!-- Formulario de Búsqueda -->
@@ -69,7 +69,6 @@
                         </select>
                     </div>
 
-                    <!-- 1. Campo de Grado en el Formulario de Búsqueda -->
                     <div class="form-group" id="contenedor_grado_buscar" style="display: none;">
                         <label for="buscar_grado">Grado:</label>
                         <select id="buscar_grado">
@@ -84,36 +83,34 @@
                 <div id="resultados_busqueda" style="margin-top: 20px;">
                     <h3>Resultados:</h3>
                     <ul id="lista_usuarios" style="list-style: none; padding: 0; margin-top: 10px;">
-                        <!-- Aquí se renderizarán los usuarios dinámicamente -->
+                        <!-- Renderizado dinámico -->
                     </ul>
                 </div>
 
-                <!-- SECCIÓN DE ACCIONES (Aparece al seleccionar un usuario) -->
-                <div id="seccion_acciones_usuario" style="display: none; margin-top: 20px; border-top: 2px solid #037EF5; padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                <!-- SECCIÓN DE ACCIONES -->
+                <div id="seccion_acciones_usuario" style="display: none; margin-top: 20px; border-top: 2px solid #037EF5; padding-top: 15px; flex-direction: column; gap: 10px;">
                     
-                    <!-- Botones de Acción -->
-                    <div style="display: flex; gap: 10px;">
-                        <button type="button" id="btn_mostrar_caja_mensaje" style="flex: 1; background-color: #037EF5; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar aviso</button>
-                        <button type="button" id="btn_mostrar_modificar" style="flex: 1; background-color: #e67e22; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Ver / Modificar Datos</button>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" id="btn_mostrar_caja_mensaje" style="flex: 1; min-width: 130px; background-color: #037EF5; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar aviso</button>
+                        <button type="button" id="btn_mostrar_modificar" style="flex: 1; min-width: 130px; background-color: #e67e22; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Ver / Modificar Datos</button>
+                        <!-- Botón exclusivo para Profesor -->
+                        <button type="button" id="btn_mostrar_horario" style="flex: 1; min-width: 130px; background-color: #8e44ad; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; display: none;">Modificar Horario</button>
                     </div>
                     
-                    <!-- Caja para escribir el aviso -->
+                    <!-- Caja Mensaje -->
                     <div id="caja_mensaje" style="display: none; margin-top: 10px; flex-direction: column; gap: 10px; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
                         <h4>Enviar mensaje o aviso</h4>
                         <textarea id="texto_aviso" rows="3" placeholder="Escribe tu aviso aquí..." style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
-                        
                         <div style="display: flex; flex-direction: column; gap: 5px;">
                             <label style="font-size: 0.9rem; color: #555;">Adjuntar archivo (opcional):</label>
                             <input type="file" id="archivo_aviso">
                         </div>
-
                         <button type="button" id="btn_enviar_aviso" style="background-color: #27ae60; color: white; border: none; padding: 8px; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar Aviso</button>
                     </div>
 
-                    <!-- Formulario de Modificar Datos (Aparece al hacer clic en Ver/Modificar) -->
+                    <!-- Caja Modificar Datos -->
                     <div id="caja_modificar" style="display: none; margin-top: 10px; flex-direction: column; gap: 10px; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ddd;">
                         <h4 style="color: #004985; margin-bottom: 5px;">Modificar Información de Usuario</h4>
-                        
                         <div class="form-group" style="margin-bottom: 8px;">
                             <label style="font-size: 0.85rem;">Usuario (No modificable):</label>
                             <input type="text" id="mod_usuario" style="padding: 8px; background-color: #f1f3f5;" disabled>
@@ -130,7 +127,6 @@
                                 <option value="administrador">Administrador</option>
                             </select>
                         </div>
-                        <!-- 2. Campo de Grado en la Caja de Modificación -->
                         <div class="form-group" id="mod_contenedor_grado" style="display: none; margin-bottom: 8px;">
                             <label style="font-size: 0.85rem;">Grado:</label>
                             <select id="mod_grado" style="padding: 8px;">
@@ -141,8 +137,61 @@
                             <label style="font-size: 0.85rem;">Nueva Contraseña (dejar en blanco para no cambiar):</label>
                             <input type="password" id="mod_password" style="padding: 8px;" placeholder="Nueva contraseña">
                         </div>
-
                         <button type="button" id="btn_guardar_cambios" style="background-color: #27ae60; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Guardar Cambios</button>
+                    </div>
+
+                    <!-- CAJA MODIFICAR HORARIO (Solo Profesores) -->
+                    <div id="caja_horario" style="display: none; margin-top: 10px; flex-direction: column; gap: 15px; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ddd;">
+                        <h4 style="color: #004985; margin-bottom: 5px;">Gestionar Horario Semanal (6:00 a.m. - 10:00 p.m.)</h4>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <div class="form-group" style="flex: 1; min-width: 130px;">
+                                <label style="font-size: 0.85rem;">Día:</label>
+                                <select id="horario_dia" style="padding: 8px;">
+                                    <option value="Lunes">Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miércoles">Miércoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes">Viernes</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex: 1; min-width: 130px;">
+                                <label style="font-size: 0.85rem;">Hora:</label>
+                                <select id="horario_hora" style="padding: 8px;">
+                                    <!-- Generado por JS de 06:00 a 22:00 -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <div class="form-group" style="flex: 1; min-width: 140px;">
+                                <label style="font-size: 0.85rem;">Materia:</label>
+                                <input type="text" id="horario_materia" placeholder="Ej. Matemáticas" style="padding: 8px;">
+                            </div>
+                            <div class="form-group" style="flex: 1; min-width: 140px;">
+                                <label style="font-size: 0.85rem;">Grado:</label>
+                                <input type="text" id="horario_grado" placeholder="Ej. 10-1" style="padding: 8px;">
+                            </div>
+                        </div>
+
+                        <button type="button" id="btn_guardar_bloque_horario" style="background-color: #27ae60; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">Añadir / Actualizar Bloque</button>
+
+                        <h5 style="color: #333; margin-top: 10px;">Clases Programadas:</h5>
+                        <div style="max-height: 180px; overflow-y: auto;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                <thead>
+                                    <tr style="background: #f1f3f5; text-align: left;">
+                                        <th style="padding: 6px; border: 1px solid #ddd;">Día</th>
+                                        <th style="padding: 6px; border: 1px solid #ddd;">Hora</th>
+                                        <th style="padding: 6px; border: 1px solid #ddd;">Materia / Grado</th>
+                                        <th style="padding: 6px; border: 1px solid #ddd;">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla_horario_admin_cuerpo">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                 </div>
