@@ -20,13 +20,13 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
             texto.classList.add("oculto");
             contenedorMenu.style.backgroundColor = "transparent";
         });
-        if (urlRedireccion == "profesor.html"){
+        if (urlRedireccion == "usuario.html"){
             icono.addEventListener("click", () => {
-                window.location.href = "../" + urlRedireccion;
+                window.location.href = urlRedireccion
             });
-        }else if (urlRedireccion == "usuario.html"){
+        }else if (urlRedireccion == "profesor.html"){
             icono.addEventListener("click", () => {
-                url = urlRedireccion
+                url = "../" + urlRedireccion
                 window.location.href = url
             });
         }else{
