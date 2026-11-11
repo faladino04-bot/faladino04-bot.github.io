@@ -117,8 +117,25 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   await cargarSelectGrados();
-  await cargarAsignaturasAdmin(); // <--- Carga la tabla de asignación
+  await cargarAsignaturasAdmin();
 });
+
+// Función para cargar los grados en el selector de creación
+async function cargarSelectGrados() {
+  const selectGrado = document.getElementById("select_grado");
+  if (!selectGrado) return;
+  const { data: grados, error } = await db.from("grados").select("id, nombre").order("nombre");
+  
+  if (error) {
+    console.error("Error al cargar grados:", error.message);
+    return;
+  }
+
+  selectGrado.innerHTML = "<option value=''>Seleccione un grado</option>";
+  grados.forEach(g => {
+    selectGrado.innerHTML += `<option value="${g.id}">${g.nombre}</option>`;
+  });
+}
 
 // Función para cargar la tabla de gestión de asignaturas y profesores
 async function cargarAsignaturasAdmin() {
@@ -127,7 +144,6 @@ async function cargarAsignaturasAdmin() {
   tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding: 15px;'>Cargando asignaturas...</td></tr>";
 
   try {
-    // 1. Obtener asignaturas con su grado relacionado
     const { data: asignaturas, error } = await db
       .from("asignaturas")
       .select(`
@@ -140,7 +156,6 @@ async function cargarAsignaturasAdmin() {
 
     if (error) throw error;
 
-    // 2. Obtener lista de profesores mediante la API de usuarios
     const usuarios = await listarUsuarios();
     const profesores = usuarios.filter(u => u.rol === "profesor");
 
@@ -153,7 +168,6 @@ async function cargarAsignaturasAdmin() {
     asignaturas.forEach(asig => {
       const nombreGrado = asig.grados ? asig.grados.nombre : "Sin grado";
       
-      // Crear opciones del select con el profesor actual seleccionado si lo tiene
       let optionsProfesor = "<option value=''>-- Sin asignar --</option>";
       profesores.forEach(p => {
         const selected = p.id === asig.profesor_id ? "selected" : "";
@@ -185,7 +199,6 @@ async function cargarAsignaturasAdmin() {
   }
 }
 
-// Función global para guardar/actualizar el profesor de una asignatura
 window.guardarProfesorAsignatura = async function(asignaturaId) {
   const select = document.getElementById(`select_prof_${asignaturaId}`);
   const profesorId = select.value || null;
@@ -204,7 +217,6 @@ window.guardarProfesorAsignatura = async function(asignaturaId) {
   }
 };
 
-// Función global para quitar (desasignar) al profesor de una asignatura
 window.quitarProfesorAsignatura = async function(asignaturaId) {
   if (!confirm("¿Estás seguro de quitar al profesor de esta asignatura?")) return;
 
@@ -237,30 +249,29 @@ document.getElementById("form-grado").addEventListener("submit", async (e) => {
   } else {
     alert("¡Grado creado exitosamente!");
     document.getElementById("nombre_grado").value = "";
-    await cargarSelectGrados(); // Actualizar el select automáticamente
+    await cargarSelectGrados();
   }
 });
 
-// 2. Crear Asignatura
+// 2. Crear Asignatura (Limpio de profesor, se gestiona abajo en la tabla)
 document.getElementById("form-asignatura").addEventListener("submit", async (e) => {
   e.preventDefault();
   const nombreAsig = document.getElementById("nombre_asignatura").value.trim();
   const gradoId = document.getElementById("select_grado").value;
-  const profesorId = document.getElementById("select_profesor").value;
 
   const { error } = await db.from("asignaturas").insert([{
     nombre: nombreAsig,
     grado_id: gradoId,
-    profesor_id: profesorId
+    profesor_id: null
   }]);
 
   if (error) {
     alert("Error al crear asignatura: " + error.message);
   } else {
-    alert("¡Asignatura creada y asignada correctamente!");
+    alert("¡Asignatura creada correctamente!");
     document.getElementById("form-asignatura").reset();
     await cargarSelectGrados();
-    await cargarSelectProfesores();
+    await cargarAsignaturasAdmin(); // Refresca automáticamente la tabla inferior
   }
 });
 
