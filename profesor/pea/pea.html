@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
+    <title>Schoolaret - PEA (Plan de Estudios)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ENCABEZADO -->
+    <header id="header">
+        <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="Logo Schoolaret" width="100" height="100" id="logo">
+        <a href="../../explicon/explicon.html">
+            <img src="../../imagenes/logo/253950-removebg-preview.png" alt="Logo Schoolaret" height="100px" width="auto" id="logo2">
+        </a>
+    </header>
+
+    <div id="menu_opciones">
+        <!-- MENÚ LATERAL -->
+        <div id="menu_lado" class="oculto">
+            <div class="menu" id="mhome">
+                <img class="icono" src="../../imagenes/iconos/hogar.png" alt="Inicio" id="home">
+                <p id="texto_home" class="oculto">Inicio</p>
+            </div>
+            <div class="menu" id="musuario">
+                <img class="icono" src="../../imagenes/iconos/usuario.png" alt="Perfil" id="usuario">
+                <p id="texto_usuario" class="oculto">Perfil</p>
+            </div>
+            <div class="menu" id="mpea">
+                <img class="icono" src="../../imagenes/iconos/editar.png" alt="PEA" id="pea">
+                <p id="texto_pea" class="oculto">PEA</p>
+            </div>
+            <div class="menu" id="mactividades">
+                <img class="icono" src="../../imagenes/iconos/editar.png" alt="Actividades" id="actividades">
+                <p id="texto_actividades" class="oculto">Actividades</p>
+            </div>
+            <div class="menu" id="mexamenes">
+                <img class="icono" src="../../imagenes/iconos/aprobado.png" alt="Exámenes" id="examenes">
+                <p id="texto_examenes" class="oculto">Exámenes</p>
+            </div>
+            <div class="menu" id="manuncios">
+                <img class="icono" src="../../imagenes/iconos/sobre.png" alt="Anuncios" id="anuncios">
+                <p id="texto_anuncios" class="oculto">Anuncios</p>
+            </div>
+            <div class="menu" id="mmensajes">
+                <img class="icono" src="../../imagenes/iconos/mensajero.png" alt="Mensajes" id="mensajes">
+                <p id="texto_mensajes" class="oculto">Mensajes</p>
+            </div>
+            <div class="menu" id="mcalendario">
+                <img class="icono" src="../../imagenes/iconos/calendario.png" alt="Calendario" id="calendario">
+                <p id="texto_calendario" class="oculto">Calendario</p>
+            </div>
+            <div class="menu" id="mcerrar">
+                <img class="icono" src="../../imagenes/iconos/cerrar-sesion.png" alt="Cerrar sesión" id="cerrar">
+                <p id="texto_cerrar" class="oculto">Cerrar sesión</p>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main id="contenido">
+            <div class="pea-card">
+                <h1>Plan de Estudios (PEA)</h1>
+                <h2>Organización de Temas por Periodos Académicos</h2>
+
+                <!-- Formulario para agregar temas -->
+                <div class="pea-form-container">
+                    <div class="input-group-pea">
+                        <select id="select_periodo">
+                            <option value="1">Periodo 1</option>
+                            <option value="2">Periodo 2</option>
+                            <option value="3">Periodo 3</option>
+                        </select>
+                        <input type="text" id="input_nuevo_tema" placeholder="Escribe el tema a añadir..." autocomplete="off">
+                        <button id="btn_agregar_tema" type="button">Añadir Tema</button>
+                    </div>
+                </div>
+
+                <!-- Cuadrícula de 3 Periodos -->
+                <div class="periodos-grid">
+                    <!-- PERIODO 1 -->
+                    <div class="periodo-box">
+                        <h3>Periodo 1</h3>
+                        <ul id="lista_periodo_1" class="temas-list">
+                            <li class="empty-msg">No hay temas registrados</li>
+                        </ul>
+                    </div>
+
+                    <!-- PERIODO 2 -->
+                    <div class="periodo-box">
+                        <h3>Periodo 2</h3>
+                        <ul id="lista_periodo_2" class="temas-list">
+                            <li class="empty-msg">No hay temas registrados</li>
+                        </ul>
+                    </div>
+
+                    <!-- PERIODO 3 -->
+                    <div class="periodo-box">
+                        <h3>Periodo 3</h3>
+                        <ul id="lista_periodo_3" class="temas-list">
+                            <li class="empty-msg">No hay temas registrados</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script_pea.js"></script>
+</body>
+</html>

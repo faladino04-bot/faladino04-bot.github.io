@@ -39,6 +39,7 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
 // Configuración de interacción para todos los botones del menú
 configurarBotonMenu("home", "texto_home", "mhome", "profesor.html");
 configurarBotonMenu("usuario", "texto_usuario", "musuario", "usuario.html");
+configurarBotonMenu("pea", "texto_pea", "mpea", "pea.html");
 configurarBotonMenu("actividades", "texto_actividades", "mactividades", "actividades.html");
 configurarBotonMenu("examenes", "texto_examenes", "mexamenes", "examenes.html");
 configurarBotonMenu("anuncios", "texto_anuncios", "manuncios", "anuncios.html");
@@ -76,7 +77,6 @@ const ROL_REQUERIDO = "profesor";
     return;
   }
 
-  // CORRECCIÓN: Se agregó "id" a la consulta para no perder el identificador del profesor
   const { data: perfil } = await db
     .from("perfiles")
     .select("id, nombre, rol")
@@ -90,19 +90,20 @@ const ROL_REQUERIDO = "profesor";
   }
 
   console.log("Sesión válida:", perfil.nombre);
-
-  // CORRECCIÓN: Se invoca la función para que pinte los datos y los grados en pantalla
-  cargarDatosPerfilProfesor(perfil);
+  // Le pasamos el perfil y el email de la cuenta de Supabase a la función
+  cargarDatosPerfilProfesor(perfil, session.user.email);
 })();
 
-// Función específica para rellenar el perfil del profesor y sus grados
-async function cargarDatosPerfilProfesor(perfil) {
+// Función específica para rellenar el perfil del profesor, su cuenta y sus grados
+async function cargarDatosPerfilProfesor(perfil, emailCuenta) {
     const lblNombre = document.getElementById("perfil_nombre");
     const lblUsuario = document.getElementById("perfil_usuario");
     const contenedorGrados = document.getElementById("perfil_grados");
 
     if (lblNombre) lblNombre.textContent = perfil.nombre;
-    if (lblUsuario) lblUsuario.textContent = perfil.nombre;
+    
+    // Aquí cambiamos para que refleje la cuenta/correo de autenticación
+    if (lblUsuario) lblUsuario.textContent = emailCuenta.replace("@schoolaret.app", "") || "No disponible";
 
     if (!contenedorGrados) return;
 
