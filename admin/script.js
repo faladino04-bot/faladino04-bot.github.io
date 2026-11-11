@@ -1,4 +1,4 @@
-// Menú lateral
+// menu lateral
 document.getElementById("logo").addEventListener("click", () => {
 const menu = document.getElementById("menu_lado");
   menu.classList.toggle("oculto");
@@ -17,7 +17,7 @@ document.getElementById("home").addEventListener("mouseleave", ()=>{
   document.getElementById("mhome").style.backgroundColor = "transparent"
 });
 
-//agregar usuario
+// agregar usuario
 document.getElementById("agregar_usuario").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_agregar").classList.remove("oculto");
   document.getElementById("magregar_usuario").style.backgroundColor = "#037EF5"
@@ -87,7 +87,7 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
 });
 
 
-// Protección de sesión con Supabase
+// Protección de sesion usando supabase
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -115,7 +115,6 @@ const ROL_REQUERIDO = "administrador";
 
   console.log("Sesión válida:", perfil.nombre);
 
-  // ---> CAMBIO NUEVO: Actualizar el texto de bienvenida con el nombre real de la BD <---
   const textoPrincipal = document.getElementById("texto-principal");
   if (textoPrincipal) {
     textoPrincipal.textContent = `Bienvenido Administrador, ${perfil.nombre}`;
