@@ -72,13 +72,39 @@ document.getElementById("cerrar").addEventListener("click", () => {
 
 
 // ==========================================
-// 2. PROTECCIÓN DE SESIÓN CON SUPABASE
+// 2. PROTECCIÓN DE SESIÓN Y CARGA DE GRADOS
 // ==========================================
 const SUPABASE_URL = "https://olfmganjfrgeaxszwvfr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_2OD_Dw7QNM-GJ9j02vwQzA_XeqyNfXM";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ROL_REQUERIDO = "administrador";
+
+async function cargarSelectsGrados() {
+  const selectBuscar = document.getElementById("buscar_grado");
+  const selectMod = document.getElementById("mod_grado");
+
+  const { data: grados, error } = await db.from("grados").select("nombre").order("nombre");
+
+  if (error) {
+    console.error("Error al cargar grados:", error.message);
+    return;
+  }
+
+  if (selectBuscar) {
+    selectBuscar.innerHTML = "<option value=''>Todos los grados</option>";
+    grados.forEach(g => {
+      selectBuscar.innerHTML += `<option value="${g.nombre}">${g.nombre}</option>`;
+    });
+  }
+
+  if (selectMod) {
+    selectMod.innerHTML = "<option value=''>Seleccione un grado</option>";
+    grados.forEach(g => {
+      selectMod.innerHTML += `<option value="${g.nombre}">${g.nombre}</option>`;
+    });
+  }
+}
 
 (async () => {
   const { data: { session } } = await db.auth.getSession();
@@ -100,6 +126,7 @@ const ROL_REQUERIDO = "administrador";
   }
 
   console.log("Sesión válida:", perfil.nombre);
+  await cargarSelectsGrados();
 })();
 
 
@@ -108,7 +135,7 @@ const ROL_REQUERIDO = "administrador";
 // ==========================================
 let usuarioSeleccionadoGlobal = null;
 
-// Mostrar u ocultar el campo "Grado" según el rol seleccionado en la búsqueda
+// Visibilidad de Grado en el formulario de BÚSQUEDA
 const buscarRol = document.getElementById("buscar_rol");
 const contenedorGradoBuscar = document.getElementById("contenedor_grado_buscar");
 
@@ -124,12 +151,29 @@ if (buscarRol && contenedorGradoBuscar) {
   });
 }
 
+// Visibilidad de Grado en el formulario de MODIFICACIÓN
+const modRol = document.getElementById("mod_rol");
+const modContenedorGrado = document.getElementById("mod_contenedor_grado");
+
+if (modRol && modContenedorGrado) {
+  modRol.addEventListener("change", (e) => {
+    if (e.target.value === "estudiante") {
+      modContenedorGrado.style.display = "flex";
+    } else {
+      modContenedorGrado.style.display = "none";
+      const modGrado = document.getElementById("mod_grado");
+      if (modGrado) modGrado.value = "";
+    }
+  });
+}
+
 // Ejecutar búsqueda en Supabase
 const btnEjecutarBusqueda = document.getElementById("btn-ejecutar-busqueda");
 if (btnEjecutarBusqueda) {
   btnEjecutarBusqueda.addEventListener("click", async () => {
     const textoFiltro = document.getElementById("buscar_nombre").value.toLowerCase().trim();
     const rolFiltro = document.getElementById("buscar_rol").value.toLowerCase();
+    const gradoFiltro = document.getElementById("buscar_grado").value;
     const listaUsuariosEl = document.getElementById("lista_usuarios");
     
     listaUsuariosEl.innerHTML = "<li>Buscando...</li>";
@@ -140,7 +184,8 @@ if (btnEjecutarBusqueda) {
       const filtrados = usuarios.filter(u => {
         const coincideTexto = !textoFiltro || u.nombre.toLowerCase().includes(textoFiltro) || u.usuario.toLowerCase().includes(textoFiltro);
         const coincideRol = !rolFiltro || u.rol.toLowerCase() === rolFiltro;
-        return coincideTexto && coincideRol;
+        const coincideGrado = !gradoFiltro || u.grado === gradoFiltro;
+        return coincideTexto && coincideRol && coincideGrado;
       });
 
       listaUsuariosEl.innerHTML = "";
@@ -208,7 +253,15 @@ if (btnMostrarModificar && cajaModificar) {
         document.getElementById("mod_usuario").value = usuarioSeleccionadoGlobal.usuario;
         document.getElementById("mod_nombre").value = usuarioSeleccionadoGlobal.nombre;
         document.getElementById("mod_rol").value = usuarioSeleccionadoGlobal.rol;
-        document.getElementById("mod_grado").value = usuarioSeleccionadoGlobal.grado;
+        
+        // Controlar si se muestra el contenedor de grado según el rol del usuario seleccionado
+        if (usuarioSeleccionadoGlobal.rol === "estudiante") {
+          modContenedorGrado.style.display = "flex";
+          document.getElementById("mod_grado").value = usuarioSeleccionadoGlobal.grado || "";
+        } else {
+          modContenedorGrado.style.display = "none";
+          document.getElementById("mod_grado").value = "";
+        }
       }
     } else {
       cajaModificar.style.display = "none";
@@ -224,11 +277,16 @@ if (btnGuardarCambios) {
 
     const nuevoNombre = document.getElementById("mod_nombre").value.trim();
     const nuevoRol = document.getElementById("mod_rol").value.toLowerCase();
-    const nuevoGrado = document.getElementById("mod_grado").value.trim();
+    const nuevoGrado = document.getElementById("mod_grado").value;
     const nuevaPassword = document.getElementById("mod_password").value.trim();
 
     if (!nuevoNombre || !nuevoRol) {
       alert("El nombre y el rol son obligatorios.");
+      return;
+    }
+
+    if (nuevoRol === "estudiante" && !nuevoGrado) {
+      alert("El grado es obligatorio para estudiantes.");
       return;
     }
 
