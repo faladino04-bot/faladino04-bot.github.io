@@ -1,6 +1,6 @@
 // Menú lateral
 document.getElementById("logo").addEventListener("click", () => {
-const menu = document.getElementById("menu_lado");
+  const menu = document.getElementById("menu_lado");
   menu.classList.toggle("oculto");
 });
 
@@ -15,7 +15,6 @@ document.getElementById("home").addEventListener("mouseleave", ()=>{
   document.getElementById("texto_home").classList.add("oculto");
   document.getElementById("mhome").style.backgroundColor = "transparent"
 });
-
 
 document.getElementById("agregar_usuario").addEventListener("mouseenter", ()=>{
   document.getElementById("texto_agregar").classList.remove("oculto");
