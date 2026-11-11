@@ -98,6 +98,28 @@
                                 <button type="submit" class="btn-accion">Publicar Anuncio</button>
                             </form>
                         </div>
+                        <!-- Recuadro 4: Asignar / Quitar Profesor a Asignatura -->
+                        <div class="recuadro-card" style="grid-column: 1 / -1;">
+                            <h3>Gestión de Profesores en Asignaturas</h3>
+                            <div class="grupo-input">
+                                <label>Listado de Asignaturas y Docentes Encargados:</label>
+                                <div style="max-height: 300px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; background: #fafbfc;">
+                                    <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                        <thead>
+                                            <tr style="background: #004985; color: white; text-align: left;">
+                                                <th style="padding: 10px; border-bottom: 1px solid #ddd;">Asignatura</th>
+                                                <th style="padding: 10px; border-bottom: 1px solid #ddd;">Grado</th>
+                                                <th style="padding: 10px; border-bottom: 1px solid #ddd;">Profesor Asignado</th>
+                                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabla_asignaturas_admin">
+                                            <!-- Se llena dinámicamente con JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>

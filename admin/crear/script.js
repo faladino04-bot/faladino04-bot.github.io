@@ -96,7 +96,7 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ROL_REQUERIDO = "administrador";
 
-// Al iniciar la vista, solo cargamos los grados
+// Al iniciar la vista, cargamos los grados y la tabla de asignaturas
 window.addEventListener("DOMContentLoaded", async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
@@ -117,44 +117,110 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   await cargarSelectGrados();
+  await cargarAsignaturasAdmin(); // <--- Carga la tabla de asignación
 });
 
-// Función para poblar el selector de Grados
-async function cargarSelectGrados() {
-  const selectGrado = document.getElementById("select_grado");
-  const { data: grados, error } = await db.from("grados").select("id, nombre").order("nombre");
-  
-  if (error) {
-    console.error("Error al cargar grados:", error.message);
-    return;
-  }
+// Función para cargar la tabla de gestión de asignaturas y profesores
+async function cargarAsignaturasAdmin() {
+  const tbody = document.getElementById("tabla_asignaturas_admin");
+  if (!tbody) return;
+  tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding: 15px;'>Cargando asignaturas...</td></tr>";
 
-  selectGrado.innerHTML = "<option value=''>Seleccione un grado</option>";
-  grados.forEach(g => {
-    selectGrado.innerHTML += `<option value="${g.id}">${g.nombre}</option>`;
-  });
+  try {
+    // 1. Obtener asignaturas con su grado relacionado
+    const { data: asignaturas, error } = await db
+      .from("asignaturas")
+      .select(`
+        id,
+        nombre,
+        profesor_id,
+        grados:grado_id (nombre)
+      `)
+      .order("nombre");
+
+    if (error) throw error;
+
+    // 2. Obtener lista de profesores mediante la API de usuarios
+    const usuarios = await listarUsuarios();
+    const profesores = usuarios.filter(u => u.rol === "profesor");
+
+    if (!asignaturas || asignaturas.length === 0) {
+      tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#777; padding: 15px;'>No hay asignaturas creadas todavía.</td></tr>";
+      return;
+    }
+
+    tbody.innerHTML = "";
+    asignaturas.forEach(asig => {
+      const nombreGrado = asig.grados ? asig.grados.nombre : "Sin grado";
+      
+      // Crear opciones del select con el profesor actual seleccionado si lo tiene
+      let optionsProfesor = "<option value=''>-- Sin asignar --</option>";
+      profesores.forEach(p => {
+        const selected = p.id === asig.profesor_id ? "selected" : "";
+        optionsProfesor += `<option value="${p.id}" ${selected}>${p.nombre}</option>`;
+      });
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td style="padding: 10px; border-bottom: 1px solid #edf2f7;"><strong>${asig.nombre}</strong></td>
+        <td style="padding: 10px; border-bottom: 1px solid #edf2f7;">Grado ${nombreGrado}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #edf2f7;">
+          <select id="select_prof_${asig.id}" style="padding: 6px; border-radius: 6px; border: 1px solid #cbd5e1; width: 100%; outline: none;">
+            ${optionsProfesor}
+          </select>
+        </td>
+        <td style="padding: 10px; border-bottom: 1px solid #edf2f7; text-align: center;">
+          <div style="display: flex; gap: 6px; justify-content: center;">
+            <button type="button" onclick="guardarProfesorAsignatura('${asig.id}')" style="background: #037EF5; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: bold;">Asignar</button>
+            <button type="button" onclick="quitarProfesorAsignatura('${asig.id}')" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: bold;">Quitar</button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+  } catch (err) {
+    console.error("Error al cargar asignaturas:", err.message);
+    tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red; padding: 15px;'>Error al cargar las asignaturas.</td></tr>";
+  }
 }
 
-// 2. Crear Asignatura (Sin profesor obligatorio)
-document.getElementById("form-asignatura").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const nombreAsig = document.getElementById("nombre_asignatura").value.trim();
-  const gradoId = document.getElementById("select_grado").value;
+// Función global para guardar/actualizar el profesor de una asignatura
+window.guardarProfesorAsignatura = async function(asignaturaId) {
+  const select = document.getElementById(`select_prof_${asignaturaId}`);
+  const profesorId = select.value || null;
 
-  const { error } = await db.from("asignaturas").insert([{
-    nombre: nombreAsig,
-    grado_id: gradoId,
-    profesor_id: null // Se crea sin profesor asignado inicialmente
-  }]);
+  try {
+    const { error } = await db
+      .from("asignaturas")
+      .update({ profesor_id: profesorId })
+      .eq("id", asignaturaId);
 
-  if (error) {
-    alert("Error al crear asignatura: " + error.message);
-  } else {
-    alert("¡Asignatura creada correctamente!");
-    document.getElementById("form-asignatura").reset();
-    await cargarSelectGrados();
+    if (error) throw error;
+    alert("¡Profesor asignado correctamente a la asignatura!");
+    await cargarAsignaturasAdmin();
+  } catch (err) {
+    alert("Error al asignar profesor: " + err.message);
   }
-});
+};
+
+// Función global para quitar (desasignar) al profesor de una asignatura
+window.quitarProfesorAsignatura = async function(asignaturaId) {
+  if (!confirm("¿Estás seguro de quitar al profesor de esta asignatura?")) return;
+
+  try {
+    const { error } = await db
+      .from("asignaturas")
+      .update({ profesor_id: null })
+      .eq("id", asignaturaId);
+
+    if (error) throw error;
+    alert("¡Profesor desasignado correctamente!");
+    await cargarAsignaturasAdmin();
+  } catch (err) {
+    alert("Error al desasignar profesor: " + err.message);
+  }
+};
 
 // ==========================================
 // ACCIONES DE FORMULARIOS (CREAR)
