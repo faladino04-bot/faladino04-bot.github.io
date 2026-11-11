@@ -233,7 +233,7 @@ body{
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.21s;
 }
 
 .btn-secundario:hover {
