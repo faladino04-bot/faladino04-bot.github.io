@@ -1,24 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
-    <title>Schoolaret - Profesor</title>
+    <link rel="shortcut icon" href="../../favicon/IMG-20250501-WA0056.jpg" type="image/x-icon">
+    <title>Schoolaret - Anuncios</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Librería para exportar la tabla a PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <header id="header">
-        <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="" width="100px" height="100px" id="logo">
-        
+        <img src="../../imagenes/logo/IMG-20250501-WA0056.jpg" alt="Logo" width="100px" height="100px" id="logo">
         <a href="../../explicon/explicon.html">
-        <img src="../../imagenes/logo/253950-removebg-preview.png"
-         alt="Logo Schoolaret"
-         height="100px"
-         width="auto"
-         id="logo2">
+            <img src="../../imagenes/logo/253950-removebg-preview.png" alt="Logo Schoolaret" height="100px" width="auto" id="logo2">
         </a>
     </header>
 
@@ -33,12 +26,10 @@
                 <img class="icono" src="../../imagenes/iconos/usuario.png" alt="" id="usuario">
                 <p id="texto_usuario" class="oculto">perfil</p>
             </div>
-
             <div class="menu" id="mpea">
                 <img class="icono" src="../../imagenes/iconos/planificacion.png" alt="" id="pea">
                 <p id="texto_pea" class="oculto">PEA</p>
             </div>
-
             <div class="menu" id="mactividades">
                 <img class="icono" src="../../imagenes/iconos/editar.png" alt="" id="actividades">
                 <p id="texto_actividades" class="oculto">actividades</p>
@@ -61,12 +52,46 @@
             </div>
             <div class="menu" id="mcerrar">
                 <img class="icono" src="../../imagenes/iconos/cerrar-sesion.png" alt="" id="cerrar">
-                <p id="texto_cerrar" class="oculto">cerrar sesion</p>
+                <p id="texto_cerrar" class="oculto">cerrar sesión</p>
             </div>
         </div>
 
-        
+        <!-- Contenido Principal -->
+        <main id="contenido">
+            <div class="anuncios-card">
+                <h1>Tablón de Anuncios</h1>
+                <h2>Visualiza avisos institucionales y publica comunicados para tus grados</h2>
 
+                <!-- Formulario para crear un anuncio -->
+                <form id="form_crear_anuncio" class="anuncio-form">
+                    <h3>Crear Nuevo Anuncio</h3>
+                    <div class="form-group">
+                        <label>Destinatario:</label>
+                        <select id="select_destino_grado" required>
+                            <option value="general">General (Toda la institución)</option>
+                            <!-- Los grados del profesor se cargan aquí dinámicamente -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Título del Anuncio:</label>
+                        <input type="text" id="input_titulo_anuncio" placeholder="Ej. Aviso importante sobre la clase de mañana" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje:</label>
+                        <textarea id="input_mensaje_anuncio" rows="4" placeholder="Escribe el contenido del anuncio..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Publicar Anuncio</button>
+                </form>
+
+                <!-- Listado de Anuncios -->
+                <div class="lista-anuncios-seccion">
+                    <h3>Anuncios Recientes</h3>
+                    <div id="contenedor_anuncios" class="grid-anuncios">
+                        <p class="empty-msg">Cargando anuncios...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

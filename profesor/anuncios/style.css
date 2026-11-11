@@ -84,75 +84,166 @@ body{
     padding: 20px;
 }
 
-/* Tarjeta del Estudiante */
-.student-card {
-    background: #e3e4e6;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 1000px;
+/* ==========================================
+   ESTILOS DEL MÓDULO DE ANUNCIOS
+   ========================================== */
+.anuncios-card {
+    width: 100%;
+    max-width: 900px;
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 6px 25px rgba(0, 73, 133, 0.08);
+    border: 1px solid #e6edf5;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    gap: 25px;
 }
 
-.student-card h1 {
-    color: #333;
+.anuncios-card h1 {
+    color: #004985;
     font-size: 1.8rem;
-}
-
-.student-card h2 {
-    color: #555;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
     text-align: center;
 }
 
-#reporte_notas {
-    width: 100%;
+.anuncios-card h2 {
+    color: #666;
+    font-size: 1rem;
+    margin-top: -15px;
+    text-align: center;
+}
+
+.anuncio-form {
+    background: #f7faff;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.anuncio-form h3 {
+    color: #004985;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #037EF5;
+    padding-bottom: 5px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #004985;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
     background: white;
-    padding: 15px;
-    border-radius: 20px;
 }
 
-/* Estilos de la Tabla */
-.tabla-notas {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-}
-
-.tabla-notas th, .tabla-notas td {
-    padding: 12px 8px;
-    border: 1px solid #ddd;
-}
-
-.tabla-notas th {
+.btn-primary {
     background-color: #037EF5;
     color: white;
-    font-weight: bold;
-}
-
-.tabla-notas tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-/* Botón PDF */
-#btn_descargar_pdf {
-    width: 100%;
-    max-width: 250px;
-    padding: 12px;
-    background-color: #27ae60;
-    color: white;
     border: none;
-    border-radius: 6px;
+    padding: 12px 20px;
+    border-radius: 8px;
     font-size: 1rem;
-    cursor: pointer;
     font-weight: bold;
+    cursor: pointer;
     transition: background 0.2s;
 }
 
-#btn_descargar_pdf:hover {
-    background-color: #219150;
+.btn-primary:hover {
+    background-color: #0265c2;
+}
+
+.lista-anuncios-seccion h3 {
+    color: #004985;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #037EF5;
+    padding-bottom: 5px;
+}
+
+.grid-anuncios {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.anuncio-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 5px solid #037EF5;
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.anuncio-item.general {
+    border-left-color: #f59e0b; /* Color diferenciador para avisos generales de admin */
+}
+
+.anuncio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.anuncio-header h4 {
+    color: #004985;
+    font-size: 1.1rem;
+}
+
+.badge-tag {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.badge-tag.general {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.anuncio-item p {
+    color: #444;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    white-space: pre-line;
+}
+
+.anuncio-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 5px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 8px;
+}
+
+.empty-msg {
+    color: #94a3b8;
+    text-align: center;
+    font-style: italic;
 }
