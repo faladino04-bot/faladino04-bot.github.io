@@ -1,11 +1,9 @@
-//const { data: { session } } = await db.auth.getSession();
-//if (!session) window.location.href = "../index.html";
 // Toggle del Menú lateral al pulsar el Logo
 document.getElementById("logo").addEventListener("click", () => {
     document.getElementById("menu_lado").classList.toggle("oculto");
 });
 
-// Función reutilizable para eventos de los botones del menú
+// Función reutilizable para eventos de los botones del menú (respetando tu estructura)
 function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
     const icono = document.getElementById(idIcono);
     const texto = document.getElementById(idTexto);
@@ -26,12 +24,12 @@ function configurarBotonMenu(idIcono, idTexto, idMenu, urlRedireccion) {
             });
         }else if (urlRedireccion == "profesor.html"){
             icono.addEventListener("click", () => {
-                url = "../" + urlRedireccion
+                let url = "../" + urlRedireccion
                 window.location.href = url
             });
         }else{
             icono.addEventListener("click", () => {
-                url = "../" + idIcono + "/" + urlRedireccion
+                let url = "../" + idIcono + "/" + urlRedireccion
                 window.location.href = url
             })
         }
@@ -70,6 +68,7 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ROL_REQUERIDO = "profesor";
 
+// Validación de sesión y llamada a la función de perfil
 (async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
@@ -77,9 +76,10 @@ const ROL_REQUERIDO = "profesor";
     return;
   }
 
+  // CORRECCIÓN: Se agregó "id" a la consulta para no perder el identificador del profesor
   const { data: perfil } = await db
     .from("perfiles")
-    .select("nombre, rol")
+    .select("id, nombre, rol")
     .eq("id", session.user.id)
     .single();
 
@@ -90,6 +90,9 @@ const ROL_REQUERIDO = "profesor";
   }
 
   console.log("Sesión válida:", perfil.nombre);
+
+  // CORRECCIÓN: Se invoca la función para que pinte los datos y los grados en pantalla
+  cargarDatosPerfilProfesor(perfil);
 })();
 
 // Función específica para rellenar el perfil del profesor y sus grados
@@ -99,7 +102,7 @@ async function cargarDatosPerfilProfesor(perfil) {
     const contenedorGrados = document.getElementById("perfil_grados");
 
     if (lblNombre) lblNombre.textContent = perfil.nombre;
-    if (lblUsuario) lblUsuario.textContent = perfil.nombre; // O el campo de usuario que tengas
+    if (lblUsuario) lblUsuario.textContent = perfil.nombre;
 
     if (!contenedorGrados) return;
 
