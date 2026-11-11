@@ -73,7 +73,7 @@ const ROL_REQUERIDO = "profesor";
 
 let usuarioActualId = null;
 
-// Validación de sesión y carga inicial
+// Validación de sesión y carga inicial de grados del profesor
 (async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
@@ -96,21 +96,76 @@ let usuarioActualId = null;
   usuarioActualId = perfil.id;
   console.log("Sesión válida PEA:", perfil.nombre);
 
-  cargarTemasPEA();
+  await cargarGradosProfesor();
 })();
 
-// Función para consultar los temas desde la Base de Datos
+// Cargar en el select los grados que imparte el profesor
+async function cargarGradosProfesor() {
+    const selectGrado = document.getElementById("select_grado_filtro");
+    selectGrado.innerHTML = "<option value=''>-- Seleccione un grado --</option>";
+
+    try {
+        const { data: asignaturas, error } = await db
+            .from("asignaturas")
+            .select(`
+                grado_id,
+                grados:grado_id (id, nombre)
+            `)
+            .eq("profesor_id", usuarioActualId);
+
+        if (error) throw error;
+
+        if (!asignaturas || asignaturas.length === 0) {
+            selectGrado.innerHTML = "<option value=''>No tienes grados asignados</option>";
+            return;
+        }
+
+        // Filtrar grados únicos (por si da varias materias en un mismo grado)
+        const gradosUnicos = new Map();
+        asignaturas.forEach(item => {
+            if (item.grados) {
+                gradosUnicos.set(item.grados.id, item.grados.nombre);
+            }
+        });
+
+        gradosUnicos.forEach((nombreGrado, idGrado) => {
+            const option = document.createElement("option");
+            option.value = idGrado;
+            option.textContent = `Grado ${nombreGrado}`;
+            selectGrado.appendChild(option);
+        });
+
+        // Evento al cambiar de grado
+        selectGrado.addEventListener("change", () => {
+            cargarTemasPEA();
+        });
+
+    } catch (err) {
+        console.error("Error al cargar los grados:", err.message);
+    }
+}
+
+// Función para consultar los temas filtrados por profesor y grado
 async function cargarTemasPEA() {
+    const gradoId = document.getElementById("select_grado_filtro").value;
+
+    // Limpiar listas si no hay grado seleccionado
+    for (let p = 1; p <= 3; p++) {
+        document.getElementById(`lista_periodo_${p}`).innerHTML = '<li class="empty-msg">Seleccione un grado</li>';
+    }
+
+    if (!gradoId) return;
+
     try {
         const { data: temas, error } = await db
             .from("pea_temas")
             .select("*")
             .eq("profesor_id", usuarioActualId)
+            .eq("grado_id", gradoId)
             .order("created_at", { ascending: true });
 
         if (error) throw error;
 
-        // Limpiar las 3 listas visuales
         for (let p = 1; p <= 3; p++) {
             document.getElementById(`lista_periodo_${p}`).innerHTML = '<li class="empty-msg">No hay temas registrados</li>';
         }
@@ -143,25 +198,35 @@ async function cargarTemasPEA() {
     }
 }
 
-// Botón para añadir un tema nuevo
+// Botón para añadir un tema nuevo asociado al grado seleccionado
 document.getElementById("btn_agregar_tema").addEventListener("click", async () => {
+    const gradoId = document.getElementById("select_grado_filtro").value;
     const inputTema = document.getElementById("input_nuevo_tema");
     const selectPeriodo = document.getElementById("select_periodo");
+    
     const textoTema = inputTema.value.trim();
     const periodoNum = parseInt(selectPeriodo.value);
+
+    if (!gradoId) {
+        alert("Por favor selecciona un grado primero.");
+        return;
+    }
 
     if (!textoTema) {
         alert("Por favor escribe un tema válido.");
         return;
     }
 
-    if (!usuarioActualId) return;
-
     try {
         const { error } = await db
             .from("pea_temas")
             .insert([
-                { profesor_id: usuarioActualId, periodo: periodoNum, tema: textoTema }
+                { 
+                    profesor_id: usuarioActualId, 
+                    grado_id: gradoId, 
+                    periodo: periodoNum, 
+                    tema: textoTema 
+                }
             ]);
 
         if (error) throw error;
