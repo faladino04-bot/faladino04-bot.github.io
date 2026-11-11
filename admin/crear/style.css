@@ -37,10 +37,12 @@ body{
 
 #logo{
     padding-left: 5px;
+    cursor: pointer;
 }
 
 #logo2{
     padding-right: 10px;
+    cursor: pointer;
 }
 
 /* Estructura general de la pantalla */
