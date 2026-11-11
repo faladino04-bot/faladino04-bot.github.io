@@ -99,96 +99,46 @@ let destinatarioActivo = null; // { id, nombre }
   await inicializarBuscadorProfesoresConFiltro();
 })();
 
-// --- BUSCADOR DE PROFESORES MOSTRANDO PROFESOR Y MATERIA ---
-let gradoEstudianteActual = null;
-
+// --- BUSCADOR DE PROFESORES USANDO RPC (IGNORA RLS DE FORMA SEGURA) ---
 async function inicializarBuscadorProfesoresConFiltro() {
     const inputBuscar = document.getElementById("input_buscar_profesor");
     const dropdown = document.getElementById("resultados_busqueda_profesores");
 
     if (!inputBuscar || !dropdown) return;
 
-    // 1. Obtener el grado del estudiante logueado
-    try {
-        const { data: perfilData } = await db
-            .from("perfiles")
-            .select("grado")
-            .eq("id", usuarioActualId)
-            .single();
-
-        if (perfilData) {
-            gradoEstudianteActual = perfilData.grado;
-        }
-    } catch (err) {
-        console.error("Error al obtener grado del estudiante:", err.message);
-    }
-
-    inputBuscar.addEventListener("input", async (e) => {
-        const texto = e.target.value.trim().toLowerCase();
-        if (!texto) {
-            dropdown.classList.add("oculto");
-            dropdown.innerHTML = "";
-            return;
-        }
+    const ejecutarBusqueda = async () => {
+        const texto = inputBuscar.value.trim().toLowerCase();
 
         try {
-            if (!gradoEstudianteActual) {
-                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">No tienes un grado asignado</div>`;
-                dropdown.classList.remove("oculto");
-                return;
-            }
-
-            // 2. Buscamos el ID del grado actual
-            const { data: gradoObj } = await db
-                .from("grados")
-                .select("id")
-                .eq("nombre", gradoEstudianteActual)
-                .single();
-
-            if (!gradoObj) {
-                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">Grado no encontrado en la BD</div>`;
-                dropdown.classList.remove("oculto");
-                return;
-            }
-
-            // 3. Consultamos las asignaturas de ese grado y traemos los datos del profesor relacionado
+            // Llamamos a la función segura de Supabase pasando el ID del estudiante actual
             const { data: asignaturas, error } = await db
-                .from("asignaturas")
-                .select(`
-                    nombre,
-                    profesor_id,
-                    perfiles:profesor_id (id, nombre)
-                `)
-                .eq("grado_id", gradoObj.id);
+                .rpc('obtener_profesores_estudiante', { estudiante_id: usuarioActualId });
 
             if (error) throw error;
 
             dropdown.innerHTML = "";
 
-            // Filtramos las asignaturas/profesores que coincidan con lo que el alumno escribió
-            const resultadosFiltrados = asignaturas.filter(asig => {
-                if (!asig.perfiles) return false;
-                const nombreProfesor = asig.perfiles.nombre.toLowerCase();
-                const nombreMateria = asig.nombre.toLowerCase();
+            const resultadosFiltrados = (asignaturas || []).filter(item => {
+                if (!texto) return true;
+                const nombreProfesor = item.nombre_profesor.toLowerCase();
+                const nombreMateria = item.nombre_materia.toLowerCase();
                 return nombreProfesor.includes(texto) || nombreMateria.includes(texto);
             });
 
             if (resultadosFiltrados.length === 0) {
-                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">No se encontraron profesores o materias</div>`;
+                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">No se encontraron profesores para tu grado</div>`;
             } else {
-                // Para evitar duplicar si un profe da varias materias en el mismo grado
+                // Agrupar por profesor si imparte varias materias
                 const unicos = new Map();
                 resultadosFiltrados.forEach(item => {
-                    if (item.perfiles) {
-                        if (!unicos.has(item.perfiles.id)) {
-                            unicos.set(item.perfiles.id, {
-                                id: item.perfiles.id,
-                                nombreProfesor: item.perfiles.nombre,
-                                materias: []
-                            });
-                        }
-                        unicos.get(item.perfiles.id).materias.push(item.nombre);
+                    if (!unicos.has(item.profesor_id)) {
+                        unicos.set(item.profesor_id, {
+                            id: item.profesor_id,
+                            nombreProfesor: item.nombre_profesor,
+                            materias: []
+                        });
                     }
+                    unicos.get(item.profesor_id).materias.push(item.nombre_materia);
                 });
 
                 unicos.forEach(prof => {
@@ -213,11 +163,13 @@ async function inicializarBuscadorProfesoresConFiltro() {
             dropdown.classList.remove("oculto");
 
         } catch (err) {
-            console.error("Error en la búsqueda:", err.message);
+            console.error("Error al buscar profesores:", err.message);
         }
-    });
+    };
 
-    // Ocultar dropdown al hacer click fuera
+    inputBuscar.addEventListener("input", ejecutarBusqueda);
+    inputBuscar.addEventListener("focus", ejecutarBusqueda);
+
     document.addEventListener("click", (e) => {
         if (!inputBuscar.contains(e.target) && !dropdown.contains(e.target)) {
             dropdown.classList.add("oculto");
