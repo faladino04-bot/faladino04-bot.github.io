@@ -94,12 +94,12 @@ let destinatarioActivo = null; // { id, nombre }
   console.log("Sesión válida estudiante:", perfil.nombre);
 
   // Inicializar funciones del chat
-// Inicializar funciones del chat con el filtro de grado
-    await cargarChatsRecientes();
-    await inicializarBuscadorProfesoresConFiltro();
+  // Inicializar funciones del chat con el filtro de grado
+  await cargarChatsRecientes();
+  await inicializarBuscadorProfesoresConFiltro();
 })();
 
-// --- 1. BUSCADOR DE PROFESORES FILTRADO POR GRADO ---
+// --- BUSCADOR DE PROFESORES MOSTRANDO PROFESOR Y MATERIA ---
 let gradoEstudianteActual = null;
 
 async function inicializarBuscadorProfesoresConFiltro() {
@@ -108,7 +108,7 @@ async function inicializarBuscadorProfesoresConFiltro() {
 
     if (!inputBuscar || !dropdown) return;
 
-    // 1. Obtener el grado del estudiante logueado actual
+    // 1. Obtener el grado del estudiante logueado
     try {
         const { data: perfilData } = await db
             .from("perfiles")
@@ -132,62 +132,78 @@ async function inicializarBuscadorProfesoresConFiltro() {
         }
 
         try {
-            // 2. Si el estudiante tiene un grado asignado, buscamos las asignaturas de ese grado
-            let profesoresValidosIds = [];
-            if (gradoEstudianteActual) {
-                // Primero buscamos el ID del grado en la tabla 'grados' (o filtramos directo si grado es el nombre)
-                const { data: gradoObj } = await db
-                    .from("grados")
-                    .select("id")
-                    .eq("nombre", gradoEstudianteActual)
-                    .single();
-
-                if (gradoObj) {
-                    // Buscamos las asignaturas que pertenecen a este grado
-                    const { data: asignaturasGrado } = await db
-                        .from("asignaturas")
-                        .select("profesor_id")
-                        .eq("grado_id", gradoObj.id);
-
-                    if (asignaturasGrado) {
-                        profesoresValidosIds = asignaturasGrado.map(a => a.profesor_id).filter(Boolean);
-                    }
-                }
-            }
-
-            // 3. Consultamos los perfiles de tipo 'profesor' que coincidan con el texto escrito
-            let query = db
-                .from("perfiles")
-                .select("id, nombre")
-                .eq("rol", "profesor")
-                .ilike("nombre", `%${texto}%`);
-
-            // Si encontramos profesores que dan clase en su grado, filtramos por ellos
-            if (profesoresValidosIds.length > 0) {
-                query = query.in("id", profesoresValidosIds);
-            } else {
-                // Si por alguna razón no hay asignaturas configuradas para ese grado, no devolvemos resultados
-                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">No hay profesores para tu grado</div>`;
+            if (!gradoEstudianteActual) {
+                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">No tienes un grado asignado</div>`;
                 dropdown.classList.remove("oculto");
                 return;
             }
 
-            const { data: profs, error } = await query;
+            // 2. Buscamos el ID del grado actual
+            const { data: gradoObj } = await db
+                .from("grados")
+                .select("id")
+                .eq("nombre", gradoEstudianteActual)
+                .single();
+
+            if (!gradoObj) {
+                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">Grado no encontrado en la BD</div>`;
+                dropdown.classList.remove("oculto");
+                return;
+            }
+
+            // 3. Consultamos las asignaturas de ese grado y traemos los datos del profesor relacionado
+            const { data: asignaturas, error } = await db
+                .from("asignaturas")
+                .select(`
+                    nombre,
+                    profesor_id,
+                    perfiles:profesor_id (id, nombre)
+                `)
+                .eq("grado_id", gradoObj.id);
+
             if (error) throw error;
 
             dropdown.innerHTML = "";
-            if (!profs || profs.length === 0) {
-                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">No se encontraron profesores de tu grado</div>`;
+
+            // Filtramos las asignaturas/profesores que coincidan con lo que el alumno escribió
+            const resultadosFiltrados = asignaturas.filter(asig => {
+                if (!asig.perfiles) return false;
+                const nombreProfesor = asig.perfiles.nombre.toLowerCase();
+                const nombreMateria = asig.nombre.toLowerCase();
+                return nombreProfesor.includes(texto) || nombreMateria.includes(texto);
+            });
+
+            if (resultadosFiltrados.length === 0) {
+                dropdown.innerHTML = `<div class="search-result-item" style="color:#777; justify-content:center;">No se encontraron profesores o materias</div>`;
             } else {
-                profs.forEach(p => {
+                // Para evitar duplicar si un profe da varias materias en el mismo grado
+                const unicos = new Map();
+                resultadosFiltrados.forEach(item => {
+                    if (item.perfiles) {
+                        if (!unicos.has(item.perfiles.id)) {
+                            unicos.set(item.perfiles.id, {
+                                id: item.perfiles.id,
+                                nombreProfesor: item.perfiles.nombre,
+                                materias: []
+                            });
+                        }
+                        unicos.get(item.perfiles.id).materias.push(item.nombre);
+                    }
+                });
+
+                unicos.forEach(prof => {
+                    const materiasStr = prof.materias.join(", ");
                     const item = document.createElement("div");
                     item.className = "search-result-item";
                     item.innerHTML = `
-                        <span><strong>${p.nombre}</strong> <small style="color:#037EF5;">(Tu profesor)</small></span>
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                            <span><strong>${prof.nombreProfesor}</strong></span>
+                            <small style="color: #037EF5; font-weight: bold;">Materia(s): ${materiasStr}</small>
+                        </div>
                         <button type="button">Enviar mensaje</button>
                     `;
                     item.querySelector("button").addEventListener("click", () => {
-                        abrirChatCon({ id: p.id, nombre: p.nombre });
+                        abrirChatCon({ id: prof.id, nombre: prof.nombreProfesor });
                         inputBuscar.value = "";
                         dropdown.classList.add("oculto");
                     });
@@ -197,7 +213,7 @@ async function inicializarBuscadorProfesoresConFiltro() {
             dropdown.classList.remove("oculto");
 
         } catch (err) {
-            console.error("Error en la búsqueda filtrada de profesores:", err.message);
+            console.error("Error en la búsqueda:", err.message);
         }
     });
 
