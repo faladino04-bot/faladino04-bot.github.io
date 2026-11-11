@@ -96,6 +96,7 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const ROL_REQUERIDO = "administrador";
 
+// Al iniciar la vista, solo cargamos los grados
 window.addEventListener("DOMContentLoaded", async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
@@ -115,12 +116,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Cargar selects de Grados y Profesores al iniciar
   await cargarSelectGrados();
-  await cargarSelectProfesores();
 });
 
-// Funciones para poblar los selectores dinámicamente
+// Función para poblar el selector de Grados
 async function cargarSelectGrados() {
   const selectGrado = document.getElementById("select_grado");
   const { data: grados, error } = await db.from("grados").select("id, nombre").order("nombre");
@@ -136,32 +135,26 @@ async function cargarSelectGrados() {
   });
 }
 
-async function cargarSelectProfesores() {
-  const selectProfesor = document.getElementById("select_profesor");
-  
-  try {
-    // Trae todos los usuarios usando la Edge Function que ya salta RLS
-    const usuarios = await listarUsuarios();
-    
-    // Filtramos los que tengan rol de profesor
-    const profesores = usuarios.filter(u => u.rol === "profesor");
+// 2. Crear Asignatura (Sin profesor obligatorio)
+document.getElementById("form-asignatura").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const nombreAsig = document.getElementById("nombre_asignatura").value.trim();
+  const gradoId = document.getElementById("select_grado").value;
 
-    selectProfesor.innerHTML = "<option value=''>Seleccione un profesor</option>";
-    
-    if (profesores.length === 0) {
-      selectProfesor.innerHTML += "<option value='' disabled>No hay profesores registrados</option>";
-      return;
-    }
+  const { error } = await db.from("asignaturas").insert([{
+    nombre: nombreAsig,
+    grado_id: gradoId,
+    profesor_id: null // Se crea sin profesor asignado inicialmente
+  }]);
 
-    profesores.forEach(p => {
-      selectProfesor.innerHTML += `<option value="${p.id}">${p.nombre}</option>`;
-    });
-
-  } catch (err) {
-    console.error("Error al cargar profesores:", err.message);
-    selectProfesor.innerHTML = "<option value=''>Error al cargar profesores</option>";
+  if (error) {
+    alert("Error al crear asignatura: " + error.message);
+  } else {
+    alert("¡Asignatura creada correctamente!");
+    document.getElementById("form-asignatura").reset();
+    await cargarSelectGrados();
   }
-}
+});
 
 // ==========================================
 // ACCIONES DE FORMULARIOS (CREAR)
