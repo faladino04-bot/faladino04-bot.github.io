@@ -83,7 +83,7 @@ document.getElementById("cerrar").addEventListener("click", ()=>{
 });
 
 
-// Mostrar u ocultar el campo "Grado" según el rol seleccionado
+// Mostrar o ocultar el campo "Grado" según el rol seleccionado
 const selectRol = document.getElementById("rol");
 const contenedorGrado = document.getElementById("contenedor_grado");
 
@@ -127,7 +127,7 @@ const ROL_REQUERIDO = "administrador";
   console.log("Sesión válida:", perfil.nombre);
 })();
 
-// --- LÓGICA PARA BORRAR USUARIO DE LA BD ---
+// Logica para borrar usuario de la BD
 const btnBorrar = document.getElementById("btn-accion");
 
 if (btnBorrar) {
@@ -146,7 +146,6 @@ if (btnBorrar) {
             btnBorrar.disabled = true;
             btnBorrar.textContent = "Buscando...";
 
-            // 1. Listar los usuarios para encontrar el ID que corresponde al texto ingresado
             const usuarios = await listarUsuarios();
             
             const usuarioEncontrado = usuarios.find(u => 
@@ -158,7 +157,6 @@ if (btnBorrar) {
                 throw new Error("No se encontró ningún usuario con ese nombre y rol en el sistema.");
             }
 
-            // 2. Ventana de confirmación antes de eliminar
             if (!confirm(`¿Estás seguro de que deseas eliminar al usuario "${usuarioEncontrado.nombre}" (${usuarioEncontrado.usuario})?`)) {
                 btnBorrar.disabled = false;
                 btnBorrar.textContent = "Borrar";
@@ -167,12 +165,10 @@ if (btnBorrar) {
 
             btnBorrar.textContent = "Eliminando...";
 
-            // 3. Eliminar utilizando el ID obtenido de la BD
             await eliminarUsuario(usuarioEncontrado.id);
 
             alert("¡Usuario eliminado exitosamente de la base de datos!");
             
-            // Limpiar el formulario
             document.getElementById("form-borrar").reset();
             if (document.getElementById("contenedor_grado")) {
                 document.getElementById("contenedor_grado").style.display = "none";
